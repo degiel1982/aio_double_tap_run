@@ -43,21 +43,28 @@ core.register_globalstep(function(dtime)
         if info.invalid then
             assert(info.invalid, 'Hunger information for ' .. name .. ' is invalid.')
         else
-            -- Cancel sprinting if hunger is below the threshold
-            if info.hunger.exact <= settings.starve_lvl then
-                sprinting = false
+            if sprinting then
+                -- Cancel sprinting if hunger is below the threshold
+                if info.hunger.exact <= settings.starve_lvl then
+                    sprinting = false
+                    if player_is_sprinting[name] then
+                        player:set_physics_override({ speed = 1 }) -- Reset the player's speed to normal.
+                        player_is_sprinting[name] = false
+                    end
+                    hunger_ng.alter_hunger(name, -settings.move_drain* dtime, 'walking') -- Apply walking hunger penalty
+                else
+                    if sprinting then
+                        if not player_is_sprinting[name] then
+                            player:set_physics_override({ speed = 2 }) -- Double the player's speed while sprinting.
+                            player_is_sprinting[name] = true
+                        end
+                        hunger_ng.alter_hunger(name, -settings.sprint_drain * dtime, 'Sprinting') -- Apply sprinting hunger penalty
+                    end
+                end
+            else
                 if player_is_sprinting[name] then
                     player:set_physics_override({ speed = 1 }) -- Reset the player's speed to normal.
                     player_is_sprinting[name] = false
-                end
-                hunger_ng.alter_hunger(name, -settings.move_drain* dtime, 'walking') -- Apply walking hunger penalty
-            else
-                if sprinting then
-                    if not player_is_sprinting[name] then
-                        player:set_physics_override({ speed = 2 }) -- Double the player's speed while sprinting.
-                        player_is_sprinting[name] = true
-                    end
-                    hunger_ng.alter_hunger(name, -settings.sprint_drain * dtime, 'Sprinting') -- Apply sprinting hunger penalty
                 end
             end
         end
