@@ -1,4 +1,4 @@
-# aio_double_tap_run
+# AIO - Double Tap Run
 
 This mod adds a double-tap-to-run feature to Minetest, enhancing gameplay by providing a seamless way to toggle between walking and running. Whether you're exploring vast terrains or escaping danger, this mod ensures smooth and intuitive movement control.
 
