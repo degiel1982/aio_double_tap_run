@@ -62,6 +62,7 @@ core.register_globalstep(function(dtime)
                     end
                 end
             else
+                sprinting = false
                 if player_is_sprinting[name] then
                     player:set_physics_override({ speed = 1 }) -- Reset the player's speed to normal.
                     player_is_sprinting[name] = false
