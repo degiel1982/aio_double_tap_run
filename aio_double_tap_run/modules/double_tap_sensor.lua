@@ -1,3 +1,4 @@
+
 local function update_double_tap(dt_state, dtime, key_pressed, trigger_delay)
     if not dt_state.sprinting then
         if dt_state.count > 0 then
