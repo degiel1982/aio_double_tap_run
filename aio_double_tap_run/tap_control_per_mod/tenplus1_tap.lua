@@ -13,33 +13,33 @@ local exhaustion = {}
 local player_double_tap = {}
 local player_is_sprinting = {}
 
-local function apply_sprint_exhaustion(player, dtime)
-    local name = player:get_player_name()
-    local current_stamina = tenplus1s.get_saturation(player)
-
-    -- Only apply exhaustion if the player is sprinting and has enough stamina
-    if player_is_sprinting[name] and current_stamina > 0 then
-        local sprint_drain = settings.stamina_drain_sprint or 0.35 -- Default to 0.35
-        stamina.change(player, -(sprint_drain * dtime)) -- Reduce stamina based on sprint drain
-    end
-end
-
-local function apply_walk_exhaustion(player, dtime)
-    local name = player:get_player_name()
-    local current_stamina = tenplus1s.get_saturation(player)
-
-    -- Only apply exhaustion if the player is walking and has enough stamina
-    if not player_is_sprinting[name] and current_stamina > 0 then
-        local walk_drain = settings.stamina_drain_move or 0.015
-        stamina.change(player, -(walk_drain * dtime)) -- Reduce stamina based on walk drain
-    end
-end
+--local function apply_sprint_exhaustion(player, dtime)
+--    local name = player:get_player_name()
+--    local current_stamina = tenplus1s.get_saturation(player)
+--
+--    -- Only apply exhaustion if the player is sprinting and has enough stamina
+--    if player_is_sprinting[name] and current_stamina > 0 then
+--        local sprint_drain = settings.stamina_drain_sprint or 0.35 -- Default to 0.35
+--        stamina.change(player, -(sprint_drain * dtime)) -- Reduce stamina based on sprint drain
+--    end
+--end
+--
+--local function apply_walk_exhaustion(player, dtime)
+--    local name = player:get_player_name()
+--    local current_stamina = tenplus1s.get_saturation(player)
+--
+--    -- Only apply exhaustion if the player is walking and has enough stamina
+--    if not player_is_sprinting[name] and current_stamina > 0 then
+--        local walk_drain = settings.stamina_drain_move or 0.015
+--        stamina.change(player, -(walk_drain * dtime)) -- Reduce stamina based on walk drain
+--    end
+--end
 
 core.register_on_leaveplayer(function(player)
     local name = player:get_player_name()
     player_double_tap[name] = nil 
     player_is_sprinting[name] = nil 
-    exhaustion[name] = nil -- Clear exhaustion data
+    --exhaustion[name] = nil -- Clear exhaustion data
 end)
 
 core.register_globalstep(function(dtime)
@@ -70,20 +70,19 @@ core.register_globalstep(function(dtime)
                     player:set_physics_override({ speed = (1.2 + settings.extra_speed) })
                     player_is_sprinting[name] = true
                 end
-                apply_sprint_exhaustion(player, dtime)
+                --apply_sprint_exhaustion(player, dtime)
             else
                 if player_is_sprinting[name] then
                     player:set_physics_override({ speed = 1 })
                     player_is_sprinting[name] = false
                 end
-                apply_walk_exhaustion(player, dtime)
+                --apply_walk_exhaustion(player, dtime)
             end
         else
             if player_is_sprinting[name] then
                 player:set_physics_override({ speed = 1 })
                 player_is_sprinting[name] = false
             end
-            apply_walk_exhaustion(player, dtime)
         end
     end
 end)
