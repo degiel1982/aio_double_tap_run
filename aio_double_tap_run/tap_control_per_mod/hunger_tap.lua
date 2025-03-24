@@ -1,4 +1,5 @@
 local update_double_tap = dofile(core.get_modpath("aio_double_tap_run").."/modules/double_tap_sensor.lua")
+local is_touching_liquid = dofile(core.get_modpath("aio_double_tap_run").."/modules/liquid_check.lua")
 
 local player_double_tap = {}
 local player_is_sprinting = {}
@@ -19,6 +20,7 @@ core.register_globalstep(function(dtime)
     for _, player in ipairs(players) do
         local name = player:get_player_name()
         local control = player:get_player_control()
+        local p_pos = player:get_pos()
 
         -- Initialize the double tap state for the player if it doesn't exist.
         if not player_double_tap[name] then
@@ -30,28 +32,29 @@ core.register_globalstep(function(dtime)
             }
         end
 
+        local im_wet = is_touching_liquid(p_pos)
+
         -- Update the sprinting state based on double-tap detection for the "up" key.
         local sprinting = update_double_tap(player_double_tap[name], dtime, control.up, 0.5)
 
         -- Prevent sprinting if the "aux1" key (commonly used for sneak or special actions) is pressed.
-        if sprinting and control.aux1 then
+        if (sprinting and control.aux1) or im_wet then
             sprinting = false
         end
 
         -- Get the player's hunger information
-        local info = hunger_ng.get_hunger_information(name)
-        if info.invalid then
-            assert(info.invalid, 'Hunger information for ' .. name .. ' is invalid.')
-        else
-            if sprinting then
+        if sprinting then
+            local info = hunger_ng.get_hunger_information(name)
+            if info.invalid then
+                assert(info.invalid, 'Hunger information for ' .. name .. ' is invalid.')
+            else
                 -- Cancel sprinting if hunger is below the threshold
                 if info.hunger.exact <= settings.starve_lvl then
-                    sprinting = false
                     if player_is_sprinting[name] then
                         player:set_physics_override({ speed = 1 }) -- Reset the player's speed to normal.
                         player_is_sprinting[name] = false
                     end
-                    hunger_ng.alter_hunger(name, -settings.move_drain* dtime, 'walking') -- Apply walking hunger penalty
+                    hunger_ng.alter_hunger(name, -settings.move_drain * dtime, 'walking') -- Apply walking hunger penalty
                 else
                     if sprinting then
                         if not player_is_sprinting[name] then
@@ -61,12 +64,11 @@ core.register_globalstep(function(dtime)
                         hunger_ng.alter_hunger(name, -settings.sprint_drain * dtime, 'Sprinting') -- Apply sprinting hunger penalty
                     end
                 end
-            else
-                sprinting = false
-                if player_is_sprinting[name] then
-                    player:set_physics_override({ speed = 1 }) -- Reset the player's speed to normal.
-                    player_is_sprinting[name] = false
-                end
+            end
+        else
+            if player_is_sprinting[name] then
+                player:set_physics_override({ speed = 1 }) -- Reset the player's speed to normal.
+                player_is_sprinting[name] = false
             end
         end
     end

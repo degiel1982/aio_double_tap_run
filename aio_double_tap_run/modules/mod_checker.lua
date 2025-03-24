@@ -11,10 +11,10 @@ local function mod_checker()
     -- Check for "stamina" mod compatibility.
     local stamina_is_installed = minetest.get_modpath("stamina") ~= nil
     if stamina_is_installed then
-        if stamina and type(stamina.change_saturation) == "function" then
+        if stamina and type(stamina.change_saturation) == "function" and type(stamina.set_sprinting)  == "function" then
             mod = "sofar_stamina"
             count = count + 1
-        elseif stamina and type(stamina.change) == "function" then
+        else
             mod = "tenplus1_stamina"
             count = count + 1
         end
