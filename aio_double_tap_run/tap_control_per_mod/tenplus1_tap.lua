@@ -30,7 +30,7 @@ local function apply_walk_exhaustion(player, dtime)
 
     -- Only apply exhaustion if the player is walking and has enough stamina
     if not player_is_sprinting[name] and current_stamina > 0 then
-        local walk_drain = settings.stamina_drain_move or 0.1875 -- Default to 0.1875
+        local walk_drain = settings.stamina_drain_move or 0.015
         stamina.change(player, -(walk_drain * dtime)) -- Reduce stamina based on walk drain
     end
 end
