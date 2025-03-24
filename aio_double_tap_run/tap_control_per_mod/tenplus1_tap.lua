@@ -6,7 +6,7 @@ local tenplus1s = {
 local settings = {
     stamina_drain_sprint = core.settings:get("stamina_sprint_drain") or 0.35,
     extra_speed = core.settings:get("stamina_sprint_speed") or 0.3,
-    stamina_drain_move = 0.015,
+    move_exhaust = 1.5,
 }
 local exhaustion = {}
 
@@ -70,6 +70,7 @@ core.register_globalstep(function(dtime)
                     player:set_physics_override({ speed = (1.2 + settings.extra_speed) })
                     player_is_sprinting[name] = true
                 end
+                
                 --apply_sprint_exhaustion(player, dtime)
             else
                 if player_is_sprinting[name] then
