@@ -1,24 +1,5 @@
-local function get_mod_author(modname)
-    -- Get the path to the mod's directory
-    local modpath = core.get_modpath(modname)
-    if not modpath then
-        return nil, "Mod not found"
-    end
+local get_mod_author = dofile(core.get_modpath("aio_double_tap_run").."/modules/get_mod_author.lua")
 
-    -- Load the mod.conf file
-    local mod_conf = Settings(modpath .. "/mod.conf")
-    if not mod_conf then
-        return nil, "mod.conf not found"
-    end
-
-    -- Get the author field
-    local author = mod_conf:get("author")
-    if author then
-        return author
-    else
-        return nil, "Author field not found in mod.conf"
-    end
-end
 
 -- Helper function to check for mod conflicts.
 local function check_collision(mod, count)
@@ -36,10 +17,10 @@ local function mod_checker()
         -- Example: Check the author of the current mod
         local mod_author, err = get_mod_author("stamina")
         if mod_author == "TenPlus1" then
-            mod = "tenplus1_stamina"
+            mod = "stamina"
             count = count + 1
         else
-            mod = "sofar_stamina"
+            mod = "stamina"
             count = count + 1
         end
         dt_off = check_collision(mod, count)

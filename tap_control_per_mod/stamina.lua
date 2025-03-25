@@ -1,12 +1,31 @@
 local update_double_tap = dofile(core.get_modpath("aio_double_tap_run").."/modules/double_tap_sensor.lua")
 local is_touching_liquid = dofile(core.get_modpath("aio_double_tap_run").."/modules/liquid_check.lua")
 local get_keycode = dofile(core.get_modpath("aio_double_tap_run").."/tap_control_per_mod/functions/get_keycode.lua")
-local settings = {
-    trigger_delay = 0.5,
-    stamina_sprint_drain = tonumber(core.settings:get("stamina_sprint_drain")) or 0.35,
-    move_exhaust = 1.5,
-    enable_stamina = core.settings:get_bool("enable_stamina", true)
-}
+local get_mod_author = dofile(core.get_modpath("aio_double_tap_run").."/modules/get_mod_author.lua")
+
+local mod_author, err = get_mod_author("stamina")
+local settings = {}
+
+if mod_author == "TenPlus1" then
+    settings = {
+       trigger_delay = 0.5,
+       stamina_sprint_drain = tonumber(core.settings:get("stamina_sprint_drain")) or 0.35,
+       move_exhaust = 1.5,
+       enable_stamina = core.settings:get_bool("enable_stamina", true),
+       treshold = 6
+    }
+else
+    settings = {
+        trigger_delay = 0.5,
+        treshold = tonumber(core.settings:get("stamina.starve_lvl")) or 3,
+        stamina_sprint_drain = tonumber(core.settings:get("stamina.exhaust_sprint")) or 28,
+        move_exhaust = tonumber(core.settings:get("stamina.exhaust_move")) or 0.5,
+        enable_stamina = true
+    }
+end
+
+settings.stamina_sprint_drain = settings.stamina_sprint_drain / 100
+settings.treshold = settings.treshold * 2
 local player_double_tap = {}
 local player_data = {
     count = 0,
@@ -45,7 +64,7 @@ core.register_globalstep(function(dtime)
           if key_code == 1 then
             if stamina_is_enabled then
               local current_stamina = stamina.get_saturation(player)
-              local is_starving = player_double_tap[name].starving(current_stamina, 6)
+              local is_starving = player_double_tap[name].starving(current_stamina, settings.treshold)
               if is_sprinting and not is_starving then
                 stamina.set_sprinting(player, true)
               end

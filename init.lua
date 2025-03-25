@@ -7,13 +7,8 @@ if mod == "no_mod" then
 end
 
 -- If the "sofar_stamina" mod is installed and double-tap is not disabled, load the sofar_tap module
-if mod == "sofar_stamina" and not dt_off then
-    dofile(core.get_modpath("aio_double_tap_run").."/tap_control_per_mod/sofar_tap.lua")
-end
-
--- If the "tenplus1_stamina" mod is installed and double-tap is not disabled, load the tenplus1_tap module
-if mod == "tenplus1_stamina" and not dt_off then
-    dofile(core.get_modpath("aio_double_tap_run").."/tap_control_per_mod/tenplus1_tap.lua")
+if mod == "stamina" and not dt_off then
+    dofile(core.get_modpath("aio_double_tap_run").."/tap_control_per_mod/stamina.lua")
 end
 
 -- If the "hunger_ng" mod is installed and double-tap is not disabled, load the hunger_tap module
