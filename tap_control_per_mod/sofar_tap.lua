@@ -71,7 +71,7 @@ core.register_globalstep(function(dtime)
             break
         end
 
-        if is_sprinting and not is_wet and not is_starving then
+        if is_sprinting and not is_wet and not is_starving and not is_aux then
             stamina.set_sprinting(player, true)
             if is_sprinting then
                 stamina.exhaust_player(player, (settings.drain_points_sprint*2) * dtime, "sprinting")
