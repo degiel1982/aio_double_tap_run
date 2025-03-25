@@ -10,7 +10,22 @@ local settings = {
     drain_points_walk = tonumber(core.settings:get("stamina.exhaust_move")) or 0.5,
 }
 
-settings.starve_lvl = settings.starve_lvl * 2
+local player_data = {
+    count = 0,
+    timer = 0, 
+    was_up = false,
+    sprinting = false,
+    is_wet = false,
+    starving = function(current_stamina)
+        local treshold = settings.starve_lvl * 2
+        if current_stamina > treshold then
+            return false
+        else
+            return true
+        end
+    end,
+    is_sprinting = false
+}
 
 core.register_on_leaveplayer(function(player)
     local name = player:get_player_name()
@@ -23,42 +38,41 @@ core.register_globalstep(function(dtime)
         local name    = player:get_player_name()
         local control = player:get_player_control()
         local p_pos = player:get_pos()
-        
+
         if not player_double_tap[name] then
-            player_double_tap[name] = {
-                count     = 0,      -- Number of taps detected.
-                timer     = 0,      -- Timer to track the time window for double taps.
-                was_up    = false,  -- Tracks if the "up" key was released.
-                sprinting = false,  -- Whether the player is currently sprinting.
-            }
+            player_double_tap[name] = player_data
         end
 
-        local im_wet = is_touching_liquid(p_pos)
+        local is_crouching = control.sneak
+        local is_aux = control.aux1
 
+        player_double_tap[name].is_wet = is_touching_liquid(p_pos) 
+        
+        local is_wet = player_double_tap[name].is_wet
+        local is_sprinting = player_double_tap[name].is_sprinting
 
-        local sprinting = update_double_tap(player_double_tap[name], dtime, control.up, 0.5)
+        local current_stamina = stamina.get_saturation(player)
 
-        -- Prevent sprinting if the "aux1" key (commonly used for sneak or special actions) is pressed.
-        if sprinting and control.aux1 then
-            sprinting = false
+        local is_starving = player_double_tap[name].starving(current_stamina)
+
+        if is_crouching then
+            break
         end
 
-        if sprinting then
-            if im_wet then
-                stamina.set_sprinting(player, false)
-            else
-                stamina.set_sprinting(player, true)
+        if is_wet or (is_sprinting and (is_aux or is_starving)) then
+            stamina.set_sprinting(player, false)
+            if is_sprinting then
+                stamina.exhaust_player(player, (settings.drain_points_walk*2) * dtime, "walking")
             end
-            current_stamina = stamina.get_saturation(player)
-            if current_stamina > settings.starve_lvl then
-                stamina.exhaust_player(player, settings.drain_points_sprint * dtime, "sprinting")
-            else
-                stamina.set_sprinting(player, false)
-                stamina.exhaust_player(player, settings.drain_points_walk * dtime, "walking")
-            end
-        else
-            if im_wet then
-                stamina.set_sprinting(player, false)
+            break
+        end
+
+        player_double_tap[name].is_sprinting = update_double_tap(player_double_tap[name], dtime, control.up, settings.trigger_delay)
+            
+        if is_sprinting and not is_wet then
+            stamina.set_sprinting(player, true)
+            if is_sprinting then
+                stamina.exhaust_player(player, (settings.drain_points_sprint*2) * dtime, "sprinting")
             end
         end
     end
