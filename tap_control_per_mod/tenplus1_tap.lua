@@ -50,10 +50,10 @@ core.register_globalstep(function(dtime)
                 stamina.set_sprinting(player, true)
               end
               stamina.change_saturation(player, -(settings.stamina_sprint_drain * dtime))
-            end
-          else
-            if is_sprinting and not is_starving then
-              stamina.set_sprinting(player, true)
+            else
+              if is_sprinting and not is_starving then
+                stamina.set_sprinting(player, true)
+              end
             end
           end
         else
