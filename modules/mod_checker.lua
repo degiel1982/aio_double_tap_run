@@ -1,3 +1,25 @@
+local function get_mod_author(modname)
+    -- Get the path to the mod's directory
+    local modpath = core.get_modpath(modname)
+    if not modpath then
+        return nil, "Mod not found"
+    end
+
+    -- Load the mod.conf file
+    local mod_conf = Settings(modpath .. "/mod.conf")
+    if not mod_conf then
+        return nil, "mod.conf not found"
+    end
+
+    -- Get the author field
+    local author = mod_conf:get("author")
+    if author then
+        return author
+    else
+        return nil, "Author field not found in mod.conf"
+    end
+end
+
 -- Helper function to check for mod conflicts.
 local function check_collision(mod, count)
     return count > 1
@@ -11,11 +33,13 @@ local function mod_checker()
     -- Check for "stamina" mod compatibility.
     local stamina_is_installed = minetest.get_modpath("stamina") ~= nil
     if stamina_is_installed then
-        if stamina and type(stamina.change_saturation) == "function" and type(stamina.set_sprinting)  == "function" then
-            mod = "sofar_stamina"
+        -- Example: Check the author of the current mod
+        local mod_author, err = get_mod_author("stamina")
+        if mod_author == "TenPlus1" then
+            mod = "tenplus1_stamina"
             count = count + 1
         else
-            mod = "tenplus1_stamina"
+            mod = "sofar_stamina"
             count = count + 1
         end
         dt_off = check_collision(mod, count)
