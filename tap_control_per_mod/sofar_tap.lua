@@ -1,6 +1,7 @@
 local update_double_tap = dofile(core.get_modpath("aio_double_tap_run").."/modules/double_tap_sensor.lua")
 local is_touching_liquid = dofile(core.get_modpath("aio_double_tap_run").."/modules/liquid_check.lua")
 
+
 local player_double_tap = {}
 
 local settings = {
@@ -10,6 +11,7 @@ local settings = {
     drain_points_walk = tonumber(core.settings:get("stamina.exhaust_move")) or 0.5,
 }
 
+--Player status information
 local player_data = {
     count = 0,
     timer = 0, 
@@ -24,7 +26,7 @@ local player_data = {
             return true
         end
     end,
-    is_sprinting = false
+    is_sprinting = false,
 }
 
 core.register_on_leaveplayer(function(player)
@@ -55,10 +57,12 @@ core.register_globalstep(function(dtime)
 
         local is_starving = player_double_tap[name].starving(current_stamina)
 
-        if is_crouching then
+        if is_crouching or (is_crouching and is_aux)then
             break
         end
 
+        player_double_tap[name].is_sprinting = update_double_tap(player_double_tap[name], dtime, control.up, settings.trigger_delay)
+        
         if is_wet or (is_sprinting and (is_aux or is_starving)) then
             stamina.set_sprinting(player, false)
             if is_sprinting then
@@ -67,9 +71,7 @@ core.register_globalstep(function(dtime)
             break
         end
 
-        player_double_tap[name].is_sprinting = update_double_tap(player_double_tap[name], dtime, control.up, settings.trigger_delay)
-            
-        if is_sprinting and not is_wet then
+        if is_sprinting and not is_wet and not is_starving then
             stamina.set_sprinting(player, true)
             if is_sprinting then
                 stamina.exhaust_player(player, (settings.drain_points_sprint*2) * dtime, "sprinting")
