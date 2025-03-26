@@ -4,9 +4,12 @@ local get_keycode = dofile(core.get_modpath("aio_double_tap_run").."/tap_control
 local get_mod_author = dofile(core.get_modpath("aio_double_tap_run").."/modules/get_mod_author.lua")
 local set_sprint = dofile(core.get_modpath("aio_double_tap_run").."/modules/monoids.lua")
 
-local settings = {}
+local settings = {
+    liquid_interval = 0.3
+}
 local player_double_tap = {}
 local player_is_sprinting = {}
+local liquid_check_timers = {}
 
 local player_data = {
     count = 0,
@@ -14,7 +17,8 @@ local player_data = {
     was_up = false,
     sprinting = false,
     keycode = 0,
-    wet = false
+    wet = false,
+    
 }
 
 core.register_on_leaveplayer(function(player)
@@ -32,9 +36,12 @@ core.register_globalstep(function(dtime)
         if not player_double_tap[name] then
             player_double_tap[name] = player_data
         end
-
-        player_double_tap[name].wet = is_touching_liquid(p_pos)
-
+            
+        if liquid_check_timers[name] >= settings.liquid_interval then
+            player_double_tap[name].wet = is_touching_liquid(p_pos)
+            liquid_check_timers[name] = 0 -- Reset the timer
+        end
+            
         if not player_double_tap[name].wet then
             player_double_tap[name].keycode = get_keycode(player)
             local key_code = player_double_tap[name].keycode
