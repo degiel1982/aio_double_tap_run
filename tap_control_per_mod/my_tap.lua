@@ -36,8 +36,15 @@ core.register_globalstep(function(dtime)
             player_double_tap[name].liquid_check_timer = 0
         end
 
-    
-        local is_player_wet = 
+        local control_bits = player:get_player_control_bits()
+
+
+        if control == 1 or control == 17 then
+            return true
+        end
+        local is_player_wet = player_double_tap[name].wet
+
+
         --if not player_double_tap[name].wet then
         --    player_double_tap[name].keycode = get_keycode(player)
         --    local key_code = player_double_tap[name].keycode
