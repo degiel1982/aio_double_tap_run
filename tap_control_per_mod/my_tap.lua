@@ -1,8 +1,5 @@
-local update_double_tap = dofile(core.get_modpath("aio_double_tap_run").."/modules/double_tap_sensor.lua")
-local is_touching_liquid = dofile(core.get_modpath("aio_double_tap_run").."/modules/liquid_check.lua")
-local get_keycode = dofile(core.get_modpath("aio_double_tap_run").."/tap_control_per_mod/functions/get_keycode.lua")
-local get_mod_author = dofile(core.get_modpath("aio_double_tap_run").."/modules/get_mod_author.lua")
-local set_sprint = dofile(core.get_modpath("aio_double_tap_run").."/modules/monoids.lua")
+local player_is_in_liquid, dt_sensor, sprint, get_mod_author = dofile(core.get_modpath("aio_double_tap_run").."/modules/tools.lua")
+
 
 local settings = {
     liquid_interval = 0.3
