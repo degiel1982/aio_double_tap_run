@@ -25,8 +25,8 @@ if stamina_is_installed then
         }
     end
 elseif hunger_is_installed then
-
+--need to implent this still
 end
 
         
-end
+return settings

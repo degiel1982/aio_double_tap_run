@@ -1,11 +1,8 @@
 local player_is_in_liquid, dt_sensor, sprint, get_mod_author = dofile(core.get_modpath("aio_double_tap_run").."/modules/tools.lua")
+local mod_settings = dofile(core.get_modpath("aio_double_tap_run").."/modules/tools.lua")
 
-
-local settings = {
-    liquid_interval = 0.3
-}
 local player_double_tap = {}
-local player_is_sprinting = {}
+
 local liquid_check_timers = {}
 
 local player_data = {
