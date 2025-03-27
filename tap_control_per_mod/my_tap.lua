@@ -2,6 +2,7 @@ local player_is_in_liquid, dt_sensor, sprint, get_mod_author = dofile(core.get_m
 local mod_settings = dofile(core.get_modpath("aio_double_tap_run").."/modules/tools.lua")
 
 LIQUID_CHECK_INTERVAL = 0.5
+TAP_CHECK_INTERVAL = 0.5
 
 local player_double_tap = {}
 
@@ -10,7 +11,7 @@ local player_data = {
     timer = 0, 
     was_up = false,
     sprinting = false,
-    liquid_check_timer = 0,
+    liquid_check_timer = LIQUID_CHECK_INTERVAL,
     wet = false,
     running = false,
     starving = false
@@ -38,11 +39,11 @@ core.register_globalstep(function(dtime)
 
         local control_bits = player:get_player_control_bits()
 
+        local key_is_pressed = control_bits == 1 or control_bits == 17
 
-        if control == 1 or control == 17 then
-            return true
-        end
-        local is_player_wet = player_double_tap[name].wet
+        local player_double_tap[name].running = dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL) and not player_double_tap[name].wet
+
+
 
 
         --if not player_double_tap[name].wet then
