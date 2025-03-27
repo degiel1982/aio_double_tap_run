@@ -9,12 +9,19 @@ if stamina_is_installed then
     local mod_author = get_mod_author("stamina")
     if mod_author == "TenPlus1" then
         settings = {
-
             trigger_delay = 0.5,
             stamina_sprint_drain = tonumber(core.settings:get("stamina_sprint_drain")) or 0.35,
             move_exhaust = 1.5,
             enable_stamina = core.settings:get_bool("enable_stamina", true),
             treshold = 6
+        }
+    else
+        settings = {
+            trigger_delay = 0.5,
+            treshold = (tonumber(core.settings:get("stamina.starve_lvl")) * 2) or 6,
+            stamina_sprint_drain = tonumber(core.settings:get("stamina.exhaust_sprint")) or 28,
+            move_exhaust = tonumber(core.settings:get("stamina.exhaust_move")) or 0.5,
+            enable_stamina = true
         }
     end
 elseif hunger_is_installed then
