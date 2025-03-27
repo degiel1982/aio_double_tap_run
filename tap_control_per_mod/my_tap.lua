@@ -43,7 +43,7 @@ core.register_globalstep(function(dtime)
 
         local key_is_pressed = control_bits == 1 or control_bits == 17
 
-        local player_double_tap[name].running = dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL) and not player_double_tap[name].wet
+        player_double_tap[name].running = dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL) and not player_double_tap[name].wet
 
         if player_double_tap[name].running then
             if stamina_is_installed then
