@@ -1,6 +1,6 @@
 local player_monoid = {}
 local monoids_is_installed = minetest.get_modpath("player_monoids") ~= nil
-local pova_is_installed = minetest.get_modpath("pova") ~= nil
+local pova_is_installed = minetest.get_modpath("pova") ~= nil -- Check if Pova is installed
 local NORMAL_SPEED = 1
 local SPRINT_MONOID = {}
 
