@@ -52,4 +52,4 @@ local function dt_sensor(dt_state, dtime, key_pressed, trigger_delay)
     return dt_state.sprinting
 end
 
-return player_is_in_liquid, dt_sensor
+return player_is_in_liquid, dt_sensor, sprint
