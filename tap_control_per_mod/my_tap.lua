@@ -43,7 +43,7 @@ core.register_globalstep(function(dtime)
 
         local player_double_tap[name].running = dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL) and not player_double_tap[name].wet
 
-
+        sprint(player, player_double_tap[name].running, )
 
 
         --if not player_double_tap[name].wet then
