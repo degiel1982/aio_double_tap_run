@@ -51,6 +51,7 @@ local function dt_sensor(dt_state, dtime, key_pressed, trigger_delay)
 
     return dt_state.sprinting
 end
+
 local function get_mod_author(modname)
     -- Get the path to the mod's directory
     local modpath = core.get_modpath(modname)
