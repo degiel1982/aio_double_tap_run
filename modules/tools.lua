@@ -1,6 +1,6 @@
 
 -- Liquid check
-local function standing_in_liquid(pos)
+local function player_is_in_liquid(pos)
     local feet_pos = { x = pos.x, y = pos.y - 0.5, z = pos.z }
     local head_pos = { x = pos.x, y = pos.y + 0.85, z = pos.z }
     local check_positions = { vector.round(feet_pos), vector.round(head_pos) }
@@ -16,4 +16,4 @@ local function standing_in_liquid(pos)
     return false
 end
 
-return standing_in_liquid
+return player_is_in_liquid
