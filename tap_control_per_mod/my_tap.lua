@@ -1,5 +1,5 @@
 local player_is_in_liquid, dt_sensor, sprint, get_mod_author = dofile(core.get_modpath("aio_double_tap_run").."/modules/tools.lua")
-local mod_settings = dofile(core.get_modpath("aio_double_tap_run").."/modules/tools.lua")
+local mod_settings = dofile(core.get_modpath("aio_double_tap_run").."/modules/mod_settings.lua")
 
 local stamina_is_installed = core.get_modpath("stamina") ~= nil
 
