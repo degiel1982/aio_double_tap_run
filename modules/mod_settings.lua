@@ -39,7 +39,7 @@ if stamina_is_installed then
 else
     settings = {
         extra_speed = 0,
-    
+    }
 end
 
         
