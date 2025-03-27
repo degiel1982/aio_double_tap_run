@@ -1,3 +1,4 @@
+local sprint = dofile(core.get_modpath("aio_double_tap_run").."/modules/physics.lua")
 
 -- Liquid check
 local function player_is_in_liquid(pos)
