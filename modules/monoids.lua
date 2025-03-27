@@ -1,7 +1,9 @@
 local player_monoid = {}
 local monoids_is_installed = minetest.get_modpath("player_monoids") ~= nil
+local pova_is_installed = minetest.get_modpath("pova") ~= nil
 local NORMAL_SPEED = 1
 local SPRINT_MONOID = {}
+
 --[[
     When monoids is installed then create a monoid
 ]]
@@ -13,15 +15,19 @@ if monoids_is_installed then
         fold = function(tab)
             local result = 1.0
             for _, value in pairs(tab) do
-            result = result * value
+                result = result * value
             end
             return result
         end,
-        identity = 1.0, 
+        identity = 1.0,
         apply = function(speed, player)
-            local override = player:get_physics_override()
-            override.speed = speed
-            player:set_physics_override(override)
+            if pova_is_installed then
+                pova.add_override(player, "speed", speed) -- Use Pova to set speed
+            else
+                local override = player:get_physics_override()
+                override.speed = speed
+                player:set_physics_override(override)
+            end
         end,
     })
 end
@@ -35,8 +41,9 @@ end
 local function start_sprinting(player, extra_speed)
     if not player then return end
     if monoids_is_installed then
-        speed = 
         SPRINT_MONOID:add_change(player, (NORMAL_SPEED + extra_speed), "aio_double_tap_run:sprinting")
+    elseif pova_is_installed then
+        pova.add_override(player, "speed", (NORMAL_SPEED + extra_speed))
     else
         player:set_physics_override({ speed = (NORMAL_SPEED + extra_speed) })
     end
@@ -46,7 +53,9 @@ end
 local function stop_sprinting(player)
     if not player then return end
     if monoids_is_installed then
-        sprint_monoid:del_change(player, "aio_double_tap_run:sprinting")
+        SPRINT_MONOID:del_change(player, "aio_double_tap_run:sprinting")
+    elseif pova_is_installed then
+        pova.del_override(player, "speed")
     else
         player:set_physics_override({ speed = NORMAL_SPEED })
     end
@@ -71,11 +80,7 @@ local function set_sprinting(player, enable_sprint, extra_speed)
 
         -- Start sprinting
         sprinting_states[player_name] = true
-        if monoids_is_installed then
-            SPRINT_MONOID:add_change(player, (NORMAL_SPEED + extra_speed), "aio_double_tap_run:sprinting")
-        else
-            player:set_physics_override({ speed = (NORMAL_SPEED + extra_speed) })
-        end
+        start_sprinting(player, extra_speed)
     else
         -- Check if the player is not sprinting
         if not sprinting_states[player_name] then
@@ -84,12 +89,9 @@ local function set_sprinting(player, enable_sprint, extra_speed)
 
         -- Stop sprinting
         sprinting_states[player_name] = false
-        if monoids_is_installed then
-            SPRINT_MONOID:del_change(player, "aio_double_tap_run:sprinting")
-        else
-            player:set_physics_override({ speed = NORMAL_SPEED })
-        end
+        stop_sprinting(player)
     end
 end
 
+-- Return the function for external use
 return set_sprinting
