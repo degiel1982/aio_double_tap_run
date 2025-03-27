@@ -35,7 +35,7 @@ core.register_globalstep(function(dtime)
         end
             
         if player_double_tap[name].liquid_check_timer >= LIQUID_CHECK_INTERVAL then
-            player_double_tap[name].wet = is_touching_liquid(p_pos)
+            player_double_tap[name].wet = player_is_in_liquid(p_pos)
             player_double_tap[name].liquid_check_timer = 0
         end
 
