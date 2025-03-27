@@ -91,3 +91,5 @@ local function set_sprinting(player, enable_sprint, extra_speed)
         end
     end
 end
+
+return set_sprinting
