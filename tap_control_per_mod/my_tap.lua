@@ -1,6 +1,8 @@
 local player_is_in_liquid, dt_sensor, sprint, get_mod_author = dofile(core.get_modpath("aio_double_tap_run").."/modules/tools.lua")
 local mod_settings = dofile(core.get_modpath("aio_double_tap_run").."/modules/tools.lua")
 
+local stamina_is_installed = core.get_modpath("stamina") ~= nil
+
 LIQUID_CHECK_INTERVAL = 0.5
 TAP_CHECK_INTERVAL = 0.5
 
@@ -43,21 +45,22 @@ core.register_globalstep(function(dtime)
 
         local player_double_tap[name].running = dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL) and not player_double_tap[name].wet
 
-        sprint(player, player_double_tap[name].running, mod_settings.extra_speed)
-
-
-        --if not player_double_tap[name].wet then
-        --    player_double_tap[name].keycode = get_keycode(player)
-        --    local key_code = player_double_tap[name].keycode
-        --    player_double_tap[name].is_sprinting = update_double_tap(player_double_tap[name], dtime, control.up, 0.5) 
-        --    local is_sprinting = player_double_tap[name].is_sprinting
-        --    if key_code == 1 then
-        --        if is_sprinting then
-        --            set_sprint(player, true)
-        --        else
-        --            set_sprint(player, false)
-        --        end
-        --    end
-        --end
+        if player_double_tap[name].running then
+            if stamina_is_installed then
+                local current_stamina = stamina.get_saturation(player)
+                local is_starving = player_double_tap[name].starving(current_stamina, mod_settings.treshold)
+                if is_starving then
+                    sprint(player, false, mod_settings.extra_speed)
+                    stamina.exhaust_player(player, mod_settings.move_exhaust * dtime)
+                else
+                    sprint(player, true, mod_settings.extra_speed)
+                    stamina.change_saturation(player, -(mod_settings.stamina_sprint_drain * dtime))
+                end
+            else
+                sprint(player, true, mod_settings.extra_speed)
+            end
+        else
+            sprint(player, false, mod_settings.extra_speed)
+        end
     end
 end)

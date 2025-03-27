@@ -12,7 +12,14 @@ if stamina_is_installed then
             move_exhaust = 1.5,
             enable_stamina = core.settings:get_bool("enable_stamina", true),
             treshold = 6,
-            extra_speed = 0.3
+            extra_speed = 0.3,
+            starving = function(current_stamina, treshold)
+                if current_stamina >= treshold then
+                    return false
+                else
+                    return true
+                end
+            end,
         }
     else
         settings = {
@@ -21,7 +28,14 @@ if stamina_is_installed then
             stamina_sprint_drain = tonumber(core.settings:get("stamina.exhaust_sprint")) or 28,
             move_exhaust = tonumber(core.settings:get("stamina.exhaust_move")) or 0.5,
             enable_stamina = true,
-            extra_speed = 0.3
+            extra_speed = 0.3,
+            starving = function(current_stamina, treshold)
+                if current_stamina >= treshold then
+                    return false
+                else
+                    return true
+                end
+            end,
         }
     end
 elseif hunger_is_installed then
