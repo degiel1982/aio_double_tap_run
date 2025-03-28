@@ -1,5 +1,3 @@
-local sprint = dofile(core.get_modpath("aio_double_tap_run").."/modules/physics.lua")
-
 -- Liquid check
 local function player_is_in_liquid(pos)
     local feet_pos = { x = pos.x, y = pos.y - 0.5, z = pos.z }
@@ -74,4 +72,12 @@ local function get_mod_author(modname)
     end
 end
 
-return player_is_in_liquid, dt_sensor, sprint, get_mod_author
+local function is_player_starving(current_stamina, treshold)
+    if current_stamina >= treshold then
+        return false
+    else
+        return true
+    end
+end
+
+return player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving
