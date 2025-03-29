@@ -1,7 +1,11 @@
 local player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving = dofile(core.get_modpath("aio_double_tap_run").."/functions/tools.lua")
 
 local settings = {
+    tap_interval = tonumber(core.settings:get("aio_dt.tap_interval")) or 0.5,
     use_aux = core.settings:get_bool("aio_dt.use_aux", false),
+    use_dt = core.settings:get_bool("aio_dt.use_dt", true), 
+    walk_framespeed = tonumber(core.settings:get("aio_dt.walk_frames")) or 15,
+    sprint_framespeed = tonumber(core.settings:get("aio_dt.sprint_frames")) or 30,
     tools = {
         player_is_in_liquid = player_is_in_liquid,
         dt_sensor = dt_sensor,

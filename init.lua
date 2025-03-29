@@ -2,13 +2,8 @@ local set_sprinting, mod_settings = dofile(core.get_modpath("aio_double_tap_run"
 
 aio_double_tap_run = {}
 
---API
 aio_double_tap_run.set_sprinting = set_sprinting
 
---
-
-TAP_CHECK_INTERVAL = 0.5
---
 local player_double_tap = {}
 
 local player_data = {
@@ -42,10 +37,17 @@ core.register_globalstep(function(dtime)
         if not player_double_tap[name].wet and not is_on_ladder then
             local control_bits = player:get_player_control_bits()
             local key_is_pressed = control_bits == 1 or control_bits == 17
-            if mod_settings.use_aux then
-                player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL) or (control_bits == 33 or control_bits == 49) 
+            if mod_settings.use_dt then
+                if mod_settings.use_aux then
+                    player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, mod_settings.tap_interval) or (control_bits == 33 or control_bits == 49) 
+                else
+                    player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, mod_settings.tap_interval)
+                end
             else
-                player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL)
+                if mod_settings.use_aux then
+                    local key_press = (control_bits == 33 or control_bits == 49)
+                    player_double_tap[name].running = key_press
+                end
             end
         else
             player_double_tap[name].running = false
@@ -73,7 +75,7 @@ core.register_globalstep(function(dtime)
             end
             local current_animation = player:get_animation()
             local animation_range = current_animation and {x = current_animation.x, y = current_animation.y} or {x = 0, y = 79}
-            local sprint_speed = 30 + (player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2
+            local sprint_speed = mod_settings.sprint_framespeed + (player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2
             player:set_animation(animation_range, sprint_speed, 0)
         else
             if not mod_settings.stamina.tenplus.installed then
@@ -89,7 +91,7 @@ core.register_globalstep(function(dtime)
             end
                 local current_animation = player:get_animation()
                 local animation_range = current_animation and {x = current_animation.x, y = current_animation.y} or {x = 0, y = 79}
-                local sprint_speed = 15 + (player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2
+                local sprint_speed = mod_settings.walk_framespeed + (player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2
                 player:set_animation(animation_range, sprint_speed, 0) -- Running animation
         end
     end
