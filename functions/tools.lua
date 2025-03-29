@@ -14,21 +14,29 @@ local function player_is_in_liquid(pos)
     end
     return false
 end
--- Helper function to check if a player is on a ladder
-local function is_player_on_ladder(player)
+-- Function to get all registered climbable nodes
+local function get_all_climbable_nodes()
+    local climbable_nodes = {}
+    for node_name, node_def in pairs(minetest.registered_nodes) do
+        if node_def.climbable then
+            table.insert(climbable_nodes, node_name)
+        end
+    end
+    return climbable_nodes
+end
+
+-- Helper function to check if a player is on a climbable node
+local function is_player_on_climbable(player)
     local pos = player:get_pos()
     pos.y = pos.y - 0.5 -- Adjust downward to check the node beneath the player
     local node = minetest.get_node(pos)
-    
-    -- List all ladder node names here; add additional nodes as needed.
-    local ladder_nodes = {
-        "default:ladder_wood",
-        "default:ladder_steel"
-    }
-    
-    -- Check if the node is one of the ladder nodes
-    for _, ladder in ipairs(ladder_nodes) do
-        if node.name == ladder then
+
+    -- Get the list of all climbable nodes
+    local climbable_nodes = get_all_climbable_nodes()
+
+    -- Check if the node is one of the climbable nodes
+    for _, climbable in ipairs(climbable_nodes) do
+        if node.name == climbable then
             return true
         end
     end
@@ -99,4 +107,4 @@ local function is_player_starving(current_stamina, treshold)
     end
 end
 
-return player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving, is_player_on_ladder
+return player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving, is_player_on_ladder, is_player_on_climbable
