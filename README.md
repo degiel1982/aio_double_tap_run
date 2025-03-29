@@ -10,6 +10,7 @@ This mod adds a double-tap-to-run feature to Minetest, enhancing gameplay by pro
 - **Aux1 Key Support**: Optionally enable the Aux1 key for sprinting by setting `aio_dt.use_aux` to `true`.
 - **Automatic Integration with Stamina Mods**: If supported stamina mods (e.g., Sofar's or TenPlus1's stamina mods) are installed, the mod will automatically adjust sprinting behavior based on stamina levels.
 - **Liquid Interaction**: Automatically disables sprinting when the player is in liquid, ensuring realistic movement.
+- **Ladder Interaction**: Sprinting is disabled when the player is on a ladder unless explicitly enabled via configuration.
 - **Lightweight and Efficient**: Designed to integrate seamlessly with Minetest without impacting performance.
 - **API Support**: Provides an API for developers to enable or disable sprinting programmatically.
 
@@ -23,7 +24,8 @@ This mod adds a double-tap-to-run feature to Minetest, enhancing gameplay by pro
 4. **Stamina Integration**:
    - If Sofar's or TenPlus1's stamina mods are installed, stamina will drain while sprinting and regenerate when walking or standing still.
    - **Important**: When using a stamina mod, adjust the sprint speed and exhaustion settings in the stamina mod's configuration to ensure proper integration.
-5. **Liquid Behavior**: Sprinting is automatically disabled when you enter liquid (e.g., water or lava), and your movement speed will return to normal.
+5. **Ladder Behavior**:
+   - By default, sprinting is disabled when the player is on a ladder. You can enable sprinting on ladders by setting `aio_dt.ladder_sprint` to `true` in your `minetest.conf`.
 
 ## Configuration
 
@@ -31,11 +33,13 @@ You can customize the mod's behavior using the following settings in your `minet
 
 - `aio_dt.extra_speed` (default: `0.5`): Sets the additional speed multiplier for sprinting. For example, setting it to `0.5` will make sprinting 50% faster than walking.
 - `aio_dt.use_aux` (default: `false`): Enables the Aux1 key for sprinting when set to `true`.
+- `aio_dt.ladder_sprint` (default: `false`): Enables sprinting while on ladders when set to `true`.
 
 ### Example Configuration
 ```plaintext
 aio_dt.extra_speed = 0.7
 aio_dt.use_aux = true
+aio_dt.ladder_sprint = false
 ```
 
 ## API
@@ -46,7 +50,19 @@ The mod includes a simple API for developers to integrate sprinting functionalit
   - Enables or disables sprinting for a specific player.
   - **Parameters**:
     - `player`: The player object.
-    - `state`: Boolean value (`true` to enable sprinting, `false` to disable).
+    - `state`: Boolean value (`true` to enable sprinting, `false` to disable`).
+
+### Example Usage
+```lua
+local player = minetest.get_player_by_name("player_name")
+if player then
+    -- Enable sprinting for the player
+    aio_double_tap_run.set_sprinting(player, true)
+
+    -- Disable sprinting for the player
+    aio_double_tap_run.set_sprinting(player, false)
+end
+```
 
 ## Dependencies
 
