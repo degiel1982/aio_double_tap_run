@@ -1,5 +1,10 @@
 local set_sprinting, mod_settings = dofile(core.get_modpath("aio_double_tap_run").."/functions/physics.lua")
 
+aio_double_tap_run = {}
+
+--API
+aio_double_tap_run.set_sprinting = set_sprinting
+
 --
 
 TAP_CHECK_INTERVAL = 0.5
@@ -33,19 +38,22 @@ core.register_globalstep(function(dtime)
         end
 
         player_double_tap[name].wet = mod_settings.tools.player_is_in_liquid(p_pos)
-
-
-        local control_bits = player:get_player_control_bits()
-
-        local key_is_pressed = control_bits == 1 or control_bits == 17
         
         if not player_double_tap[name].wet then
+            local control_bits = player:get_player_control_bits()
+            local key_is_pressed = control_bits == 1 or control_bits == 17
             player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL)
         else
             player_double_tap[name].running = false
         end
-
         
+        if mod_settings.mod_settings.stamina.sofar.installed or mod_settings.mod_settings.stamina.tenplus.installed then
+            player_double_tap[name].starving = mod_settings.tools.is_player_starving(stamina.get_saturation(player), 7)
+            if  player_double_tap[name].starving then
+                player_double_tap[name].running = false
+            end
+        end
+
         if player_double_tap[name].running then
             set_sprinting(player, true)
             if mod_settings.mod_settings.stamina.sofar.installed then
