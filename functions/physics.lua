@@ -1,13 +1,13 @@
-local mod_settings = dofile(core.get_modpath("aio_double_tap_run").."/functions/mod_settings.lua")
+local settings = dofile(core.get_modpath("aio_double_tap_run").."/functions/mod_settings.lua")
 
 local aio = {}
 aio.set_sprinting = {}
 local sprint_monoid = {}
 
-local stamina_sofar_is_installed = mod_settings.mod_settings.stamina.sofar.installed
-local stamina_tenplus_is_installed = mod_settings.mod_settings.stamina.tenplus.installed
-local pova_is_installed = mod_settings.mod_settings.pova.installed
-local monoids_is_installed = mod_settings.mod_settings.player_monoids.installed
+local stamina_sofar_is_installed = settings.stamina.sofar.installed
+local stamina_tenplus_is_installed =settings.stamina.tenplus.installed
+local pova_is_installed = settings.pova.installed
+local monoids_is_installed = settings.player_monoids.installed
 
 if monoids_is_installed then
     sprint_monoid = player_monoids.make_monoid({
@@ -40,13 +40,13 @@ local function set_sprinting(player, sprint)
     if sprint then
         -- Set sprint speed
         if monoids_is_installed then
-            sprint_monoid:add_change(player, (1 + mod_settings.extra_speed), "aio_double_tap_run:sprinting")
+            sprint_monoid:add_change(player, (1 + settings.extra_speed), "aio_double_tap_run:sprinting")
         elseif pova_is_installed then
             local override_name = "aio_double_tap_run:sprinting"
-            local override_table = { speed = (1 + mod_settings.extra_speed), jump = nil, gravity = nil }
+            local override_table = { speed = (1 + settings.extra_speed), jump = nil, gravity = nil }
             pova.add_override(player_name, override_name, override_table)
         else
-            player:set_physics_override({ speed = (1 + mod_settings.extra_speed) })
+            player:set_physics_override({ speed = (1 + settings.extra_speed) })
         end
         -- Cancel any existing reset timer by overwriting it
         if reset_timers[player_name] then
@@ -89,4 +89,4 @@ else
     aio.set_sprinting = set_sprinting
 end
 
-return aio.set_sprinting, mod_settings
+return aio.set_sprinting, settings

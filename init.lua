@@ -26,7 +26,7 @@ core.register_on_leaveplayer(function(player)
     local name = player:get_player_name()
     player_double_tap[name] = nil   -- Remove double tap state info.
 end)
---
+
 core.register_globalstep(function(dtime)
     local players = core.get_connected_players()
     for _, player in ipairs(players) do
@@ -43,7 +43,7 @@ core.register_globalstep(function(dtime)
             local control_bits = player:get_player_control_bits()
             local key_is_pressed = control_bits == 1 or control_bits == 17
             if mod_settings.use_aux then
-                player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL) or control_bits == 33
+                player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL) or (control_bits == 33 or control_bits == 49) 
             else
                 player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL)
             end
@@ -51,12 +51,12 @@ core.register_globalstep(function(dtime)
             player_double_tap[name].running = false
         end
 
-        if mod_settings.mod_settings.stamina.sofar.installed or mod_settings.mod_settings.stamina.tenplus.installed then
-            if mod_settings.mod_settings.stamina.sofar.installed then
-                player_double_tap[name].starving = mod_settings.tools.is_player_starving(stamina.get_saturation(player), mod_settings.mod_settings.stamina.sofar.treshold * 2)
+        if mod_settings.stamina.sofar.installed or mod_settings.stamina.tenplus.installed then
+            if mod_settings.stamina.sofar.installed then
+                player_double_tap[name].starving = mod_settings.tools.is_player_starving(stamina.get_saturation(player), mod_settings.stamina.sofar.treshold * 2)
             end
-            if mod_settings.mod_settings.stamina.tenplus.installed then
-                player_double_tap[name].starving = mod_settings.tools.is_player_starving(stamina.get_saturation(player), mod_settings.mod_settings.stamina.tenplus.treshold)
+            if mod_settings.stamina.tenplus.installed then
+                player_double_tap[name].starving = mod_settings.tools.is_player_starving(stamina.get_saturation(player), mod_settings.stamina.tenplus.treshold)
             end
             if player_double_tap[name].starving then
                 player_double_tap[name].running = false
@@ -65,25 +65,25 @@ core.register_globalstep(function(dtime)
 
         if player_double_tap[name].running then
             set_sprinting(player, true)
-            if mod_settings.mod_settings.stamina.sofar.installed then
-                stamina.exhaust_player(player, mod_settings.mod_settings.stamina.sofar.exhaust_sprint * dtime)
+            if mod_settings.stamina.sofar.installed then
+                stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_sprint * dtime)
             end
-            if mod_settings.mod_settings.stamina.tenplus.installed then
-                stamina.exhaust_player(player, (mod_settings.mod_settings.stamina.tenplus.exhaust_sprint * 100) * dtime)
+            if mod_settings.stamina.tenplus.installed then
+                stamina.exhaust_player(player, (mod_settings.stamina.tenplus.exhaust_sprint * 100) * dtime)
             end
             local current_animation = player:get_animation()
             local animation_range = current_animation and {x = current_animation.x, y = current_animation.y} or {x = 0, y = 79}
             local sprint_speed = 30 + (player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2
             player:set_animation(animation_range, sprint_speed, 0)
         else
-            if not mod_settings.mod_settings.stamina.tenplus.installed then
-                if mod_settings.mod_settings.pova.installed or (mod_settings.mod_settings.pova.installed == false and mod_settings.mod_settings.player_monoids.installed == false) then
+            if not mod_settings.stamina.tenplus.installed then
+                if mod_settings.pova.installed or (mod_settings.pova.installed == false and mod_settings.player_monoids.installed == false) then
                     set_sprinting(player, false)
-                    if mod_settings.mod_settings.stamina.sofar.installed then
-                        stamina.exhaust_player(player, (mod_settings.mod_settings.stamina.sofar.exhaust_move) * dtime)
+                    if mod_settings.stamina.sofar.installed then
+                        stamina.exhaust_player(player, (mod_settings.stamina.sofar.exhaust_move) * dtime)
                     end
-                    if mod_settings.mod_settings.stamina.tenplus.installed then
-                        stamina.exhaust_player(player, (mod_settings.mod_settings.stamina.tenplus.exhaust_move) * dtime)
+                    if mod_settings.stamina.tenplus.installed then
+                        stamina.exhaust_player(player, (mod_settings.stamina.tenplus.exhaust_move) * dtime)
                     end
                 end
             end
