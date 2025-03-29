@@ -48,7 +48,12 @@ core.register_globalstep(function(dtime)
         end
         
         if mod_settings.mod_settings.stamina.sofar.installed or mod_settings.mod_settings.stamina.tenplus.installed then
-            player_double_tap[name].starving = mod_settings.tools.is_player_starving(stamina.get_saturation(player), 7)
+            if mod_settings.mod_settings.stamina.sofar.installed then
+                player_double_tap[name].starving = mod_settings.tools.is_player_starving(stamina.get_saturation(player), mod_settings.mod_settings.stamina.sofar.treshold)
+            end
+            if mod_settings.mod_settings.stamina.tenplus.installed then
+                player_double_tap[name].starving = mod_settings.tools.is_player_starving(stamina.get_saturation(player), mod_settings.mod_settings.stamina.tenplus.treshold)
+            end
             if  player_double_tap[name].starving then
                 player_double_tap[name].running = false
             end
