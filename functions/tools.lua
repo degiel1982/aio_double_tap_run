@@ -14,6 +14,7 @@ local function player_is_in_liquid(pos)
     end
     return false
 end
+
 -- Function to get all registered climbable nodes
 local function get_all_climbable_nodes()
     local climbable_nodes = {}
