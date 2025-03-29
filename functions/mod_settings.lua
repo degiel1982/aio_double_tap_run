@@ -7,7 +7,7 @@ local aio_double_tap_run = {
         dt_sensor = dt_sensor,
         is_player_starving = is_player_starving,
     },
-    extra_speed = tonumber(core.settings:get("aio_dt.extra_speed")) or 3,
+    extra_speed = tonumber(core.settings:get("aio_dt.extra_speed")) or 0.5,
     character_anim = core.get_modpath("character_anim") ~= nil,
     mod_settings = {
         pova = {
