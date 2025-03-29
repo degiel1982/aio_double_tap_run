@@ -72,12 +72,12 @@ core.register_globalstep(function(dtime)
                 stamina.exhaust_player(player, (mod_settings.mod_settings.stamina.tenplus.exhaust_sprint * 100) * dtime)
             end
 
-            if mod_settings.character_anim then
+           -- if mod_settings.character_anim then
                 local current_animation = player:get_animation()
                 local animation_range = current_animation and {x = current_animation.x, y = current_animation.y} or {x = 0, y = 79}
                 local sprint_speed = 30 + (player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2
                 player:set_animation(animation_range, sprint_speed, 0) -- Running animation
-            end
+           -- end
         else
             if not mod_settings.mod_settings.stamina.tenplus.installed then
                 if mod_settings.mod_settings.pova.installed or (mod_settings.mod_settings.pova.installed == false and mod_settings.mod_settings.player_monoids.installed == false) then
@@ -90,12 +90,10 @@ core.register_globalstep(function(dtime)
                     end
                 end
             end
-            if mod_settings.character_anim then
                 local current_animation = player:get_animation()
                 local animation_range = current_animation and {x = current_animation.x, y = current_animation.y} or {x = 0, y = 79}
                 local sprint_speed = 15 + (player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2
                 player:set_animation(animation_range, sprint_speed, 0) -- Running animation
-            end
         end
     end
 end)
