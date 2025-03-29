@@ -9,9 +9,12 @@ This mod adds a double-tap-to-run feature to Minetest, enhancing gameplay by pro
 - **Configurable Sprint Speed**: Customize the sprint speed using the `aio_dt.extra_speed` setting.
 - **Aux1 Key Support**: Optionally enable the Aux1 key for sprinting by setting `aio_dt.use_aux` to `true`.
 - **Automatic Integration with Stamina Mods**: If supported stamina mods (e.g., Sofar's or TenPlus1's stamina mods) are installed, the mod will automatically adjust sprinting behavior based on stamina levels.
+- **Pova Integration**: Automatically integrates with the Pova mod to manage sprinting physics overrides.
+- **Player Monoids Integration**: Uses Player Monoids to ensure compatibility with other mods that modify player physics.
 - **Liquid Interaction**: Automatically disables sprinting when the player is in liquid, ensuring realistic movement.
 - **Ladder Interaction**: Sprinting is disabled when the player is on a ladder unless explicitly enabled via configuration.
 - **Lightweight and Efficient**: Designed to integrate seamlessly with Minetest without impacting performance.
+- **No Required Dependencies**: This mod works out of the box without requiring any additional mods.
 - **API Support**: Provides an API for developers to enable or disable sprinting programmatically.
 
 ## How to Use
@@ -24,7 +27,11 @@ This mod adds a double-tap-to-run feature to Minetest, enhancing gameplay by pro
 4. **Stamina Integration**:
    - If Sofar's or TenPlus1's stamina mods are installed, stamina will drain while sprinting and regenerate when walking or standing still.
    - **Important**: When using a stamina mod, adjust the sprint speed and exhaustion settings in the stamina mod's configuration to ensure proper integration.
-5. **Ladder Behavior**:
+5. **Pova Integration**:
+   - If the Pova mod is installed, it will be used to manage sprinting physics overrides, ensuring compatibility with other mods that modify player physics.
+6. **Player Monoids Integration**:
+   - If the Player Monoids mod is installed, it will be used to manage sprinting physics overrides, ensuring compatibility with other mods that modify player physics.
+7. **Ladder Behavior**:
    - By default, sprinting is disabled when the player is on a ladder. You can enable sprinting on ladders by setting `aio_dt.ladder_sprint` to `true` in your `minetest.conf`.
 
 ## Configuration
@@ -66,11 +73,14 @@ end
 
 ## Dependencies
 
+### None
+This mod does not require any dependencies and works out of the box.
+
 ### Optional:
-- [Sofar's Stamina Mod](https://content.luanti.org/packages/sofar/stamina/?protocol_version=47)
-- [TenPlus1's Stamina Mod](https://content.luanti.org/packages/TenPlus1/stamina/?protocol_version=47)
-- [Player Monoids](https://content.luanti.org/packages/Byakuren/player_monoids/?protocol_version=47)
-- [Pova](https://content.luanti.org/packages/TenPlus1/pova/)
+- [Sofar's Stamina Mod](https://content.luanti.org/packages/sofar/stamina/?protocol_version=47): Automatically adjusts sprinting behavior based on stamina levels.
+- [TenPlus1's Stamina Mod](https://content.luanti.org/packages/TenPlus1/stamina/?protocol_version=47): Supports stamina exhaustion while sprinting.
+- [Player Monoids](https://content.luanti.org/packages/Byakuren/player_monoids/?protocol_version=47): Ensures compatibility with other mods that modify player physics.
+- [Pova](https://content.luanti.org/packages/TenPlus1/pova/): Manages sprinting physics overrides for compatibility with other mods.
 
 ## License
 
