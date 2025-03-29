@@ -14,7 +14,26 @@ local function player_is_in_liquid(pos)
     end
     return false
 end
-
+-- Helper function to check if a player is on a ladder
+local function is_player_on_ladder(player)
+    local pos = player:get_pos()
+    pos.y = pos.y - 0.5 -- Adjust downward to check the node beneath the player
+    local node = minetest.get_node(pos)
+    
+    -- List all ladder node names here; add additional nodes as needed.
+    local ladder_nodes = {
+        "default:ladder_wood",
+        "default:ladder_steel"
+    }
+    
+    -- Check if the node is one of the ladder nodes
+    for _, ladder in ipairs(ladder_nodes) do
+        if node.name == ladder then
+            return true
+        end
+    end
+    return false
+end
 
 local function dt_sensor(dt_state, dtime, key_pressed, trigger_delay)
     if not dt_state.sprinting then
@@ -80,4 +99,4 @@ local function is_player_starving(current_stamina, treshold)
     end
 end
 
-return player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving
+return player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving, is_player_on_ladder
