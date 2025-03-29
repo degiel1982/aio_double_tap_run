@@ -42,7 +42,11 @@ core.register_globalstep(function(dtime)
         if not player_double_tap[name].wet then
             local control_bits = player:get_player_control_bits()
             local key_is_pressed = control_bits == 1 or control_bits == 17
-            player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL)
+            if mod_settings.use_aux then
+                player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL) or control_bits == 33
+            else
+                player_double_tap[name].running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, key_is_pressed, TAP_CHECK_INTERVAL)
+            end
         else
             player_double_tap[name].running = false
         end

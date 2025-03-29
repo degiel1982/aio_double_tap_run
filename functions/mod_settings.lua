@@ -1,6 +1,7 @@
 local player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving = dofile(core.get_modpath("aio_double_tap_run").."/functions/tools.lua")
 
 local aio_double_tap_run = {
+    use_aux = false,
     tools = {
         player_is_in_liquid = player_is_in_liquid,
         dt_sensor = dt_sensor,
