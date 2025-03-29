@@ -1,13 +1,13 @@
 local player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving = dofile(core.get_modpath("aio_double_tap_run").."/functions/tools.lua")
 
 local aio_double_tap_run = {
-    use_aux = false,
+    use_aux = core.settings:get_bool("aio_dt.use_aux", false),
     tools = {
         player_is_in_liquid = player_is_in_liquid,
         dt_sensor = dt_sensor,
         is_player_starving = is_player_starving,
     },
-    extra_speed = 0.5,
+    extra_speed = tonumber(core.settings:get("aio_dt.extra_speed")) or 0.5,
     mod_settings = {
         pova = {
             installed = false
