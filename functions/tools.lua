@@ -91,5 +91,24 @@ local function is_player_starving(current_stamina, treshold)
         return true
     end
 end
-
-return player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving, is_player_on_ladder
+local function is_player_running_against_wall(player)
+    local pos = player:get_pos()
+    local dir = player:get_look_dir()
+    
+    -- Check a position slightly in front of the player
+    local check_pos = { 
+        x = pos.x + dir.x * 0.5, 
+        y = pos.y, 
+        z = pos.z + dir.z * 0.5 
+    }
+    local node = minetest.get_node_or_nil(vector.round(check_pos))
+    
+    if node then
+        local nodedef = minetest.registered_nodes[node.name]
+        -- Check if the node is solid (not walkable) to determine a wall
+        return nodedef and nodedef.walkable or false
+    else
+        return false
+    end
+end
+return player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving, is_player_on_ladder, is_player_running_against_wall

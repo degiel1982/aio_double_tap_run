@@ -29,9 +29,13 @@ core.register_globalstep(function(dtime)
         if not player_double_tap[name] then
             player_double_tap[name] = player_data
         end
+
         if not mod_settings.liquid_sprint then
             player_double_tap[name].wet = mod_settings.tools.player_is_in_liquid(p_pos)
         end
+
+           
+        
         local pos = player:get_pos()
     
         if not player_double_tap[name].wet then
@@ -92,7 +96,11 @@ core.register_globalstep(function(dtime)
             player_double_tap[name].running = false
             set_sprinting(player, false)
         end
-    
+
+        if mod_settings.tools.is_player_running_against_wall(player) then
+            player_double_tap[name].running = false
+        end
+        
         if player_double_tap[name].running then
             set_sprinting(player, true)
             if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
