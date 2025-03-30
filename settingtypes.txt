@@ -9,6 +9,10 @@ aio_dt.use_aux (Enable Aux) bool false
 #default: false
 aio_dt.ladder_sprint (Sprint on ladders) bool false
 
+#Enable sprint on liquid
+#default: false
+aio_dt.liquid_sprint (Sprint on liquid) bool false
+
 #Allows draining stamina while running
 #default: true
 aio_dt.stamina_drain (Enable stamina drain) bool true
