@@ -10,6 +10,7 @@ local settings = {
     sprint_framespeed = tonumber(core.settings:get("aio_dt.sprint_frames")) or 30,
     ladder_sprint =  core.settings:get_bool("aio_dt.ladder_sprint", false),
     liquid_sprint =  core.settings:get_bool("aio_dt.liquid_sprint", false),
+    enable_particles = core.settings:get_bool("aio_dt.particles", true),
     tools = {
         player_is_in_liquid = player_is_in_liquid,
         dt_sensor = dt_sensor,

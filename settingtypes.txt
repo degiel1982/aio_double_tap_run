@@ -13,6 +13,10 @@ aio_dt.ladder_sprint (Sprint on climbable) bool false
 #default: false
 aio_dt.liquid_sprint (Sprint in liquids [ lava / water ]) bool false
 
+#Enable particles while running
+#default: true
+aio_dt.particles (Enable particles while sprinting) bool true
+
 #Allows draining stamina while running
 #default: true
 aio_dt.stamina_drain (Enable stamina drain) bool true

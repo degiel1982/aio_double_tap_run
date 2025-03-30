@@ -2,7 +2,31 @@ local set_sprinting, mod_settings = dofile(core.get_modpath("aio_double_tap_run"
     
 aio_double_tap_run = {}
 aio_double_tap_run.set_sprinting = set_sprinting
-
+local function show_sprint_particles(player)
+    local pos = player:get_pos()
+    local node = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
+    local def = minetest.registered_nodes[node.name] or {}
+    local drawtype = def.drawtype
+    if drawtype ~= "airlike" and drawtype ~= "liquid" and drawtype ~= "flowingliquid" then
+        minetest.add_particlespawner({
+            amount = 5,
+            time = 0.01,
+            minpos = {x = pos.x - 0.25, y = pos.y + 0.1, z = pos.z - 0.25},
+            maxpos = {x = pos.x + 0.25, y = pos.y + 0.1, z = pos.z + 0.25},
+            minvel = {x = -0.5, y = 1, z = -0.5},
+            maxvel = {x = 0.5, y = 2, z = 0.5},
+            minacc = {x = 0, y = -5, z = 0},
+            maxacc = {x = 0, y = -12, z = 0},
+            minexptime = 0.25,
+            maxexptime = 0.5,
+            minsize = 0.5,
+            maxsize = 1.0,
+            vertical = false,
+            collisiondetection = false,
+            texture = "default_dirt.png",
+        })
+    end
+end
 local player_double_tap = {}
 
 local player_data = {
@@ -103,6 +127,9 @@ core.register_globalstep(function(dtime)
         
         if player_double_tap[name].running then
             set_sprinting(player, true)
+            if not mod_settings.stamina.sofar.installed and not mod_settings.stamina.tenplus.installed and mod_settings.enable_particles then
+                show_sprint_particles(player)
+            end
             if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
                 stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_sprint * dtime)
             end
