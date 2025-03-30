@@ -29,9 +29,9 @@ core.register_globalstep(function(dtime)
         if not player_double_tap[name] then
             player_double_tap[name] = player_data
         end
-    
-        player_double_tap[name].wet = mod_settings.tools.player_is_in_liquid(p_pos)
-    
+        if not mod_settings.liquid_sprint then
+            player_double_tap[name].wet = mod_settings.tools.player_is_in_liquid(p_pos)
+        end
         local pos = player:get_pos()
     
         if not player_double_tap[name].wet then
