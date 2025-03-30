@@ -9,6 +9,10 @@ aio_dt.use_aux (Enable Aux) bool false
 #default: false
 aio_dt.ladder_sprint (Sprint on ladders) bool false
 
+#Allows draining stamina while running
+#default: true
+aio_dt.stamina_drain (Enable stamina drain) bool true
+
 #Time between the two taps to register a sprint
 #default: 0.5
 #min: 0
@@ -22,6 +26,11 @@ aio_dt.tap_interval (Tap interval) float 0.5 0 1.0
 aio_dt.extra_speed (Set extra sprint speed) float 0.5 0 2
 
 [Character Animation]
+#The players animation changes based on the players speed
+#You can enable/disable it here
+#default: true
+aio_dt.enable_animation (Enable Character Animation) bool true
+
 #Set the default walking frames. Higher is faster
 #default: 15
 #min: 0

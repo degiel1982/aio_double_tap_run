@@ -15,8 +15,6 @@ local player_data = {
     starving = false
 }
 
-
-
 core.register_on_leaveplayer(function(player)
     local name = player:get_player_name()
     player_double_tap[name] = nil  -- Remove double tap state info.
@@ -59,7 +57,7 @@ core.register_globalstep(function(dtime)
             player_double_tap[name].running = false
         end
     
-        if mod_settings.stamina.sofar.installed or mod_settings.stamina.tenplus.installed then
+        if (mod_settings.stamina.sofar.installed or mod_settings.stamina.tenplus.installed) and mod_settings.stamina_drain then
             if mod_settings.stamina.sofar.installed then
                 player_double_tap[name].starving = mod_settings.tools.is_player_starving(
                     stamina.get_saturation(player),
@@ -85,24 +83,26 @@ core.register_globalstep(function(dtime)
     
         if player_double_tap[name].running then
             set_sprinting(player, true)
-            if mod_settings.stamina.sofar.installed then
+            if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
                 stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_sprint * dtime)
             end
-            if mod_settings.stamina.tenplus.installed then
+            if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
                 stamina.exhaust_player(player, (mod_settings.stamina.tenplus.exhaust_sprint * 100) * dtime)
             end
             local current_animation = player:get_animation()
             local animation_range = current_animation and { x = current_animation.x, y = current_animation.y } or { x = 0, y = 79 }
             local sprint_speed = mod_settings.sprint_framespeed + ((player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2)
-            player:set_animation(animation_range, sprint_speed, 0)
+            if mod_settings.enable_animation then
+                player:set_animation(animation_range, sprint_speed, 0)
+            end
         else
             if not mod_settings.stamina.tenplus.installed then
                 if mod_settings.pova.installed or (mod_settings.pova.installed == false and mod_settings.player_monoids.installed == false) then
                     set_sprinting(player, false)
-                    if mod_settings.stamina.sofar.installed then
+                    if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
                         stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_move * dtime)
                     end
-                    if mod_settings.stamina.tenplus.installed then
+                    if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
                         stamina.exhaust_player(player, mod_settings.stamina.tenplus.exhaust_move * dtime)
                     end
                 end
@@ -110,7 +110,9 @@ core.register_globalstep(function(dtime)
             local current_animation = player:get_animation()
             local animation_range = current_animation and { x = current_animation.x, y = current_animation.y } or { x = 0, y = 79 }
             local sprint_speed = mod_settings.walk_framespeed + ((player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2)
-            player:set_animation(animation_range, sprint_speed, 0) -- Running animation
+            if mod_settings.enable_animation then
+                player:set_animation(animation_range, sprint_speed, 0) -- Running animation
+            end
         end
     end
 end)

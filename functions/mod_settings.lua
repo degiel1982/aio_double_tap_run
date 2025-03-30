@@ -1,6 +1,8 @@
 local player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving,is_player_on_ladder = dofile(core.get_modpath("aio_double_tap_run").."/functions/tools.lua")
 
 local settings = {
+    stamina_drain = core.settings:get_bool("aio_dt.stamina_drain", true),
+    enable_animation = core.settings:get_bool("aio_dt.enable_animation", true),
     tap_interval = tonumber(core.settings:get("aio_dt.tap_interval")) or 0.5,
     use_aux = core.settings:get_bool("aio_dt.use_aux", false),
     use_dt = core.settings:get_bool("aio_dt.use_dt", true), 
