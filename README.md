@@ -81,9 +81,6 @@ end
 
 ## Dependencies
 
-### None
-This mod does not require any dependencies and works out of the box.
-
 ### Optional:
 - [Sofar's Stamina Mod](https://content.luanti.org/packages/sofar/stamina/?protocol_version=47): Automatically adjusts sprinting behavior based on stamina levels.
 - [TenPlus1's Stamina Mod](https://content.luanti.org/packages/TenPlus1/stamina/?protocol_version=47): Supports stamina exhaustion while sprinting.
