@@ -15,8 +15,8 @@ aio_dt.stamina_drain (Enable stamina drain) bool true
 
 #Time between the two taps to register a sprint
 #default: 0.5
-#min: 0
-#max: 1
+#min: 0.0
+#max: 1.0
 aio_dt.tap_interval (Tap interval) float 0.5 0 1.0
 
 #Set the extra speed of the player 0.5 is 50% faster
@@ -24,6 +24,17 @@ aio_dt.tap_interval (Tap interval) float 0.5 0 1.0
 #min: 0.0
 #max: 2.0
 aio_dt.extra_speed (Set extra sprint speed) float 0.5 0 2
+
+[Hunger_NG]
+#Cancel sprint when below treshold
+aio_dt.hunger_treshold (Cancel sprint when below:) float 6 0 100
+
+#Hunger drain while sprinting
+#default: 0.5
+#min: 0.0
+#max: 1.0
+aio_dt.hunger_drain (Drain amount while sprinting) float 0.5 0 1
+
 
 [Character Animation]
 #The players animation changes based on the players speed
@@ -42,3 +53,6 @@ aio_dt.walk_frames (Walking animation frames/s) int 15 0 60
 #min: 0
 #max: 60
 aio_dt.sprint_frames (Sprinting animation frames/s) int 30 0 60
+
+
+

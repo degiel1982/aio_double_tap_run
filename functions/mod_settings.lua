@@ -40,7 +40,10 @@ local settings = {
         }
     },
     hunger_ng = {
-        installed = core.get_modpath("hunger_ng") ~= nil
+        treshold =  tonumber(core.settings:get("aio_dt.hunger_treshold")) or 6,
+        installed = core.get_modpath("hunger_ng") ~= nil,
+        exhaust_sprint = tonumber(core.settings:get("aio_dt.hunger_drain")) or 0.5,
+        exhaust_move = tonumber(core.settings:get("hunger_ng_cost_movement")) or 0.008,
     },
 }
 

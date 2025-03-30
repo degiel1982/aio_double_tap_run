@@ -56,7 +56,18 @@ core.register_globalstep(function(dtime)
         else
             player_double_tap[name].running = false
         end
-    
+        if mod_settings.hunger_ng.installed then
+            local info = hunger_ng.get_hunger_information(name)
+            if not info.invalid then
+                -- Cancel sprinting if hunger is below the threshold
+                if info.hunger.exact <= mod_settings.hunger_ng.treshold then
+                    if player_double_tap[name].running then
+                        player_double_tap[name].running = false
+                    end
+                end
+            end
+        end
+
         if (mod_settings.stamina.sofar.installed or mod_settings.stamina.tenplus.installed) and mod_settings.stamina_drain then
             if mod_settings.stamina.sofar.installed then
                 player_double_tap[name].starving = mod_settings.tools.is_player_starving(
@@ -70,6 +81,7 @@ core.register_globalstep(function(dtime)
                     mod_settings.stamina.tenplus.treshold
                 )
             end
+
             if player_double_tap[name].starving then
                 player_double_tap[name].running = false
             end
@@ -88,6 +100,9 @@ core.register_globalstep(function(dtime)
             end
             if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
                 stamina.exhaust_player(player, (mod_settings.stamina.tenplus.exhaust_sprint * 100) * dtime)
+            end
+            if mod_settings.hunger_ng.installed then
+                hunger_ng.alter_hunger(name, -mod_settings.hunger_ng.exhaust_sprint * dtime, 'Sprinting') 
             end
             local current_animation = player:get_animation()
             local animation_range = current_animation and { x = current_animation.x, y = current_animation.y } or { x = 0, y = 79 }
