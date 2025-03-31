@@ -46,7 +46,7 @@ local settings = {
 
 local stamina_is_installed = core.get_modpath("stamina") ~= nil
 if stamina_is_installed then
-    local mod_author = get_mod_author("stamina")
+    local mod_author = settings.tools.get_mod_author("stamina")
     if mod_author == "TenPlus1" then
         settings.stamina.tenplus.installed = true
     end
