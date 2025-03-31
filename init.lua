@@ -156,44 +156,45 @@ core.register_globalstep(function(dtime)
         else
             player_double_tap[name].running = false
         end
-    end
-    if player_double_tap[name].running then
-        set_sprinting(player, true)
-        if not mod_settings.stamina.sofar.installed and not mod_settings.stamina.tenplus.installed and mod_settings.enable_particles then
-            show_sprint_particles(player)
-        end
-        if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
-            stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_sprint * dtime)
-        end
-        if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
-            stamina.exhaust_player(player, (mod_settings.stamina.tenplus.exhaust_sprint * 100) * dtime)
-        end
-        if mod_settings.hunger_ng.installed then
-            hunger_ng.alter_hunger(name, -mod_settings.hunger_ng.exhaust_sprint * dtime, 'Sprinting') 
-        end
-        if mod_settings.enable_animation and mod_settings.character_anim then
-            local current_animation = player:get_animation()
-            local animation_range = current_animation and { x = current_animation.x, y = current_animation.y } or { x = 0, y = 79 }
-            local sprint_speed = mod_settings.sprint_framespeed + ((player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2)
-            player:set_animation(animation_range, sprint_speed, 0)
-        end
-    else
-        if not mod_settings.stamina.tenplus.installed then
-            if mod_settings.pova.installed or (mod_settings.pova.installed == false and mod_settings.player_monoids.installed == false) then
-                set_sprinting(player, false)
-                if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
-                    stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_move * dtime)
-                end
-                if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
-                    stamina.exhaust_player(player, mod_settings.stamina.tenplus.exhaust_move * dtime)
+        if player_double_tap[name].running then
+            set_sprinting(player, true)
+            if not mod_settings.stamina.sofar.installed and not mod_settings.stamina.tenplus.installed and mod_settings.enable_particles then
+                show_sprint_particles(player)
+            end
+            if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
+                stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_sprint * dtime)
+            end
+            if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
+                stamina.exhaust_player(player, (mod_settings.stamina.tenplus.exhaust_sprint * 100) * dtime)
+            end
+            if mod_settings.hunger_ng.installed then
+                hunger_ng.alter_hunger(name, -mod_settings.hunger_ng.exhaust_sprint * dtime, 'Sprinting') 
+            end
+            if mod_settings.enable_animation and mod_settings.character_anim then
+                local current_animation = player:get_animation()
+                local animation_range = current_animation and { x = current_animation.x, y = current_animation.y } or { x = 0, y = 79 }
+                local sprint_speed = mod_settings.sprint_framespeed + ((player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2)
+                player:set_animation(animation_range, sprint_speed, 0)
+            end
+        else
+            if not mod_settings.stamina.tenplus.installed then
+                if mod_settings.pova.installed or (mod_settings.pova.installed == false and mod_settings.player_monoids.installed == false) then
+                    set_sprinting(player, false)
+                    if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
+                        stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_move * dtime)
+                    end
+                    if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
+                        stamina.exhaust_player(player, mod_settings.stamina.tenplus.exhaust_move * dtime)
+                    end
                 end
             end
+            if mod_settings.enable_animation and mod_settings.character_anim then
+                local current_animation = player:get_animation()
+                local animation_range = current_animation and { x = current_animation.x, y = current_animation.y } or { x = 0, y = 79 }
+                local sprint_speed = mod_settings.walk_framespeed + ((player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2)
+                player:set_animation(animation_range, sprint_speed, 0)
+            end
         end
-        if mod_settings.enable_animation and mod_settings.character_anim then
-            local current_animation = player:get_animation()
-            local animation_range = current_animation and { x = current_animation.x, y = current_animation.y } or { x = 0, y = 79 }
-            local sprint_speed = mod_settings.walk_framespeed + ((player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2)
-            player:set_animation(animation_range, sprint_speed, 0)
-        end
+    
     end
 end)
