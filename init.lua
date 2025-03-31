@@ -3,31 +3,34 @@ local set_sprinting, mod_settings = dofile(core.get_modpath("aio_double_tap_run"
 aio_double_tap_run = {}
 aio_double_tap_run.set_sprinting = set_sprinting
 
-
-local has_beds = minetest.get_modpath("beds") ~= nil
-if has_beds then
-    -- List the node names for the bed(s) you want to target.
-    local bed_nodes = {
-        "beds:bed",
-        "beds:fancy_bed"
-    }
-
-    for _, bed_node in ipairs(bed_nodes) do
-        if minetest.registered_nodes[bed_node] then
-            local original_on_rightclick = minetest.registered_nodes[bed_node].on_rightclick
-
-            minetest.override_item(bed_node, {
-                on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-                    local pname = clicker:get_player_name()
-                    set_sprinting(clicker, false)
-                    if original_on_rightclick then
-                        return original_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
-                    end
-                end,
-            })
+core.register_on_mods_loaded(function()
+    local has_beds = minetest.get_modpath("beds") ~= nil
+    if has_beds then
+        -- List the node names for the bed(s) you want to target.
+        local bed_nodes = {
+            "beds:bed",
+            "beds:fancy_bed"
+        }
+    
+        for _, bed_node in ipairs(bed_nodes) do
+            if minetest.registered_nodes[bed_node] then
+                local original_on_rightclick = minetest.registered_nodes[bed_node].on_rightclick
+    
+                minetest.override_item(bed_node, {
+                    on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+                        local pname = clicker:get_player_name()
+                        set_sprinting(clicker, false)
+                        if original_on_rightclick then
+                            return original_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
+                        end
+                    end,
+                })
+            end
         end
     end
-end
+end)
+
+
 
 local function show_sprint_particles(player)
     local pos = player:get_pos()
@@ -145,13 +148,17 @@ core.register_globalstep(function(dtime)
         -- If the player is standing on a ladder, cancel sprinting
         if mod_settings.tools.is_player_on_ladder(player) and not mod_settings.ladder_sprint then
             player_double_tap[name].running = false
-            set_sprinting(player, false)
+            --set_sprinting(player, false)
         end
 
         if mod_settings.tools.is_player_running_against_wall(player) then
             player_double_tap[name].running = false
+           
         end
-        
+        --if mod_settings.tools.is_player_flying_or_over_air(player) then
+        --    player_double_tap[name].running = false
+        --   
+        --end
         if player_double_tap[name].running then
             set_sprinting(player, true)
             if not mod_settings.stamina.sofar.installed and not mod_settings.stamina.tenplus.installed and mod_settings.enable_particles then

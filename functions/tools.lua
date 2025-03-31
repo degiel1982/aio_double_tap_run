@@ -111,4 +111,29 @@ local function is_player_running_against_wall(player)
         return false
     end
 end
-return player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving, is_player_on_ladder, is_player_running_against_wall
+local function is_player_flying_or_over_air(player)
+    -- Check if the player appears to be in “fly mode” by examining the physics override.
+    local physics = player:get_physics_override()
+    if physics and physics.gravity and physics.gravity == 0 then
+        return true
+    end
+
+    -- Check the node directly beneath the player.
+    local pos = player:get_pos()
+    local check_pos = { x = pos.x, y = pos.y - 0.5, z = pos.z }
+    local node = minetest.get_node_or_nil(vector.round(check_pos))
+    if node then
+        local nodedef = minetest.registered_nodes[node.name]
+        -- Consider the node as "air" if its drawtype is airlike
+        if nodedef and nodedef.drawtype == "airlike" then
+            return true
+        end
+        -- Alternatively, if you want an explicit check for "air" (often named simply "air")
+        if node.name == "air" then
+            return true
+        end
+    end
+
+    return false
+end
+return player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving, is_player_on_ladder, is_player_running_against_wall,is_player_flying_or_over_air
