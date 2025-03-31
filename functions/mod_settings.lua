@@ -1,4 +1,4 @@
-local player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving,is_player_on_ladder, is_player_running_against_wall, is_player_flying_or_over_air = dofile(core.get_modpath("aio_double_tap_run").."/functions/tools.lua")
+local my_functions = dofile(core.get_modpath("aio_double_tap_run").."/functions/tools.lua")
 
 local settings = {
     stamina_drain = core.settings:get_bool("aio_dt.stamina_drain", true),
@@ -11,14 +11,7 @@ local settings = {
     ladder_sprint =  core.settings:get_bool("aio_dt.ladder_sprint", false),
     liquid_sprint =  core.settings:get_bool("aio_dt.liquid_sprint", false),
     enable_particles = core.settings:get_bool("aio_dt.particles", true),
-    tools = {
-        player_is_in_liquid = player_is_in_liquid,
-        dt_sensor = dt_sensor,
-        is_player_starving = is_player_starving,
-        is_player_on_ladder = is_player_on_ladder,
-        is_player_flying_or_over_air = is_player_flying_or_over_air,
-        is_player_running_against_wall = is_player_running_against_wall,
-    },
+    tools = my_functions,
     extra_speed = tonumber(core.settings:get("aio_dt.extra_speed")) or 0.5,
     character_anim = core.get_modpath("character_anim") ~= nil,
     pova = {

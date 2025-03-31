@@ -1,4 +1,9 @@
--- Liquid check
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+--[[
+    LIQUID CHECK:
+    When player is in liquid it returns true otherwise false
+]]
 local function player_is_in_liquid(pos)
     local feet_pos = { x = pos.x, y = pos.y - 0.5, z = pos.z }
     local head_pos = { x = pos.x, y = pos.y + 0.85, z = pos.z }
@@ -14,8 +19,12 @@ local function player_is_in_liquid(pos)
     end
     return false
 end
-
--- Helper function to check if a player is on a ladder
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+--[[
+    CLIMBABLE CHECK:
+        When a player is on a climbable it returns true otherwise false
+]]
 local function is_player_on_ladder(player)
     local pos = player:get_pos()
     pos.y = pos.y - 0.5 -- Adjust downward to check the node beneath the player
@@ -27,7 +36,11 @@ local function is_player_on_ladder(player)
         return false
     end
 end
-
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+--[[
+    DOUBLE TAP CHECK
+]]
 local function dt_sensor(dt_state, dtime, key_pressed, trigger_delay)
     if not dt_state.sprinting then
         if dt_state.count > 0 then
@@ -61,7 +74,13 @@ local function dt_sensor(dt_state, dtime, key_pressed, trigger_delay)
 
     return dt_state.sprinting
 end
-
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+--[[
+    GET MOD AUTHOR:
+        Stamina by sofar and Tenplus uses the same name as modname.
+        By extracting the author of the mod I could differentiate
+]]
 local function get_mod_author(modname)
     -- Get the path to the mod's directory
     local modpath = core.get_modpath(modname)
@@ -83,7 +102,11 @@ local function get_mod_author(modname)
         return nil, "Author field not found in mod.conf"
     end
 end
-
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+--[[
+    CHECKS PLAYER IS STARVING(STAMINA ONLY):
+]]
 local function is_player_starving(current_stamina, treshold)
     if current_stamina >= treshold then
         return false
@@ -111,6 +134,11 @@ local function is_player_running_against_wall(player)
         return false
     end
 end
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+--[[
+    CHECKS PLAYER IS FLYING(NOT USED YET):
+]]
 local function is_player_flying_or_over_air(player)
     -- Check if the player appears to be in “fly mode” by examining the physics override.
     local physics = player:get_physics_override()
@@ -136,4 +164,17 @@ local function is_player_flying_or_over_air(player)
 
     return false
 end
-return player_is_in_liquid, dt_sensor, get_mod_author, is_player_starving, is_player_on_ladder, is_player_running_against_wall,is_player_flying_or_over_air
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+--[[
+    RETURNING THE TOOLS:
+]]
+return {
+    player_is_in_liquid = player_is_in_liquid, 
+    dt_sensor = dt_sensor, 
+    get_mod_author = get_mod_author, 
+    is_player_starving = is_player_starving, 
+    is_player_on_ladder = is_player_on_ladder, 
+    is_player_running_against_wall = is_player_running_against_wall,
+    is_player_flying_or_over_air = is_player_flying_or_over_air,
+}
