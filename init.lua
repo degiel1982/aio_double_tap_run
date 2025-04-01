@@ -129,12 +129,12 @@ core.register_globalstep(function(dtime)
 
         if cancel_run(pos, player) == false then
             local control_bits = player:get_player_control_bits()
-            local key_is_pressed = control_bits == 1 or control_bits == 17
+            local key_is_pressed = control_bits == 1 or control_bits == 17 or control_bits == 513
             if mod_settings.use_dt then
                 if mod_settings.use_aux then
                     player_double_tap[name].running = mod_settings.tools.dt_sensor(
                         player_double_tap[name], dtime, key_is_pressed, mod_settings.tap_interval
-                    ) or (control_bits == 33 or control_bits == 49)
+                    ) or (control_bits == 33 or control_bits == 49 or control_bits == 545)
                 else
                     player_double_tap[name].running = mod_settings.tools.dt_sensor(
                         player_double_tap[name], dtime, key_is_pressed, mod_settings.tap_interval
@@ -142,7 +142,7 @@ core.register_globalstep(function(dtime)
                 end
             else
                 if mod_settings.use_aux then
-                    local key_press = (control_bits == 33 or control_bits == 49)
+                    local key_press = (control_bits == 33 or control_bits == 49 or control_bits == 545)
                     player_double_tap[name].running = key_press
                 end
             end
