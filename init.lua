@@ -5,12 +5,12 @@ aio_double_tap_run.set_sprinting = set_sprinting
 
 local function cancel_run(p_pos, player)
     local name = player:get_player_name()
-
+    local test = false
     --[[
         LIQUID CHECK
     ]]
     if mod_settings.tools.player_is_in_liquid(p_pos,player) then
-        return true
+        test = true
     end
     --[[
         STARVE CHECK
@@ -29,17 +29,17 @@ local function cancel_run(p_pos, player)
         end
         player_double_tap[name].starving = mod_settings.tools.is_player_starving(curent_saturation, treshold)
         if player_double_tap[name].starving then
-            return true
-        end
+            player_double_tap[name].running = false
+            test = true
+        end        
     end
     -- When hunger_ng mod is installed
     if mod_settings.hunger_ng.installed then
         local info = hunger_ng.get_hunger_information(name)
         if not info.invalid then
             if info.hunger.exact <= mod_settings.hunger_ng.treshold then
-                if player_double_tap[name].running then
-                    player_double_tap[name].running = false
-                end
+                player_double_tap[name].running = false
+                test = true
             end
         end
     end
@@ -47,18 +47,18 @@ local function cancel_run(p_pos, player)
         LADDER CHECK
     ]]
     if mod_settings.tools.is_player_on_ladder(player) and not mod_settings.ladder_sprint then
-        return true
+        test = true
     end
     --[[
         WALL CHECK
     ]]
     if mod_settings.tools.is_player_running_against_wall(player) then
-        return true
+        test = true
     end
     --[[
         RETURN VALUE: FALSE
     ]]
-    return false
+    return test
 end
 
 core.register_on_mods_loaded(function()
