@@ -22,7 +22,7 @@ end
 local function cancel_run(p_pos, player, interval_is_true)
     local name = player:get_player_name()
     local test = false
-    if not interval_is_true then
+    --if not interval_is_true then
         --[[
             LIQUID CHECK
         ]]
@@ -72,7 +72,7 @@ local function cancel_run(p_pos, player, interval_is_true)
         if mod_settings.tools.is_player_running_against_wall(player) then
             return true
         end
-    end
+    --end
     --[[
         RETURN VALUE: FALSE
     ]]
