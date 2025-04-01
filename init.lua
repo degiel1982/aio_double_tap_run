@@ -108,6 +108,8 @@ core.register_on_mods_loaded(function()
     end
 end)
 
+
+
 core.register_on_leaveplayer(function(player)
     local name = player:get_player_name()
     player_double_tap[name] = nil  -- Remove double tap state info.
