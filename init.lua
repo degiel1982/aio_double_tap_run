@@ -61,33 +61,19 @@ local function cancel_run(p_pos, player)
     ]]
     return false
 end
--- Table to store player positions
-local player_positions = {}
-
--- Helper function to check if a player is not moving
-local function is_player_stationary(player_name, current_pos)
-    local previous_pos = player_positions[player_name]
-
-    if previous_pos and vector.equals(previous_pos, current_pos) then
-        return true -- Player is not moving
-    end
-
-    -- Update the player's position for future checks
-    player_positions[player_name] = current_pos
-    return false -- Player is moving
-end
 
 core.register_on_mods_loaded(function()
     local has_beds = minetest.get_modpath("beds") ~= nil
     
     if has_beds then
         -- List the node names for the bed(s) you want to target.
-        local bed_nodes = {}
-
+        local bed_nodes = {
+            "beds:bed",
+            "beds:fancy_bed"
+        }
         local function is_mod_active(mod_name)
             return core.get_modpath(mod_name) ~= nil
         end
-
         if is_mod_active("beds") then
             for node_name, _ in pairs(core.registered_nodes) do
                 if string.find(node_name, "^colorful_beds:") and string.find(node_name, "bed") then
@@ -103,25 +89,23 @@ core.register_on_mods_loaded(function()
                 end
             end
         end
-
         for _, bed_node in ipairs(bed_nodes) do
             if minetest.registered_nodes[bed_node] then
                 local original_on_rightclick = minetest.registered_nodes[bed_node].on_rightclick
                 minetest.override_item(bed_node, {
                     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
                         local pname = clicker:get_player_name()
-                        if is_player_stationary(pname, pos) then
+                        if player_double_tap[pname].running then
+                            core.chat_send_player(pname, "[AIO] - Stop sprinting before entering a bed")
+                        else
                             if original_on_rightclick then
                                 return original_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
                             end
-                        else
-                            core.chat_send_player(pname, "[AIO] - Stop moving before entering a bed")
                         end
                     end,
                 })
             end
         end
-        
     end
 end)
 
