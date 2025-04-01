@@ -109,7 +109,7 @@ core.register_on_mods_loaded(function()
                                 return original_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
                             end
                         else
-                            core.chat_send_player(pname, "You need to stop moving first")
+                            core.chat_send_player(pname, "[AIO] - Stop moving before entering a bed")
                         end
                     end,
                 })
