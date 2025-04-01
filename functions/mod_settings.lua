@@ -6,6 +6,7 @@ local settings = {
     tap_interval = tonumber(core.settings:get("aio_dt.tap_interval")) or 0.5,
     use_aux = core.settings:get_bool("aio_dt.use_aux", false),
     use_dt = core.settings:get_bool("aio_dt.use_dt", true), 
+    player_api = core.get_modpath("player_api") ~= nil,
     walk_framespeed = tonumber(core.settings:get("aio_dt.walk_frames")) or 15,
     sprint_framespeed = tonumber(core.settings:get("aio_dt.sprint_frames")) or 30,
     ladder_sprint =  core.settings:get_bool("aio_dt.ladder_sprint", false),

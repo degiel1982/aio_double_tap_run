@@ -27,7 +27,7 @@ local function cancel_run(p_pos, player, interval_is_true)
             LIQUID CHECK
         ]]
         if mod_settings.tools.player_is_in_liquid(p_pos,player) then
-            test = true
+            return true
         end
         --[[
             STARVE CHECK
@@ -47,7 +47,7 @@ local function cancel_run(p_pos, player, interval_is_true)
             player_double_tap[name].starving = mod_settings.tools.is_player_starving(curent_saturation, treshold)
             if player_double_tap[name].starving then
                 player_double_tap[name].running = false
-                test = true
+                return true
             end        
         end
         -- When hunger_ng mod is installed
@@ -56,7 +56,7 @@ local function cancel_run(p_pos, player, interval_is_true)
             if not info.invalid then
                 if info.hunger.exact <= mod_settings.hunger_ng.treshold then
                     player_double_tap[name].running = false
-                    test = true
+                    return true
                 end
             end
         end
@@ -64,19 +64,19 @@ local function cancel_run(p_pos, player, interval_is_true)
             LADDER CHECK
         ]]
         if mod_settings.tools.is_player_on_ladder(player) and not mod_settings.ladder_sprint then
-            test = true
+            return true
         end
         --[[
             WALL CHECK
         ]]
         if mod_settings.tools.is_player_running_against_wall(player) then
-            test = true
+            return true
         end
     end
     --[[
         RETURN VALUE: FALSE
     ]]
-    return test
+    return false
 end
 
 core.register_on_mods_loaded(function()
@@ -144,8 +144,8 @@ core.register_globalstep(function(dtime)
         end
         local control_bits = player:get_player_control_bits()
         local pos = player:get_pos()
-        local icheck = check_timer_interval(name, 50)
-        if cancel_run(pos, player, icheck) == false and not player_double_tap[name].running then
+        local icheck = check_timer_interval(name, 0.3)
+        if cancel_run(pos, player, icheck) == false then
             local key_is_pressed = control_bits == 1 or control_bits == 17 or control_bits == 513
             if mod_settings.use_dt then
                 if mod_settings.use_aux then
@@ -198,6 +198,7 @@ core.register_globalstep(function(dtime)
                     end
                 end
             end
+
             if mod_settings.enable_animation and mod_settings.character_anim then
                 local current_animation = player:get_animation()
                 local animation_range = current_animation and { x = current_animation.x, y = current_animation.y } or { x = 0, y = 79 }
