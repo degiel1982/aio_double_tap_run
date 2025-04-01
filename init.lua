@@ -11,7 +11,7 @@ local function check_timer_interval(player_name, interval)
     local current_time = minetest.get_us_time() / 1000000  -- Get current time in seconds.
     local last_time = cancel_timer_timestamps[player_name]
     
-    if not last_time or (current_time - last_time <= interval) then
+    if not last_time or (current_time - last_time >= interval) then
         cancel_timer_timestamps[player_name] = current_time
         return true
     end
@@ -142,11 +142,10 @@ core.register_globalstep(function(dtime)
         if not player_double_tap[name] then
             player_double_tap[name] = mod_settings.player_data
         end
-
+        local control_bits = player:get_player_control_bits()
         local pos = player:get_pos()
-        local icheck = check_timer_interval(name, 1)
+        local icheck = check_timer_interval(name, 50)
         if cancel_run(pos, player, icheck) == false and not player_double_tap[name].running then
-            local control_bits = player:get_player_control_bits()
             local key_is_pressed = control_bits == 1 or control_bits == 17 or control_bits == 513
             if mod_settings.use_dt then
                 if mod_settings.use_aux then
