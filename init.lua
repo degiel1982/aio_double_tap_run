@@ -5,14 +5,14 @@ aio_double_tap_run.set_sprinting = set_sprinting
 
 local function cancel_run(p_pos, player)
 
-    local cancel_run = false
+    
     local name = player:get_player_name()
 
     --[[
         LIQUID CHECK
     ]]
     if mod_settings.tools.player_is_in_liquid(p_pos,player) then
-        cancel_run = true
+        return true
     end
     --[[
         STARVE CHECK
@@ -30,7 +30,7 @@ local function cancel_run(p_pos, player)
         end
         player_double_tap[name].starving = mod_settings.tools.is_player_starving(curent_saturation, treshold)
         if player_double_tap[name].starving then
-            cancel_run = true
+            return true
         end
     end
     -- When hunger_ng mod is installed
@@ -48,18 +48,18 @@ local function cancel_run(p_pos, player)
         LADDER CHECK
     ]]
     if mod_settings.tools.is_player_on_ladder(player) and not mod_settings.ladder_sprint then
-        cancel_run = true
+        return true
     end
     --[[
         WALL CHECK
     ]]
     if mod_settings.tools.is_player_running_against_wall(player) then
-        cancel_run = true
+        return true
     end
     --[[
-        RETURN VALUE: TRUE OR FALSE
+        RETURN VALUE: FALSE
     ]]
-    return cancel_run
+    return false
 end
 -- Table to store player positions
 local player_positions = {}
@@ -82,22 +82,28 @@ core.register_on_mods_loaded(function()
     
     if has_beds then
         -- List the node names for the bed(s) you want to target.
-        local bed_nodes = {
-            "beds:bed",
-            "beds:fancy_bed"
-        }
+        local bed_nodes = {}
+
         local function is_mod_active(mod_name)
             return core.get_modpath(mod_name) ~= nil
-          end
-          
-          -- Add colorful beds to the list if the mod is active
-          if is_mod_active("colorful_beds") then
+        end
+
+        if is_mod_active("beds") then
             for node_name, _ in pairs(core.registered_nodes) do
-              if string.find(node_name, "^colorful_beds:") and string.find(node_name, "bed") then
-                table.insert(bed_nodes, node_name)
+                if string.find(node_name, "^colorful_beds:") and string.find(node_name, "bed") then
+                    table.insert(bed_nodes, node_name)
                 end
             end
         end
+          -- Add colorful beds to the list if the mod is active
+        if is_mod_active("colorful_beds") then
+            for node_name, _ in pairs(core.registered_nodes) do
+                if string.find(node_name, "^colorful_beds:") and string.find(node_name, "bed") then
+                    table.insert(bed_nodes, node_name)
+                end
+            end
+        end
+
         for _, bed_node in ipairs(bed_nodes) do
             if minetest.registered_nodes[bed_node] then
                 local original_on_rightclick = minetest.registered_nodes[bed_node].on_rightclick
@@ -115,6 +121,7 @@ core.register_on_mods_loaded(function()
                 })
             end
         end
+        
     end
 end)
 
