@@ -4,8 +4,6 @@ aio_double_tap_run = {}
 aio_double_tap_run.set_sprinting = set_sprinting
 
 local function cancel_run(p_pos, player)
-
-    
     local name = player:get_player_name()
 
     --[[
@@ -226,6 +224,5 @@ core.register_globalstep(function(dtime)
                 player:set_animation(animation_range, sprint_speed, 0)
             end
         end
-    
     end
 end)
