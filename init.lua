@@ -144,7 +144,7 @@ core.register_globalstep(function(dtime)
         end
 
         local pos = player:get_pos()
-        local icheck = check_timer_interval(name, 0.5)
+        local icheck = check_timer_interval(name, 1)
         if cancel_run(pos, player, icheck) == false and not player_double_tap[name].running then
             local control_bits = player:get_player_control_bits()
             local key_is_pressed = control_bits == 1 or control_bits == 17 or control_bits == 513
