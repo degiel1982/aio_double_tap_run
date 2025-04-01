@@ -19,19 +19,16 @@ local function cancel_run(p_pos, player)
     ]]
     -- When Stamina Mod is installed
     if (mod_settings.stamina.sofar.installed or mod_settings.stamina.tenplus.installed) and mod_settings.stamina_drain then
+        local treshold = 0
+        local curent_saturation = stamina.get_saturation(player)
         if mod_settings.stamina.sofar.installed then
-            player_double_tap[name].starving = mod_settings.tools.is_player_starving(
-                stamina.get_saturation(player),
-                mod_settings.stamina.sofar.treshold * 2
-            )
+            treshold = mod_settings.stamina.sofar.treshold * 2
         end
         if mod_settings.stamina.tenplus.installed then
-            player_double_tap[name].starving = mod_settings.tools.is_player_starving(
-                stamina.get_saturation(player),
-                mod_settings.stamina.tenplus.treshold
-            )
-        end
+            treshold = mod_settings.stamina.tenplus.treshold
 
+        end
+        player_double_tap[name].starving = mod_settings.tools.is_player_starving(curent_saturation, treshold)
         if player_double_tap[name].starving then
             cancel_run = true
         end
@@ -73,7 +70,18 @@ core.register_on_mods_loaded(function()
             "beds:bed",
             "beds:fancy_bed"
         }
-    
+        local function is_mod_active(mod_name)
+            return core.get_modpath(mod_name) ~= nil
+          end
+          
+          -- Add colorful beds to the list if the mod is active
+          if is_mod_active("colorful_beds") then
+            for node_name, _ in pairs(core.registered_nodes) do
+              if string.find(node_name, "^colorful_beds:") and string.find(node_name, "bed") then
+                table.insert(bed_nodes, node_name)
+                end
+            end
+        end
         for _, bed_node in ipairs(bed_nodes) do
             if minetest.registered_nodes[bed_node] then
                 local original_on_rightclick = minetest.registered_nodes[bed_node].on_rightclick
