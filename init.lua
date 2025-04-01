@@ -4,13 +4,20 @@ aio_double_tap_run = {}
 aio_double_tap_run.set_sprinting = set_sprinting
 
 local function cancel_run(p_pos, player)
+
     local cancel_run = false
     local name = player:get_player_name()
-    --when in liquid
+
+    --[[
+        LIQUID CHECK
+    ]]
     if mod_settings.tools.player_is_in_liquid(p_pos,player) then
         cancel_run = true
     end
-    --when starving
+    --[[
+        STARVE CHECK
+    ]]
+    -- When Stamina Mod is installed
     if (mod_settings.stamina.sofar.installed or mod_settings.stamina.tenplus.installed) and mod_settings.stamina_drain then
         if mod_settings.stamina.sofar.installed then
             player_double_tap[name].starving = mod_settings.tools.is_player_starving(
@@ -29,10 +36,10 @@ local function cancel_run(p_pos, player)
             cancel_run = true
         end
     end
+    -- When hunger_ng mod is installed
     if mod_settings.hunger_ng.installed then
         local info = hunger_ng.get_hunger_information(name)
         if not info.invalid then
-            -- Cancel sprinting if hunger is below the threshold
             if info.hunger.exact <= mod_settings.hunger_ng.treshold then
                 if player_double_tap[name].running then
                     player_double_tap[name].running = false
@@ -40,14 +47,21 @@ local function cancel_run(p_pos, player)
             end
         end
     end
-    -- If the player is standing on a ladder, cancel sprinting
+    --[[
+        LADDER CHECK
+    ]]
     if mod_settings.tools.is_player_on_ladder(player) and not mod_settings.ladder_sprint then
         cancel_run = true
     end
-
+    --[[
+        WALL CHECK
+    ]]
     if mod_settings.tools.is_player_running_against_wall(player) then
         cancel_run = true
     end
+    --[[
+        RETURN VALUE: TRUE OR FALSE
+    ]]
     return cancel_run
 end
 
