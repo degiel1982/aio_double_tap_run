@@ -61,9 +61,25 @@ local function cancel_run(p_pos, player)
     ]]
     return cancel_run
 end
+-- Table to store player positions
+local player_positions = {}
+
+-- Helper function to check if a player is not moving
+local function is_player_stationary(player_name, current_pos)
+    local previous_pos = player_positions[player_name]
+
+    if previous_pos and vector.equals(previous_pos, current_pos) then
+        return true -- Player is not moving
+    end
+
+    -- Update the player's position for future checks
+    player_positions[player_name] = current_pos
+    return false -- Player is moving
+end
 
 core.register_on_mods_loaded(function()
     local has_beds = minetest.get_modpath("beds") ~= nil
+    
     if has_beds then
         -- List the node names for the bed(s) you want to target.
         local bed_nodes = {
@@ -85,13 +101,15 @@ core.register_on_mods_loaded(function()
         for _, bed_node in ipairs(bed_nodes) do
             if minetest.registered_nodes[bed_node] then
                 local original_on_rightclick = minetest.registered_nodes[bed_node].on_rightclick
-    
                 minetest.override_item(bed_node, {
                     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
                         local pname = clicker:get_player_name()
-                        set_sprinting(clicker, false)
-                        if original_on_rightclick then
-                            return original_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
+                        if is_player_stationary(pname, pos) then
+                            if original_on_rightclick then
+                                return original_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
+                            end
+                        else
+                            core.chat_send_player(pname, "You need to stop moving first")
                         end
                     end,
                 })
