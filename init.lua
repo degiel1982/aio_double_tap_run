@@ -108,11 +108,6 @@ core.register_on_mods_loaded(function()
     end
 end)
 
-
-
-
-
-
 local player_data = {
     count = 0,
     timer = 0,
@@ -133,7 +128,6 @@ core.register_globalstep(function(dtime)
     local players = core.get_connected_players()
     for _, player in ipairs(players) do
         local name = player:get_player_name()
-        local p_pos = player:get_pos()
     
         if not player_double_tap[name] then
             player_double_tap[name] = player_data
