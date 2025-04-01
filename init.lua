@@ -108,16 +108,6 @@ core.register_on_mods_loaded(function()
     end
 end)
 
-local player_data = {
-    count = 0,
-    timer = 0,
-    was_up = false,
-    sprinting = false,
-    wet = false,
-    running = false,
-    starving = false
-}
-
 core.register_on_leaveplayer(function(player)
     local name = player:get_player_name()
     player_double_tap[name] = nil  -- Remove double tap state info.
@@ -130,7 +120,7 @@ core.register_globalstep(function(dtime)
         local name = player:get_player_name()
     
         if not player_double_tap[name] then
-            player_double_tap[name] = player_data
+            player_double_tap[name] = mod_settings.player_data
         end
 
         local pos = player:get_pos()

@@ -14,6 +14,15 @@ local settings = {
     tools = my_functions,
     extra_speed = tonumber(core.settings:get("aio_dt.extra_speed")) or 0.5,
     character_anim = core.get_modpath("character_anim") ~= nil,
+    player_data = {
+        count = 0,
+        timer = 0,
+        was_up = false,
+        sprinting = false,
+        wet = false,
+        running = false,
+        starving = false
+    },
     pova = {
         installed = core.get_modpath("pova") ~= nil
     },
