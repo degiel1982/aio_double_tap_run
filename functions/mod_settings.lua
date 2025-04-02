@@ -5,8 +5,7 @@ local settings = {
     enable_animation = core.settings:get_bool("aio_dt.enable_animation", true),
     tap_interval = tonumber(core.settings:get("aio_dt.tap_interval")) or 0.5,
     use_aux = core.settings:get_bool("aio_dt.use_aux", false),
-    use_dt = core.settings:get_bool("aio_dt.use_dt", true), 
-    player_api = core.get_modpath("player_api") ~= nil,
+    use_dt = core.settings:get_bool("aio_dt.use_dt", true),
     walk_framespeed = tonumber(core.settings:get("aio_dt.walk_frames")) or 15,
     sprint_framespeed = tonumber(core.settings:get("aio_dt.sprint_frames")) or 30,
     ladder_sprint =  core.settings:get_bool("aio_dt.ladder_sprint", false),
@@ -60,6 +59,8 @@ if stamina_is_installed then
     local mod_author = settings.tools.get_mod_author("stamina")
     if mod_author == "TenPlus1" then
         settings.stamina.tenplus.installed = true
+        stamina.enable_sprint = false
+        enable_sprint_particles = false
     end
     if mod_author == "sofar" then 
         settings.stamina.sofar.installed = true

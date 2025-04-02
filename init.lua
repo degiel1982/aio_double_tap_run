@@ -3,10 +3,6 @@ local mod_settings = dofile(core.get_modpath("aio_double_tap_run") .. "/function
 local player_double_tap = {}
 local dt_data = {}
 
---[[PRECALCULATE SOME VALUES]]
-local stamina_treshold = mod_settings.stamina.sofar.treshold * 2
-local tenplus_exhaust = mod_settings.stamina.tenplus.exhaust_sprint * 100
-
 local function cancel_run(p_pos, player)
     local name = player:get_player_name()
     local test = false
@@ -24,7 +20,7 @@ local function cancel_run(p_pos, player)
             treshold = stamina_treshold
         end
          if mod_settings.stamina.tenplus.installed then
-            treshold = mod_settings.stamina.tenplus.treshold
+            treshold = stamina.STARVE_LVL * 2
         end
         player_double_tap[name].starving = mod_settings.tools.is_player_starving(curent_saturation, treshold)
         if player_double_tap[name].starving then
@@ -70,30 +66,21 @@ core.register_globalstep(function(dtime)
         local control_bits = player:get_player_control_bits()
         local pos = player:get_pos()
         local cancel_run = cancel_run(pos, player)
-        
-        player_double_tap[name].running = mod_settings.tools.sprint_key_activated( 
-                                                                                    mod_settings.use_aux,
-                                                                                    mod_settings.use_dt,control_bits,
-                                                                                    player_double_tap[name] , 
-                                                                                    dtime, mod_settings.tap_interval, 
-                                                                                    mod_settings.tools.dt_sensor,
-                                                                                    name
-                                                                                ) and not cancel_run and not player_double_tap[name].running
-
-        
-        
+        player_double_tap[name].running = mod_settings.tools.sprint_key_activated( mod_settings.use_aux, mod_settings.use_dt,control_bits, player_double_tap[name], dtime, mod_settings.tap_interval, mod_settings.tools.dt_sensor, name) and not cancel_run and not player_double_tap[name].running
         if player_double_tap[name].running then
             if mod_settings.stamina.sofar.installed then
                 stamina.set_sprinting(player, true)
             else
                 set_sprinting(player, true, mod_settings.extra_speed)
+            end
+            if mod_settings.enable_particles and not mod_settings.stamina.sofar.installed then
                 mod_settings.tools.sprint_particles(player)
             end
             if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
                   stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_sprint * dtime)
             end
             if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
-                  stamina.exhaust_player(player, tenplus_exhaust * dtime)
+                  stamina.exhaust_player(player, (stamina.SPRINT_DRAIN  * 100) * dtime)
             end
             if mod_settings.hunger_ng.installed then
                   hunger_ng.alter_hunger(name, -mod_settings.hunger_ng.exhaust_sprint * dtime, 'Sprinting') 

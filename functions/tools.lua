@@ -169,6 +169,10 @@ end
 --[[
     SPRINT PARTICLES:
 ]]
+local textures = {}
+if minetest.get_modpath("xcompat") and minetest.global_exists("xcompat") then
+    textures = xcompat.textures
+end
 local function sprint_particles(player)
     local pos = player:get_pos()
     local node = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
@@ -190,7 +194,7 @@ local function sprint_particles(player)
             maxsize = 1.0,
             vertical = false,
             collisiondetection = false,
-            texture = "default_dirt.png",
+            texture = textures.grass.dirt or "default_dirt.png",
         })
     end
 end
