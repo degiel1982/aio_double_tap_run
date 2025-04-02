@@ -5,7 +5,6 @@ local dt_data = {}
 
 local function cancel_run(p_pos, player)
     local name = player:get_player_name()
-    local test = false
     --[[ LIQUID CHECK ]]
     if mod_settings.tools.player_is_in_liquid(p_pos,player) and not mod_settings.liquid_sprint then
         return true
@@ -73,6 +72,7 @@ core.register_globalstep(function(dtime)
             else
                 set_sprinting(player, true, mod_settings.extra_speed)
             end
+            core.chat_send_player(name, core.get_game_info().id)
             if mod_settings.enable_particles and not mod_settings.stamina.sofar.installed then
                 mod_settings.tools.sprint_particles(player)
             end

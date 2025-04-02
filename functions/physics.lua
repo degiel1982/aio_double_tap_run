@@ -37,7 +37,7 @@ local function set_sprinting(player, sprint, extra_speed)
             sprint_monoid:add_change(player, (1 + extra_speed), "aio_double_tap_run:sprinting")
         elseif pova_is_installed then
             local override_name = "aio_double_tap_run:sprinting"
-            local override_table = { speed = (1 + extra_speed), jump = nil, gravity = nil }
+            local override_table = { speed = (extra_speed), jump = nil, gravity = nil }
             pova.add_override(player_name, override_name, override_table)
             --pova.del_override(player_name, override_name)
         else

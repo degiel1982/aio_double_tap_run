@@ -169,9 +169,16 @@ end
 --[[
     SPRINT PARTICLES:
 ]]
-local textures = {}
+
+local game_textures = {}
 if minetest.get_modpath("xcompat") and minetest.global_exists("xcompat") then
-    textures = xcompat.textures
+    game_textures = xcompat.textures
+end
+local dirt = ""
+if core.get_game_info().id == "minetest" or core.get_game_info().id == "farlands_reloaded" then
+    dirt = game_textures.grass.dirt
+else
+    dirt = "smoke_puff.png"
 end
 local function sprint_particles(player)
     local pos = player:get_pos()
@@ -194,7 +201,7 @@ local function sprint_particles(player)
             maxsize = 1.0,
             vertical = false,
             collisiondetection = false,
-            texture = textures.grass.dirt or "default_dirt.png",
+            texture = dirt
         })
     end
 end
