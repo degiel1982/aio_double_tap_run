@@ -22,7 +22,8 @@ local settings = {
         sprinting = false,
         wet = false,
         running = false,
-        starving = false
+        starving = false,
+        old_state = false,
     },
     pova = {
         installed = core.get_modpath("pova") ~= nil
