@@ -195,16 +195,25 @@ local function sprint_particles(player)
     end
 end
 
-local function sprint_key_activated(use_aux, use_dt, control_bits, dt_data, dtime, tap_interval, dt_sensor)
+local function sprint_key_activated(use_aux, use_dt, control_bits, dt_data, dtime, tap_interval, dt_sensor, name)
     -- Consolidate key state checks
     local key_state_dt = false
     local key_state_aux = false
+    local has_beds = minetest.get_modpath("beds") ~= nil
     if use_aux then
-        key_state_aux = (control_bits == 33 or control_bits == 49 or control_bits == 545)
+        if has_beds and beds.player[name] then
+            key_state_aux = false
+        else
+            key_state_aux = (control_bits == 33 or control_bits == 49 or control_bits == 545)
+        end
     end
     if use_dt then
-        key_state_dt = (control_bits == 1 or control_bits == 17 or control_bits == 513)
-        key_state_dt = dt_sensor(dt_data, dtime, key_state_dt, tap_interval)
+        if has_beds and beds.player[name] then
+            key_state_dt = false
+        else
+            key_state_dt = (control_bits == 1 or control_bits == 17 or control_bits == 513)
+            key_state_dt = dt_sensor(dt_data, dtime, key_state_dt, tap_interval)
+        end
     end
     if key_state_dt or key_state_aux and not (key_state_dt and key_state_aux) then
         return true

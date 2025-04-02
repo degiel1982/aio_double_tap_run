@@ -1,4 +1,5 @@
-local set_sprinting, mod_settings = dofile(core.get_modpath("aio_double_tap_run") .. "/functions/physics.lua")
+local set_sprinting = dofile(core.get_modpath("aio_double_tap_run") .. "/functions/physics.lua")
+local mod_settings = dofile(core.get_modpath("aio_double_tap_run") .. "/functions/mod_settings.lua")
 local player_double_tap = {}
 local dt_data = {}
 
@@ -53,59 +54,6 @@ local function cancel_run(p_pos, player)
     return false
 end
 
-
---[[
-    OVERRIDING RIGHT CLICK BEDS/COLORFUL BEDS
-        - A PLAYER MUST STOP SPRINTING BEFORE INTERACTING WITH THE BED 
-]]
-core.register_on_mods_loaded(function()
-    local has_beds = minetest.get_modpath("beds") ~= nil
-    
-    if has_beds then
-        -- List the node names for the bed(s) you want to target.
-        local bed_nodes = {
-            "beds:bed",
-            "beds:fancy_bed"
-        }
-        local function is_mod_active(mod_name)
-            return core.get_modpath(mod_name) ~= nil
-        end
-        if is_mod_active("beds") then
-            for node_name, _ in pairs(core.registered_nodes) do
-                if string.find(node_name, "^colorful_beds:") and string.find(node_name, "bed") then
-                    table.insert(bed_nodes, node_name)
-                end
-            end
-        end
-          -- Add colorful beds to the list if the mod is active
-        if is_mod_active("colorful_beds") then
-            for node_name, _ in pairs(core.registered_nodes) do
-                if string.find(node_name, "^colorful_beds:") and string.find(node_name, "bed") then
-                    table.insert(bed_nodes, node_name)
-                end
-            end
-        end
-        for _, bed_node in ipairs(bed_nodes) do
-            if minetest.registered_nodes[bed_node] then
-                local original_on_rightclick = minetest.registered_nodes[bed_node].on_rightclick
-                minetest.override_item(bed_node, {
-                    on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-                        local pname = clicker:get_player_name()
-                        if player_double_tap[pname].running then
-                            core.chat_send_player(pname, "[AIO] - Stop sprinting before entering a bed")
-                        else
-                            if original_on_rightclick then
-                                return original_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
-                            end
-                        end
-                    end,
-                })
-            end
-        end
-    end
-end)
-
-
 core.register_on_leaveplayer(function(player)
     local name = player:get_player_name()
     player_double_tap[name] = nil  
@@ -128,7 +76,8 @@ core.register_globalstep(function(dtime)
                                                                                     mod_settings.use_dt,control_bits,
                                                                                     player_double_tap[name] , 
                                                                                     dtime, mod_settings.tap_interval, 
-                                                                                    mod_settings.tools.dt_sensor
+                                                                                    mod_settings.tools.dt_sensor,
+                                                                                    name
                                                                                 ) and not cancel_run and not player_double_tap[name].running
 
         

@@ -1,13 +1,7 @@
-local settings = dofile(core.get_modpath("aio_double_tap_run").."/functions/mod_settings.lua")
-
-local aio = {}
-aio.set_sprinting = {}
 local sprint_monoid = {}
 
-local stamina_sofar_is_installed = settings.stamina.sofar.installed
-local stamina_tenplus_is_installed =settings.stamina.tenplus.installed
-local pova_is_installed = settings.pova.installed
-local monoids_is_installed = settings.player_monoids.installed
+local pova_is_installed = core.get_modpath("pova") ~= nil
+local monoids_is_installed = core.get_modpath("player_monoids") ~= nil
 
 if monoids_is_installed then
     sprint_monoid = player_monoids.make_monoid({
@@ -84,10 +78,4 @@ local function set_sprinting(player, sprint, extra_speed)
     end
 end
 
-if stamina_sofar_is_installed or stamina_tenplus_is_installed then
-    aio.set_sprinting = stamina.set_sprinting
-else
-    aio.set_sprinting = set_sprinting
-end
-
-return aio.set_sprinting, settings
+return set_sprinting
