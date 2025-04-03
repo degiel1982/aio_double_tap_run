@@ -77,14 +77,14 @@ core.register_globalstep(function(dtime)
             if mod_settings.enable_particles and not mod_settings.stamina.sofar.installed then
                 mod_settings.tools.sprint_particles(player)
             end
-            if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
-                  stamina.exhaust_player(player, (mod_settings.stamina.sofar.exhaust_sprint*2) * dtime)
-            end
-            if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
-                  stamina.exhaust_player(player, (stamina.SPRINT_DRAIN  * 100) * dtime)
-            end
-            if mod_settings.hunger_ng.installed then
-                  hunger_ng.alter_hunger(name, -mod_settings.hunger_ng.exhaust_sprint * dtime, 'Sprinting') 
+            if mod_settings.stamina_drain then
+                if mod_settings.stamina.sofar.installed then
+                      stamina.exhaust_player(player, (mod_settings.stamina.sofar.exhaust_sprint*2) * dtime)
+                elseif mod_settings.stamina.tenplus.installed then
+                      stamina.exhaust_player(player, (stamina.SPRINT_DRAIN  * 100) * dtime)
+                elseif mod_settings.hunger_ng.installed then
+                      hunger_ng.alter_hunger(name, -mod_settings.hunger_ng.exhaust_sprint * dtime, 'Sprinting') 
+                end
             end
             if mod_settings.enable_animation and mod_settings.character_anim then
                   local current_animation = player:get_animation()
@@ -102,11 +102,12 @@ core.register_globalstep(function(dtime)
                 local sprint_speed = mod_settings.walk_framespeed + ((player:get_velocity().x^2 + player:get_velocity().z^2)^0.5 * 2)
                 player:set_animation(animation_range, sprint_speed, 0)
             end
-            if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
-                stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_move * dtime)
-            end
-            if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
-                stamina.exhaust_player(player, mod_settings.stamina.tenplus.exhaust_move * dtime)
+            if mod_settings.stamina_drain then
+                if mod_settings.stamina.sofar.installed then
+                    stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_move * dtime)
+                elseif mod_settings.stamina.tenplus.installed then
+                    stamina.exhaust_player(player, mod_settings.stamina.tenplus.exhaust_move * dtime)
+                end
             end
         end
     end
