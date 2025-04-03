@@ -220,20 +220,20 @@ local function sprint_key_activated(use_aux, use_dt, control_bits, dt_data, dtim
     local has_beds = minetest.get_modpath("beds") ~= nil
     if use_aux then
         if has_beds and beds.player[name] then
-            key_state_aux = false
+            return false
         else
             key_state_aux = (control_bits == 33 or control_bits == 49 or control_bits == 545)
         end
     end
     if use_dt then
         if has_beds and beds.player[name] then
-            key_state_dt = false
+           return false
         else
             key_state_dt = (control_bits == 1 or control_bits == 17 or control_bits == 513)
             key_state_dt = dt_sensor(dt_data, dtime, key_state_dt, tap_interval)
         end
     end
-    if key_state_dt or key_state_aux and not (key_state_dt and key_state_aux) then
+    if key_state_dt or key_state_aux then
         return true
     end
     return false
