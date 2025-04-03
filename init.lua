@@ -16,12 +16,14 @@ local function cancel_run(p_pos, player)
         local treshold = 0
         local curent_saturation = stamina.get_saturation(player)
         if mod_settings.stamina.sofar.installed then
-            treshold = mod_settings.stamina.sofar.treshold
+            treshold = mod_settings.stamina.treshold
         end
          if mod_settings.stamina.tenplus.installed then
             treshold = stamina.STARVE_LVL * 2
         end
-        player_double_tap[name].starving = mod_settings.tools.is_player_starving(curent_saturation, treshold)
+        if treshold ~= nil then
+            player_double_tap[name].starving = mod_settings.tools.is_player_starving(curent_saturation, treshold)
+        end
         if player_double_tap[name].starving then
             return true
         end        
@@ -76,7 +78,7 @@ core.register_globalstep(function(dtime)
                 mod_settings.tools.sprint_particles(player)
             end
             if mod_settings.stamina.sofar.installed and mod_settings.stamina_drain then
-                  stamina.exhaust_player(player, mod_settings.stamina.sofar.exhaust_sprint * dtime)
+                  stamina.exhaust_player(player, (mod_settings.stamina.sofar.exhaust_sprint*2) * dtime)
             end
             if mod_settings.stamina.tenplus.installed and mod_settings.stamina_drain then
                   stamina.exhaust_player(player, (stamina.SPRINT_DRAIN  * 100) * dtime)
