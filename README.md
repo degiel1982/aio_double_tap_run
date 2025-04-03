@@ -47,39 +47,39 @@ With options for stamina integration, particle effects, and even compatibility w
     <th>Default</th>
   </tr>
   <tr>
-    <td>[ Enable Double Tap ]</td>
+    <td><center>Enable Double Tap ]</td>
     <td><code>true/false</code></td>
-    <td>[ aio_dt.use_dt ]</td>
+    <td>aio_dt.use_dt</td>
     <td><code>true</code></td>
   </tr>
   <tr>
-    <td>[ Enable Aux ]</td>
+    <td>Enable Aux</td>
     <td><code>true/false</code></td>
-    <td>[ aio_dt.use_aux ]</td>
+    <td>aio_dt.use_aux</td>
     <td><code>false</code></td>
   </tr>
   <tr>
-    <td>[ Sprint on climbable ]</td>
+    <td>Sprint on climbable</td>
     <td><code>true/false</code></td>
-    <td>[ aio_dt.ladder_sprint ]</td>
+    <td>aio_dt.ladder_sprint</td>
     <td><code>false</code></td>
   </tr>
   <tr>
-    <td>[ Sprint in liquids (Water/Lava) ]</td>
+    <td>Sprint in liquids (Water/Lava)</td>
     <td><code>true/false</code></td>
-    <td>[ aio_dt.liquid_sprint ]</td>
+    <td>aio_dt.liquid_sprint</td>
     <td><code>false</code></td>
   </tr>
   <tr>
-    <td>[ Enable sprint particles ]</td>
+    <td>Enable sprint particles</td>
     <td><code>true/false</code></td>
-    <td>[ aio_dt.particles ]</td>
+    <td>aio_dt.particles</td>
     <td><code>true</code></td>
   </tr>
   <tr>
-    <td>[ Enable stamina drain ]</td>
+    <td>Enable stamina drain</td>
     <td><code>true/false</code></td>
-    <td>[ aio_dt.stamina_drain ]</td>
+    <td>aio_dt.stamina_drain</td>
     <td><code>true</code></td>
   </tr>
 </table>
