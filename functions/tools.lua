@@ -171,6 +171,7 @@ end
 ]]
 
 local game_textures = {}
+local dirt = ""
 if minetest.get_modpath("xcompat") and minetest.global_exists("xcompat") then
     game_textures = xcompat.textures
     if core.get_game_info().id == "minetest" or core.get_game_info().id == "farlands_reloaded" then
