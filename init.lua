@@ -70,11 +70,7 @@ core.register_globalstep(function(dtime)
         local cancel_run = cancel_run(pos, player)
         player_double_tap[name].running = mod_settings.tools.sprint_key_activated( mod_settings.use_aux, mod_settings.use_dt,control_bits, player_double_tap[name], dtime, mod_settings.tap_interval, mod_settings.tools.dt_sensor, name) and not cancel_run and not player_double_tap[name].running
         if player_double_tap[name].running then
-            if mod_settings.stamina.sofar.installed then
-                stamina.set_sprinting(player, true)
-            else
-                set_sprinting(player, true, mod_settings.extra_speed)
-            end
+            set_sprinting(player, true, mod_settings.extra_speed)
             if mod_settings.enable_particles and not mod_settings.stamina.sofar.installed then
                 mod_settings.tools.sprint_particles(player)
             end
