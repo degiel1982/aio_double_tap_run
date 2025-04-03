@@ -12,28 +12,29 @@ local function cancel_run(p_pos, player)
 
     --[[ STARVE CHECK ]]
     --STAMINA
-    if (mod_settings.stamina.sofar.installed or mod_settings.stamina.tenplus.installed) and mod_settings.stamina_drain then
-        local treshold = 0
-        local curent_saturation = stamina.get_saturation(player)
-        if mod_settings.stamina.sofar.installed then
-            treshold = mod_settings.stamina.sofar.treshold * 2
-        end
-         if mod_settings.stamina.tenplus.installed then
-            treshold = stamina.STARVE_LVL * 2
-        end
-        if treshold ~= nil then
-            player_double_tap[name].starving = mod_settings.tools.is_player_starving(curent_saturation, treshold)
-        end
-        if player_double_tap[name].starving then
-            return true
-        end        
-    end
-    --HUNGER_NG
-    if mod_settings.hunger_ng.installed and mod_settings.stamina_drain then
-        local info = hunger_ng.get_hunger_information(name)
-        if not info.invalid then
-            if info.hunger.exact <= mod_settings.hunger_ng.treshold then
+    if mod_settings.stamina_drain then
+        if stamina then
+            local treshold = 0
+            local curent_saturation = stamina.get_saturation(player)
+            if mod_settings.stamina.sofar.installed then
+                treshold = mod_settings.stamina.sofar.treshold * 2
+            elseif mod_settings.stamina.tenplus.installed then
+                treshold = stamina.STARVE_LVL * 2
+            end
+            if treshold ~= nil then
+                player_double_tap[name].starving = mod_settings.tools.is_player_starving(curent_saturation, treshold)
+            end
+            if player_double_tap[name].starving then
                 return true
+            end        
+        end
+        --HUNGER_NG
+        if mod_settings.hunger_ng.installed and mod_settings.stamina_drain then
+            local info = hunger_ng.get_hunger_information(name)
+            if not info.invalid then
+                if info.hunger.exact <= mod_settings.hunger_ng.treshold then
+                    return true
+                end
             end
         end
     end
