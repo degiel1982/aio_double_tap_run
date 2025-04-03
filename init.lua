@@ -16,7 +16,7 @@ local function cancel_run(p_pos, player)
         local treshold = 0
         local curent_saturation = stamina.get_saturation(player)
         if mod_settings.stamina.sofar.installed then
-            treshold = stamina_treshold
+            treshold = mod_settings.stamina.treshold
         end
          if mod_settings.stamina.tenplus.installed then
             treshold = stamina.STARVE_LVL * 2
