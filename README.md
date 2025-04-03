@@ -4,15 +4,13 @@ With options for stamina integration, particle effects, and even compatibility w
 ## Features
 
 ### Sprinting
-- **Double Tap Forward Key:** Sprint by double tapping the forward key *(default: Enabled)*.
-- **Aux1 Key:** Sprint by pressing the AUX1 key *(default: Disabled)*.
-- **On Ladders:** Enable sprinting while climbing ladders *(default: Disabled)*.
-- **In Liquid:** Allow sprinting while submerged in liquid environments *(default: Disabled)*.
-- **Particle Effects:** Display sprinting particles around the player's feet for visual feedback *(default: Enabled)*.
-- **Customizable Settings:** All sprinting features can be toggled or modified via the settings menu.
+- **Double Tap Forward Key:** Sprint by double tapping the forward key (Optional)
+- **Aux1 Key:** Sprint by pressing the AUX1 key (Optional)
+- **On Ladders:** Sprinting while climbing ladders (Optional).
+- **In Liquid:** Allow sprinting while submerged in liquid environments (Optional).
+- **Particle Effects:** Display sprinting particles around the player's feet for visual feedback (Optional).
 
 ### Character Animations (Requires Character Animations Mod by LMD)
-- **Dynamic Movement Speed:** Adjust animation speed to match the character's sprinting speed *(default: Enabled)*.
 - **Custom Animation Settings:** Personalize walk/sprint frame speeds; enable or disable animations based on preferences.
 
 ### Stamina and Hunger Integration
