@@ -39,10 +39,8 @@ local function cancel_run(p_pos, player)
                 return true
             end
         end
-    else
-        if mod_settings.tools.player_is_in_liquid(p_pos,player) and not mod_settings.liquid_sprint then
-            return true
-        end
+    elseif mod_settings.tools.player_is_in_liquid(p_pos,player) and not mod_settings.liquid_sprint then
+        return true
     end
     --[[ STARVE CHECK ]]
     --STAMINA
