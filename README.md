@@ -1,95 +1,92 @@
-
-
-# AIO - Double Tap Run
-
-This mod enhances Minetest gameplay by introducing a double-tap-to-run mechanism. It allows players to toggle between walking and running seamlessly, while also incorporating new features such as preventing sprinting on beds and ensuring that running in place does not drain stamina or hunger.
-
+# AIO - Double Tap Run 
+Get ready to transform your gameplay experience with the AIO - Double Tap Run mod! Designed to add a seamless and dynamic sprinting system to your game, this mod is perfect for players who crave enhanced mobility, deeper realism, and full customization. Whether you’re racing across open fields, navigating challenging terrain, or immersing yourself in a more interactive world, this mod introduces intuitive sprint mechanics and exciting features that take movement to the next level.
+With options for stamina integration, particle effects, and even compatibility with popular physics and hunger mods, AIO - Double Tap Run ensures a well-rounded and tailored experience for every type of player. Sprint freely, set your own rules, and enjoy a highly interactive, engaging adventure—because every step matters!
 ## Features
 
-- **Double-Tap Forward to Sprint:** Activate sprinting mode by quickly pressing the forward movement key (`W`).
-- **Particle Effects During Sprinting:** Visual feedback when sprinting, adding depth to the gameplay.
-- **Dynamic Animation Speed:** Adjusts animation speed based on movement velocity for a more realistic feel.
-- **Configurable Sprint Speed:** Customize sprint speed using `aio_dt.extra_speed`.
-- **Aux1 Key Support:** Enable sprinting with the Aux1 key by setting `aio_dt.use_aux` to `true`.
-- **Stamina Integration:**
-  - Supports both Sofar's and TenPlus1's stamina mods, adjusting sprint behavior based on stamina levels.
-  - Configurable exhaustion rates for sprinting (`mod_settings.stamina.sofar.exhaust_sprint` and `mod_settings.stamina.tenplus.exhaust_sprint`).
-- **Hunger Integration:** Automatically cancels sprinting when hunger falls below a threshold (`aio_dt.hunger_treshold`) and drains hunger while sprinting (`aio_dt.hunger_drain`), requiring the Hunger NG mod.
-- **Pova and Player Monoids Compatibility:** Integrates with these mods to manage physics overrides, ensuring compatibility with other player-physics modifying mods.
-- **Liquid Interaction:** Disables sprinting in liquids for realistic movement.
-- **Ladder Behavior:** Sprinting can be enabled or disabled on ladders via configuration (`aio_dt.ladder_sprint`).
-- **Prevent Sprinting on Beds:** Sprinting is disabled while lying on beds to prevent unintended behavior.
-- **Running in Place Does Not Drain Stamina or Hunger:** Pressing the sprint key without moving forward won’t consume stamina or hunger.
+### Sprinting
+- **Double Tap Forward Key:** Sprint by double tapping the forward key (Optional)
+- **Aux1 Key:** Sprint by pressing the AUX1 key (Optional)
+- **On Ladders:** Sprinting while climbing ladders (Optional).
+- **In Liquid:** Allow sprinting while submerged in liquid environments (Optional).
+- **Particle Effects:** Display sprinting particles around the player's feet for visual feedback (Optional).
 
-## How to Use
+### Character Animations (Requires Character Animations Mod by LMD)
+- **Custom Animation Settings:** Personalize walk/sprint frame speeds; enable or disable animations based on preferences.
 
-1. **Double-Tap to Sprint:** Quickly press `W` twice to activate sprinting, increasing movement speed.
-2. **Stop Sprinting:**
-   - Release `W` to stop sprinting.
-3. **Enable Aux1 Key for Sprinting:**
-   - Set `aio_dt.use_aux = true` in your `minetest.conf` file to enable the Aux1 key for sprinting.
-4. **Stamina Integration:**
-   - If using a stamina mod, adjust sprint speed and exhaustion settings within that mod's configuration.
-5. **Hunger Integration:**
-   - Sprinting will cancel when hunger is low (`aio_dt.hunger_treshold`) and drain hunger while sprinting (`aio_dt.hunger_drain`), requiring the Hunger NG mod.
-6. **Pova and Player Monoids Compatibility:**
-   - These mods help manage physics overrides, ensuring compatibility with other player-physics modifying mods.
-7. **Ladder Behavior:**
-   - By default, sprinting is disabled on ladders. Enable it by setting `aio_dt.ladder_sprint = true`.
+### Stamina and Hunger Integration
+- **Stamina Drain:** Supports stamina reduction while sprinting, compatible with hunger mechanics.
+- **Starvation Rules:** Disable sprinting for starving players to add realism to hunger-based gameplay.
 
-## Configuration
+### Physics Mods Compatibility
+- **Pova:** Integration for enhanced sprint physics using Pova overrides.
+- **Player Monoids:** Compatibility with player physics modification mods.
 
-Adjust mod behavior using settings in your `minetest.conf` file. These should be set if no stamina mod is installed; otherwise, use the stamina mod's configuration.
+### Xcompat Mod Compatibility
+- Support for the dirt particles while sprinting in 2 games (Minetest and Farlands Reloaded)
 
-- **General Settings:**
-  - `aio_dt.extra_speed` (default: `0.5`): Sprint speed multiplier.
-  - `aio_dt.use_aux` (default: `false`): Enable Aux1 key for sprinting.
-  - `aio_dt.ladder_sprint` (default: `false`): Allow sprinting on ladders.
+## Required Dependencies
+- No required dependencies needed. 
 
-- **Hunger Integration:**
-  - `aio_dt.hunger_treshold` (default: `6`): Hunger level below which sprinting stops.
-  - `aio_dt.hunger_drain` (default: `0.5`): Hunger drained per unit time while sprinting.
+## Optional Dependencies
+- **Sofar's Stamina Mod:** Fine-tune sprint stamina mechanics.
+- **TenPlus1's Stamina Mod:** Enable stamina exhaustion to influence sprinting dynamics.
+- **Hunger NG Mod:** Manage hunger-based sprint cancellation and stamina drain.
+- **Player Monoids & Pova:** Ensure compatibility with other mods modifying player physics.
+- **Beds Mod:**: Needed for preventing "ghost riding" when sleeping
+- **Character Animations:** Make models move faster when sprinting 
+- **Xcompat:** For support of particles in multiple games(Minetest, Farlands Reloaded) 
 
-### Example Configuration
-```plaintext
-aio_dt.extra_speed = 0.7
-aio_dt.use_aux = true
-aio_dt.ladder_sprint = false
-aio_dt.hunger_treshold = 5
-aio_dt.hunger_drain = 0.4
-```
+## Available Settings 
 
-## API
 
-The mod provides an API for developers to integrate sprinting functionality:
+<table border="1" color="#FFFFFF" align="center">
+  <tr>
+    <th>Name</th>
+    <th>Value Type</th>
+    <th>Key Name</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td><center>Enable Double Tap ]</td>
+    <td><code>true/false</code></td>
+    <td>aio_dt.use_dt</td>
+    <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td>Enable Aux</td>
+    <td><code>true/false</code></td>
+    <td>aio_dt.use_aux</td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td>Sprint on climbable</td>
+    <td><code>true/false</code></td>
+    <td>aio_dt.ladder_sprint</td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td>Sprint in liquids (Water/Lava)</td>
+    <td><code>true/false</code></td>
+    <td>aio_dt.liquid_sprint</td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td>Enable sprint particles</td>
+    <td><code>true/false</code></td>
+    <td>aio_dt.particles</td>
+    <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td>Enable stamina drain</td>
+    <td><code>true/false</code></td>
+    <td>aio_dt.stamina_drain</td>
+    <td><code>true</code></td>
+  </tr>
+</table>
 
-- `aio_double_tap_run.set_sprinting(player, state)`
-  - Controls sprinting state for a player.
-  - **Parameters:**
-    - `player`: Player object.
-    - `state`: Boolean (`true` enables sprinting).
 
-### Example Usage
-```lua
-local player = minetest.get_player_by_name("player_name")
-if player then
-    -- Enable sprinting
-    aio_double_tap_run.set_sprinting(player, true)
-end
-```
-
-## Dependencies
-
-- **Optional:**
-  - [Sofar's Stamina Mod](https://content.luanti.org/packages/sofar/stamina/?protocol_version=47): Adjusts sprinting based on stamina.
-  - [TenPlus1's Stamina Mod](https://content.luanti.org/packages/TenPlus1/stamina/?protocol_version=47): Supports stamina exhaustion while sprinting.
-  - [Hunger NG Mod](https://content.minetest.net/packages/TenPlus1/hunger_ng/): Manages hunger-based sprint cancellation and drain.
-  - [Player Monoids](https://content.luanti.org/packages/Byakuren/player_monoids/?protocol_version=47): Ensures compatibility with other physics mods.
-  - [Pova](https://content.luanti.org/packages/TenPlus1/pova/): Manages physics overrides for sprinting.
+**LIST IS WIP**
 
 ## License
-
-- **Code**: MIT License
-- **Media**: No media included
-
-Enjoy enhanced movement mechanics with the AIO - Double Tap Run mod!
+- **Code:** MIT License
+- **Media:** No media included.
