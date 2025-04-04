@@ -5,9 +5,7 @@ local dt_data = {}
 local function is_player_fully_submerged_in_water(player)
     local pos = player:get_pos()
     local props = player:get_properties()
-    local cb = props.collisionbox  -- {xmin, ymin, zmin, xmax, ymax, zmax}
-
-    -- Determine the full area's minimum and maximum coordinates.
+    local cb = props.collisionbox 
     local minp = vector.floor(vector.add(pos, { x = cb[1], y = cb[2], z = cb[3] }))
     local maxp = vector.ceil(vector.add(pos, { x = cb[4], y = cb[5], z = cb[6] }))
 
@@ -17,14 +15,12 @@ local function is_player_fully_submerged_in_water(player)
                 local npos = { x = x, y = y, z = z }
                 local node = minetest.get_node_or_nil(npos)
                 if not node then
-                    -- Position is invalid; assume not fully submerged.
+                    
                     return false
                 end
 
-                -- Retrieve the node definition.
                 local nodedef = minetest.registered_nodes[node.name]
-                -- Check if the node is liquid. You can be as strict as requiring a
-                -- specific water node (e.g. "default:water_source"), or more generic:
+
                 if not nodedef or not nodedef.liquidtype or nodedef.liquidtype == "none" then
                     return false
                 end
