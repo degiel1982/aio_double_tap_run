@@ -106,10 +106,10 @@ core.register_globalstep(function(dtime)
         local pos = player:get_pos()
         local cancel_run = cancel_run(pos, player)
 
-        local player_is_running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, (control_bits == 1), 0.5) and not cancel_run
+        local player_is_running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, (control_bits == 1), 0.5) and not cancel_run and mod_settings.use_dt
 
         if control_bits ~= 0 and not cancel_run then
-            if control_bits == 33 and not player_is_running then
+            if control_bits == 33 and not player_is_running and mod_settings.use_aux then
                 player_double_tap[name].running = true
             elseif player_is_running then
                 player_double_tap[name].running = true
