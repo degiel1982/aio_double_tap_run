@@ -32,18 +32,22 @@ local function is_player_fully_submerged_in_water(player)
 end
 local function cancel_run(p_pos, player)
     local name = player:get_player_name()
-    --[[ LIQUID CHECK ]]
+
+    --[[ FLY SWIM CHECK ]]
     if mod_settings.fly_swim then
-        if mod_settings.tools.player_is_in_liquid(p_pos,player) then
-            if not is_player_fully_submerged_in_water(player) then
-                return true
-            end
+        local in_liquid = mod_settings.tools.player_is_in_liquid(p_pos, player)
+        -- Allow sprinting only if the player is either NOT in liquid at all,
+        -- or if in liquid then they must be fully submerged.
+        if in_liquid and not is_player_fully_submerged_in_water(player) then
+            return true  -- Cancel sprint if partially submerged.
         end
-    elseif mod_settings.tools.player_is_in_liquid(p_pos,player) and not mod_settings.liquid_sprint then
+
+    -- When fly_swim is disabled, use existing liquid check logic.
+    elseif mod_settings.tools.player_is_in_liquid(p_pos, player) and not mod_settings.liquid_sprint then
         return true
     end
-    --[[ STARVE CHECK ]]
-    --STAMINA
+
+    --[[ STARVE / STAMINA CHECK ]]
     if mod_settings.stamina_drain then
         if stamina then
             local treshold = 0
@@ -60,7 +64,7 @@ local function cancel_run(p_pos, player)
                 return true
             end        
         end
-        --HUNGER_NG
+        -- HUNGER_NG check.
         if mod_settings.hunger_ng.installed and mod_settings.stamina_drain then
             local info = hunger_ng.get_hunger_information(name)
             if not info.invalid then
@@ -71,16 +75,17 @@ local function cancel_run(p_pos, player)
         end
     end
 
-    --[[LADDER CHECK]]
+    --[[ LADDER CHECK ]]
     if mod_settings.tools.is_player_on_ladder(player) and not mod_settings.ladder_sprint then
         return true
     end
-    --[[WALL CHECK]]
+
+    --[[ WALL CHECK ]]
     if mod_settings.tools.is_player_running_against_wall(player) then
         return true
     end
 
-    --[[RETURN VALUE: FALSE]]
+    --[[ DEFAULT: ALLOW SPRINTING ]]
     return false
 end
 
@@ -100,7 +105,22 @@ core.register_globalstep(function(dtime)
         local control_bits = player:get_player_control_bits()
         local pos = player:get_pos()
         local cancel_run = cancel_run(pos, player)
-        player_double_tap[name].running = mod_settings.tools.sprint_key_activated( mod_settings.use_aux, mod_settings.use_dt,control_bits, player_double_tap[name], dtime, mod_settings.tap_interval, mod_settings.tools.dt_sensor, name, player_double_tap[name].running) and not cancel_run and not player_double_tap[name].running
+
+        local player_is_running = mod_settings.tools.dt_sensor(player_double_tap[name], dtime, (control_bits == 1), 0.5) and not cancel_run
+
+        if control_bits ~= 0 and not cancel_run then
+            if control_bits == 33 and not player_is_running then
+                player_double_tap[name].running = true
+            elseif player_is_running then
+                player_double_tap[name].running = true
+            end
+        else
+            if player_double_tap[name].running then
+                player_double_tap[name].running = false
+            end
+        end
+
+        --player_double_tap[name].running = mod_settings.tools.sprint_key_activated( mod_settings.use_aux, mod_settings.use_dt,control_bits, player_double_tap[name], dtime, mod_settings.tap_interval, mod_settings.tools.dt_sensor, name, player_double_tap[name].running) and not cancel_run and not player_double_tap[name].running
         if player_double_tap[name].running then
             set_sprinting(player, true, mod_settings.extra_speed)
             if mod_settings.enable_particles and not mod_settings.stamina.sofar.installed then
