@@ -14,6 +14,7 @@ local settings = {
     tools = my_functions,
     extra_speed = tonumber(core.settings:get("aio_dt.extra_speed")) or 0.5,
     character_anim = core.get_modpath("character_anim") ~= nil,
+    fly_swim = core.get_modpath("3d_armor_flyswim") ~= nil,
     player_data = {
         count = 0,
         timer = 0,

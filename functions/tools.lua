@@ -135,61 +135,7 @@ local function is_player_running_against_wall(player)
         return false
     end
 end
---[[ CHECKS IF PLAYER IS FLYING OR OVER AIR FOR MORE THAN 2 SECONDS ]]
-local flying_players = {}
 
-local function is_player_flying_or_over_air_for_long(player, max_time)
-    local player_name = player:get_player_name()
-    local pos = player:get_pos()
-
-    -- Initialize or reset the tracking table for this player if needed
-    if not flying_players[player_name] then
-        flying_players[player_name] = { flying_time = 0, last_check_time = minetest.get_us_time() }
-    end
-
-    local tracker = flying_players[player_name]
-
-    -- Update time elapsed
-    local current_time = minetest.get_us_time()
-    local elapsed = (current_time - tracker.last_check_time) / 1e6  -- Convert microseconds to seconds
-    tracker.last_check_time = current_time
-
-    -- Check if the player is flying
-    local physics = player:get_physics_override()
-    local is_flying = physics and physics.gravity and physics.gravity == 0
-
-    -- Check the node directly beneath the player
-    local check_pos = { x = pos.x, y = pos.y - 0.5, z = pos.z }
-    local node = minetest.get_node_or_nil(vector.round(check_pos))
-    local is_over_air = false
-    if node then
-        local nodedef = minetest.registered_nodes[node.name]
-        if nodedef and (nodedef.drawtype == "airlike" or node.name == "air") then
-            is_over_air = true
-        end
-    end
-
-    -- Update the flying time if the player is flying or over air
-    if is_flying or is_over_air then
-        tracker.flying_time = tracker.flying_time + elapsed
-    else
-        tracker.flying_time = 0  -- Reset flying time if not flying or over air
-    end
-
-    -- Return true if flying time exceeds max_time (e.g., 2 seconds)
-    return tracker.flying_time > max_time
-end
-
--- Call this function in a globalstep to check player states
-minetest.register_globalstep(function(dtime)
-    local max_time = 2  -- Maximum time allowed for flying/over air
-    for _, player in ipairs(minetest.get_connected_players()) do
-        if is_player_flying_or_over_air_for_long(player, max_time) then
-            print(player:get_player_name() .. " has been flying or over air for more than " .. max_time .. " seconds.")
-            -- Insert your action logic here, e.g., warn the player or restrict movement.
-        end
-    end
-end)
 --------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------
 --[[
@@ -279,5 +225,4 @@ return {
     is_player_flying_or_over_air = is_player_flying_or_over_air,
     sprint_particles = sprint_particles,
     sprint_key_activated = sprint_key_activated,
-    is_player_flying_or_over_air_for_long = is_player_flying_or_over_air_for_long
 }

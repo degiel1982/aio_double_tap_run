@@ -2,15 +2,51 @@ local set_sprinting = dofile(core.get_modpath("aio_double_tap_run") .. "/functio
 local mod_settings = dofile(core.get_modpath("aio_double_tap_run") .. "/functions/mod_settings.lua")
 local player_double_tap = {}
 local dt_data = {}
+local function is_player_fully_submerged_in_water(player)
+    local pos = player:get_pos()
+    local props = player:get_properties()
+    local cb = props.collisionbox  -- {xmin, ymin, zmin, xmax, ymax, zmax}
 
+    -- Determine the full area's minimum and maximum coordinates.
+    local minp = vector.floor(vector.add(pos, { x = cb[1], y = cb[2], z = cb[3] }))
+    local maxp = vector.ceil(vector.add(pos, { x = cb[4], y = cb[5], z = cb[6] }))
+
+    for x = minp.x, maxp.x do
+        for y = minp.y, maxp.y do
+            for z = minp.z, maxp.z do
+                local npos = { x = x, y = y, z = z }
+                local node = minetest.get_node_or_nil(npos)
+                if not node then
+                    -- Position is invalid; assume not fully submerged.
+                    return false
+                end
+
+                -- Retrieve the node definition.
+                local nodedef = minetest.registered_nodes[node.name]
+                -- Check if the node is liquid. You can be as strict as requiring a
+                -- specific water node (e.g. "default:water_source"), or more generic:
+                if not nodedef or not nodedef.liquidtype or nodedef.liquidtype == "none" then
+                    return false
+                end
+            end
+        end
+    end
+
+    return true
+end
 local function cancel_run(p_pos, player)
     local name = player:get_player_name()
     --[[ LIQUID CHECK ]]
-    if mod_settings.tools.player_is_in_liquid(p_pos,player) and not mod_settings.liquid_sprint then
-        return true
-    end
-    if mod_settings.tools.is_player_flying_or_over_air_for_long(player, 2) then
-        return true
+    if mod_settings.fly_swim then
+        if mod_settings.tools.player_is_in_liquid(p_pos,player) then
+            if not is_player_fully_submerged_in_water(player) then
+                return true
+            end
+        end
+    else
+        if mod_settings.tools.player_is_in_liquid(p_pos,player) and not mod_settings.liquid_sprint then
+            return true
+        end
     end
     --[[ STARVE CHECK ]]
     --STAMINA
