@@ -194,14 +194,14 @@ local function sprint_key_activated(use_aux, use_dt, control_bits, dt_data, dtim
         if has_beds and beds.player[name] then
             return false
         else
-            key_state_aux = (control_bits == 33 or control_bits == 49 or control_bits == 545 or control_bits == 5 or control_bits == 9)
+            key_state_aux = (control_bits == 33 or control_bits == 49 or control_bits == 545)
         end
     end
     if use_dt then
         if has_beds and beds.player[name] then
            return false
         else
-            key_state_dt = (control_bits == 1 or control_bits == 17 or control_bits == 513 or control_bits == 5 or control_bits == 9)
+            key_state_dt = (control_bits == 1 or control_bits == 17 or control_bits == 513)
             key_state_dt = dt_sensor(dt_data, dtime, key_state_dt, tap_interval)
         end
     end
