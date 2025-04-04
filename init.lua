@@ -9,7 +9,9 @@ local function cancel_run(p_pos, player)
     if mod_settings.tools.player_is_in_liquid(p_pos,player) and not mod_settings.liquid_sprint then
         return true
     end
-
+    if mod_settings.tools.is_player_flying_or_over_air_for_long(player, 2) then
+        return true
+    end
     --[[ STARVE CHECK ]]
     --STAMINA
     if mod_settings.stamina_drain then
