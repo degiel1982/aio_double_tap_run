@@ -222,7 +222,6 @@ return {
     is_player_starving = is_player_starving, 
     is_player_on_ladder = is_player_on_ladder, 
     is_player_running_against_wall = is_player_running_against_wall,
-    is_player_flying_or_over_air = is_player_flying_or_over_air,
     sprint_particles = sprint_particles,
     sprint_key_activated = sprint_key_activated,
 }
