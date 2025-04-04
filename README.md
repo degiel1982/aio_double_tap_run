@@ -9,6 +9,9 @@ With options for stamina integration, particle effects, and even compatibility w
 - **On Ladders:** Sprinting while climbing ladders (Optional).
 - **In Liquid:** Allow sprinting while submerged in liquid environments (Optional).
 - **Particle Effects:** Display sprinting particles around the player's feet for visual feedback (Optional).
+  
+### Swimming with 3D Armor Flyswim mod
+- With this mod installed and you are fully submerged in the water you can "sprint" dive.
 
 ### Character Animations (Requires Character Animations Mod by LMD)
 - **Custom Animation Settings:** Personalize walk/sprint frame speeds; enable or disable animations based on preferences.
