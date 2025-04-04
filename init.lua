@@ -78,7 +78,7 @@ core.register_globalstep(function(dtime)
                 if mod_settings.stamina.sofar.installed then
                       stamina.exhaust_player(player, (mod_settings.stamina.sofar.exhaust_sprint*2) * dtime)
                 elseif mod_settings.stamina.tenplus.installed then
-                      stamina.exhaust_player(player, (stamina.SPRINT_DRAIN  * 100) * dtime)
+                      stamina.exhaust_player(player, (stamina.SPRINT_DRAIN * 100) * dtime)
                 elseif mod_settings.hunger_ng.installed then
                       hunger_ng.alter_hunger(name, -mod_settings.hunger_ng.exhaust_sprint * dtime, 'Sprinting') 
                 end
