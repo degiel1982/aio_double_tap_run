@@ -37,7 +37,8 @@ With options for stamina integration, particle effects, and even compatibility w
 - **Player Monoids & Pova:** Ensure compatibility with other mods modifying player physics.
 - **Beds Mod:**: Needed for preventing "ghost riding" when sleeping
 - **Character Animations:** Make models move faster when sprinting 
-- **Xcompat:** For support of particles in multiple games(Minetest, Farlands Reloaded) 
+- **Xcompat:** For support of particles in multiple games(Minetest, Farlands Reloaded)
+- **3D Armor Fly Swim:** Used for speed diving in water when you are fully submerged
 
 ## Available Settings 
 
