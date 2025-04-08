@@ -13,10 +13,11 @@ aio_double_tap_run.register_dt_data_callback(function(player, filtered_data, dti
                 aio_double_tap_run.add_to_cancel_list(player_name, "HUNGER")
             end
         end
-        if filtered_data.dt_detected then
-            if ENABLE_DRAIN then
-                hunger_ng.alter_hunger(player_name, -(0.5 * dtime), 'Sprinting')
-            end 
-        end
+
+    end
+    if filtered_data.dt_detected then
+        if ENABLE_DRAIN then
+            hunger_ng.alter_hunger(player_name, -(0.5 * dtime), 'Sprinting')
+        end 
     end
 end)
