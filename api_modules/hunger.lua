@@ -1,6 +1,6 @@
 local hunger_ng_treshold = tonumber(core.settings:get("aio_double_tap_run.hunger_treshold")) or 6
-local ENABLE_STARVE =  core.settings:get_bool("aio_double_tap_run.starve_check", true)
-local ENABLE_DRAIN =  core.settings:get_bool("aio_double_tap_run.enable_stamina_drain", true)
+local ENABLE_STARVE = core.settings:get_bool("aio_double_tap_run.starve_check", true)
+local ENABLE_DRAIN = core.settings:get_bool("aio_double_tap_run.enable_stamina_drain", true)
 
 -- Register callback for double-tap detection
 aio_double_tap_run.register_dt_data_callback(function(player, filtered_data, dtime)
