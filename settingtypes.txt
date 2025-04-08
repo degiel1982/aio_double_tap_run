@@ -39,7 +39,7 @@ aio_double_tap_run.health_treshold (Health treshold) int 6
 
 [Hunger_ng only]
 
-aio_double_tap_run.starve_check (Cancel sprint when starving) bool false
+aio_double_tap_run.starve_check (Cancel sprint when starving) bool true
 
 # When below treshold the player is hungry and will cancel sprint when enabled
 aio_double_tap_run.hunger_treshold (Starve treshold) int 6
