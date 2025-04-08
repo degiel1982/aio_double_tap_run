@@ -12,8 +12,9 @@ end)
 
 dofile(core.get_modpath("aio_double_tap_run") .. "/api_modules/sprint_particles.lua")
 dofile(core.get_modpath("aio_double_tap_run") .. "/api_modules/double_tap_trigger.lua")
-dofile(core.get_modpath("aio_double_tap_run") .. "/api_modules/cancel_tools.lua")
 dofile(core.get_modpath("aio_double_tap_run") .. "/api_modules/set_sprinting.lua")
+dofile(core.get_modpath("aio_double_tap_run") .. "/api_modules/cancel_tools.lua")
+
 
 
 --[[ GET MOD AUTHOR ]]
