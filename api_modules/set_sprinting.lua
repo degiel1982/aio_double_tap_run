@@ -1,3 +1,5 @@
+
+
 local sprint_monoid = {}
 
 local pova_is_installed = core.get_modpath("pova") ~= nil
@@ -27,7 +29,7 @@ end
 
 local reset_timers = {}
 
-local function set_sprinting(player, sprint, extra_speed)
+function aio_double_tap_run.set_sprinting(player, sprint, extra_speed)
     local player_name = player:get_player_name()
     if not player_name then return end
 
@@ -77,5 +79,3 @@ local function set_sprinting(player, sprint, extra_speed)
         reset_timers[player_name] = nil -- Clear any existing timer reference
     end
 end
-
-return set_sprinting

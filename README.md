@@ -1,96 +1,137 @@
-# AIO - Double Tap Run 
-Get ready to transform your gameplay experience with the AIO - Double Tap Run mod! Designed to add a seamless and dynamic sprinting system to your game, this mod is perfect for players who crave enhanced mobility, deeper realism, and full customization. Whether you’re racing across open fields, navigating challenging terrain, or immersing yourself in a more interactive world, this mod introduces intuitive sprint mechanics and exciting features that take movement to the next level.
-With options for stamina integration, particle effects, and even compatibility with popular physics and hunger mods, AIO - Double Tap Run ensures a well-rounded and tailored experience for every type of player. Sprint freely, set your own rules, and enjoy a highly interactive, engaging adventure—because every step matters!
-## Features
+#  AIO - DOUBLE TAP RUN
 
-### Sprinting
-- **Double Tap Forward Key:** Sprint by double tapping the forward key (Optional)
-- **Aux1 Key:** Sprint by pressing the AUX1 key (Optional)
-- **On Ladders:** Sprinting while climbing ladders (Optional).
-- **In Liquid:** Allow sprinting while submerged in liquid environments (Optional).
-- **Particle Effects:** Display sprinting particles around the player's feet for visual feedback (Optional).
-  
-### Swimming with 3D Armor Flyswim mod
-- With this mod installed and you are fully submerged in the water you can "sprint" dive.
+### **Features List**  
 
-### Character Animations (Requires Character Animations Mod by LMD)
-- **Custom Animation Settings:** Personalize walk/sprint frame speeds; enable or disable animations based on preferences.
+- **Intuitive Double-Tap Sprinting**: Effortlessly activate sprinting by double-tapping the forward key, offering a natural and responsive way to boost your movement speed.  
+- **Comprehensive Sprinting Mod**: Built with double-tap sprinting as its flagship feature, providing a refined sprinting experience tailored to all types of players.  
+- **Optional AUX1 Sprinting**: Prefer an alternative? Enable sprinting via the AUX1 key for more customization.  
+- **Seamless Sprinting Experience**: Enjoy fluid, uninterrupted sprinting without unexpected stops or interruptions.  
+- **Enhanced Water Diving**: Sprint even while fully submerged for faster underwater navigation. For an even better experience, pair with the **3D Armor Fly Swim Mod**.  
+- **Extensive Customization Options**: Adjust the mod's settings to perfectly align with your personal playstyle.  
+- **Controller & Touchscreen Optimization**: Freely move using the D-pad or touchscreen without interruptions—except when moving backward or standing still.  
+- **Stamina Integration**: Fully supports stamina mechanics with **stamina/hunger_ng** for an immersive gameplay experience.  
+- **Xcompat Sprint Particles**: Utilize sprint particle effects across more supported worlds with Xcompat compatibility.  
+- **Hang glider compatible**: Supports sprint gliding with a hang glider when hang glider mod is installed
 
-### Stamina and Hunger Integration
-- **Stamina Drain:** Supports stamina reduction while sprinting, compatible with hunger mechanics.
-- **Starvation Rules:** Disable sprinting for starving players to add realism to hunger-based gameplay.
+### **Global Settings**
 
-### Physics Mods Compatibility
-- **Pova:** Integration for enhanced sprint physics using Pova overrides.
-- **Player Monoids:** Compatibility with player physics modification mods.
+#### **Change the Player's Speed**
+- **aio_double_tap_run.extra_speed**: *Set extra speed*  
+  Type: `float`  
+  Default: `0.8`  
+  _Description_: Sets how much faster the player moves (e.g., `0.5` makes the player 50% faster).  
+  **Issues**:  
+  - Not compatible with `stamina` by Sofar.  
+  **Solution**: Adjust this setting using the mod's configuration.
 
-### Xcompat Mod Compatibility
-- Support for the dirt particles while sprinting in 2 games (Minetest and Farlands Reloaded)
+#### **Enable Double-Tap Sprint**
+- **aio_double_tap_run.enable_dt**: *Enable double-tap sprint*  
+  Type: `bool`  
+  Default: `true`  
+  _Description_: Activates double-tap sprint.
 
-## Required Dependencies
-- No required dependencies needed. 
+#### **Enable AUX1 Sprint**
+- **aio_double_tap_run.enable_aux**: *Enable AUX1 sprint*  
+  Type: `bool`  
+  Default: `false`  
+  **Issues**:  
+  - Not compatible with `stamina` by Sofar.  
+  - Not compatible with `stamina` by Tenplus1.  
+  **Solution**: Adjust this setting using the mod's configuration.
 
-## Optional Dependencies
-- **Sofar's Stamina Mod:** Fine-tune sprint stamina mechanics.
-- **TenPlus1's Stamina Mod:** Enable stamina exhaustion to influence sprinting dynamics.
-- **Hunger NG Mod:** Manage hunger-based sprint cancellation and stamina drain.
-- **Player Monoids & Pova:** Ensure compatibility with other mods modifying player physics.
-- **Beds Mod:**: Needed for preventing "ghost riding" when sleeping
-- **Character Animations:** Make models move faster when sprinting 
-- **Xcompat:** For support of particles in multiple games(Minetest, Farlands Reloaded)
-- **3D Armor Fly Swim:** Used for speed diving in water when you are fully submerged
+#### **Enable Sprint Particle Effects**
+- **aio_double_tap_run.particles**: *Enable particles*  
+  Type: `bool`  
+  Default: `true`  
+  **Issues**:  
+  - Not compatible with `stamina` by Sofar.  
+  - Not compatible with `stamina` by Tenplus1.  
+  **Solution**: Adjust this setting using the mod's configuration.
 
-## Available Settings 
+#### **Enable Sprint Swimming**
+- **aio_double_tap_run.enable_swim**: *Enable sprint swimming when submerged underwater*  
+  Type: `bool`  
+  Default: `true`  
+  **Note**: Requires liquid cancellation check to function properly.
+
+---
+
+### **Sprint Cancellations**
+
+#### **Cancellation Triggers**
+- **aio_double_tap_run.disable_backwards_sprint**: *Cancel when moving backward*  
+  Type: `bool`  
+  Default: `true`
+
+- **aio_double_tap_run.liquid_check**: *Cancel sprint in water or lava*  
+  Type: `bool`  
+  Default: `true`
+
+- **aio_double_tap_run.wall_check**: *Cancel sprint when bumping against a wall*  
+  Type: `bool`  
+  Default: `true`
+
+- **aio_double_tap_run.climbable_check**: *Cancel sprint on climbable surfaces*  
+  Type: `bool`  
+  Default: `true`
+
+- **aio_double_tap_run.crouch_check**: *Cancel sprint while crouching*  
+  Type: `bool`  
+  Default: `false`
+
+- **aio_double_tap_run.snow_check**: *Cancel sprint on snowy nodes*  
+  Type: `bool`  
+  Default: `true`
+
+- **aio_double_tap_run.fly_check**: *Cancel sprint while flying*  
+  Type: `bool`  
+  Default: `false`
+
+- **aio_double_tap_run.health_check**: *Cancel sprint with low health*  
+  Type: `bool`  
+  Default: `true`  
+  **Threshold**:  
+  - **aio_double_tap_run.health_treshold**: *Health threshold*  
+    Type: `int`  
+    Default: `6`
+
+---
+
+### **Hunger_ng Integration**
+
+#### **Starvation Mechanics**
+- **aio_double_tap_run.starve_check**: *Cancel sprint when starving*  
+  Type: `bool`  
+  Default: `false`
+
+#### **Hunger Threshold**
+- **aio_double_tap_run.hunger_treshold**: *Starvation threshold*  
+  Type: `int`  
+  Default: `6`  
+  _Description_: Sprint cancels when player hunger falls below this threshold (if enabled).
+
+#### **Stamina Drain**
+- **aio_double_tap_run.enable_stamina_drain**: *Enable stamina drain*  
+  Type: `bool`  
+  Default: `true`
+
+---
+
+### **Character Animations**
+
+#### **Animation Settings**
+- **aio_double_tap_run.enable_animations**: *Enable animations*  
+  Type: `bool`  
+  Default: `true`
+
+- **aio_double_tap_run.walk_framespeed**: *Walk frame speed*  
+  Type: `int`  
+  Default: `15`
+
+- **aio_double_tap_run.sprint_framespeed**: *Sprint frame speed*  
+  Type: `int`  
+  Default: `30`
+
+---
 
 
-<table border="1" color="#FFFFFF" align="center">
-  <tr>
-    <th>Name</th>
-    <th>Value Type</th>
-    <th>Key Name</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><center>Enable Double Tap ]</td>
-    <td><code>true/false</code></td>
-    <td>aio_dt.use_dt</td>
-    <td><code>true</code></td>
-  </tr>
-  <tr>
-    <td>Enable Aux</td>
-    <td><code>true/false</code></td>
-    <td>aio_dt.use_aux</td>
-    <td><code>false</code></td>
-  </tr>
-  <tr>
-    <td>Sprint on climbable</td>
-    <td><code>true/false</code></td>
-    <td>aio_dt.ladder_sprint</td>
-    <td><code>false</code></td>
-  </tr>
-  <tr>
-    <td>Sprint in liquids (Water/Lava)</td>
-    <td><code>true/false</code></td>
-    <td>aio_dt.liquid_sprint</td>
-    <td><code>false</code></td>
-  </tr>
-  <tr>
-    <td>Enable sprint particles</td>
-    <td><code>true/false</code></td>
-    <td>aio_dt.particles</td>
-    <td><code>true</code></td>
-  </tr>
-  <tr>
-    <td>Enable stamina drain</td>
-    <td><code>true/false</code></td>
-    <td>aio_dt.stamina_drain</td>
-    <td><code>true</code></td>
-  </tr>
-</table>
-
-
-**LIST IS WIP**
-
-## License
-- **Code:** MIT License
-- **Media:** No media included.
