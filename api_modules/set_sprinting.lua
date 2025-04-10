@@ -20,7 +20,7 @@ if monoids_is_installed then
         identity = 1.0,
         apply = function(speed, player)
             local override = player:get_physics_override()
-            override.speed = speed
+            override.speed = speed * override.speed
             player:set_physics_override(override)
         end,
     })
