@@ -102,7 +102,7 @@
 #### **Starvation Mechanics**
 - **aio_double_tap_run.starve_check**: *Cancel sprint when starving*  
   Type: `bool`  
-  Default: `true`
+  Default: `false`
 
 #### **Hunger Threshold**
 - **aio_double_tap_run.hunger_treshold**: *Starvation threshold*  
