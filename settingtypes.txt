@@ -1,26 +1,23 @@
 [Global Settings]
 
-#Change the players speed
-# When set to 0.5 the player is 50% faster
-# Issue: This does not work when stamina by sofar is installed
-# Solution: Use their mod settings to change this value
+
+# When set to 0.8 the player is 80% faster
+# ISSUE: Not working with stamina by sofar
+# SOLUTION: Use their settings to change this
 aio_double_tap_run.extra_speed (Set extra speed) float 0.8
 
 # Enable Double Tap Sprint
 aio_double_tap_run.enable_dt (Enable double tap sprint) bool true
 
 # Enable AUX1 Sprint
-# Issue: This does not work when stamina by sofar is installed
-# Issue: This does not work when stamina by Tenplus1 is installed
-# Solution: Use their mod settings to change this value
+# ISSUE: Not working with stamina by sofar
+# SOLUTION: Use their settings to change this (Disable Sprint)
 aio_double_tap_run.enable_aux (Enable AUX1 sprint) bool false
 
-# Issue: This does not work when stamina by sofar is installed
-# Issue: This does not work when stamina by Tenplus1 is installed
-# Solution: Use their mod settings to change this value
+# ISSUE: Not working with stamina by sofar
+# SOLUTION: Use their settings to change this
 aio_double_tap_run.particles (Enable particles) bool true
 
-# NOTE: This needs the liquid cancelation check
 aio_double_tap_run.enable_swim (Enable sprint swimming when submerged under water) bool true
 
 [Sprint Cancellations]
@@ -51,4 +48,3 @@ aio_double_tap_run.enable_stamina_drain (Enable Stamina drain) bool true
 aio_double_tap_run.enable_animations (Enable animations) bool true
 aio_double_tap_run.walk_framespeed (Walk framespeed) int 15
 aio_double_tap_run.sprint_framespeed (Sprint framespeed) int 30
-

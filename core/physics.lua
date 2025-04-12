@@ -5,7 +5,8 @@ local monoids_is_installed = core.get_modpath("player_monoids") ~= nil
 
 local reset_timers = {}
 
-function aio_double_tap_run.set_sprinting(player, sprint, extra_speed)
+local function set_sprinting(player, sprint, extra_speed)
+    if not aio_double_tap_run.is_player(player) then return nil end
     local player_name = player:get_player_name()
     if not player_name then return end
 
@@ -27,20 +28,18 @@ function aio_double_tap_run.set_sprinting(player, sprint, extra_speed)
         end
 
         -- Create a new reset timer
-        reset_timers[player_name] = minetest.after(0.3, function()
+        reset_timers[player_name] = core.after(0.3, function()
             -- Ensure the player still exists and reset their speed
             if player and player:is_player() then
                 if monoids_is_installed then
                     player_monoids.speed:del_change(player, mod_name .. ":sprinting")
                 elseif pova_is_installed then
-                    --local override_name = "aio_double_tap_run:sprinting"
-                    --pova.del_override(player_name, override_name)
                 else
                     player:set_physics_override({ speed = 1 })
             
                 end
             end
-            reset_timers[player_name] = nil -- Clear the timer reference
+            reset_timers[player_name] = nil
         end)
     else
         if monoids_is_installed then
@@ -52,6 +51,17 @@ function aio_double_tap_run.set_sprinting(player, sprint, extra_speed)
             player:set_physics_override({ speed = 1 })
     
         end
-        reset_timers[player_name] = nil -- Clear any existing timer reference
+        reset_timers[player_name] = nil
     end
 end
+
+core.register_on_leaveplayer(function(player)
+    local player_name = player:get_player_name()
+    reset_timers[player_name] = nil
+end)
+
+return {
+    sprint = set_sprinting,
+    monoids_is_installed = monoids_is_installed,
+    pova_is_installed = pova_is_installed,
+}
