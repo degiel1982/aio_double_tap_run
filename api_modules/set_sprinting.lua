@@ -1,44 +1,20 @@
-
-
-local sprint_monoid = {}
+local mod_name = core.get_current_modname()
 
 local pova_is_installed = core.get_modpath("pova") ~= nil
 local monoids_is_installed = core.get_modpath("player_monoids") ~= nil
 
-if monoids_is_installed then
-    sprint_monoid = player_monoids.make_monoid({
-        combine = function(a, b)
-            return a * b
-        end,
-        fold = function(tab)
-            local result = 1.0
-            for _, value in pairs(tab) do
-                result = result * value
-            end
-            return result
-        end,
-        identity = 1.0,
-        apply = function(speed, player)
-            local override = player:get_physics_override()
-            override.speed = speed
-            player:set_physics_override(override)
-        end,
-    })
-end
-
-
 local reset_timers = {}
 
-function aio_double_tap_run.set_sprinting(player, sprint, extra_speed)
+local function aio_double_tap_run.set_sprinting(player, sprint, extra_speed)
     local player_name = player:get_player_name()
     if not player_name then return end
 
     if sprint then
         -- Set sprint speed
         if monoids_is_installed then
-            sprint_monoid:add_change(player, (1 + extra_speed), "aio_double_tap_run:sprinting")
+            player_monoids.speed:add_change(player, (1 + extra_speed), mod_name .. ":sprinting")
         elseif pova_is_installed then
-            local override_name = "aio_double_tap_run:sprinting"
+            local override_name = mod_name .. ":sprinting"
             local override_table = { speed = (extra_speed), jump = nil, gravity = nil }
             pova.add_override(player_name, override_name, override_table)
             --pova.del_override(player_name, override_name)
@@ -55,7 +31,7 @@ function aio_double_tap_run.set_sprinting(player, sprint, extra_speed)
             -- Ensure the player still exists and reset their speed
             if player and player:is_player() then
                 if monoids_is_installed then
-                    sprint_monoid:del_change(player, "aio_double_tap_run:sprinting")
+                    player_monoids.speed:del_change(player, mod_name .. ":sprinting")
                 elseif pova_is_installed then
                     --local override_name = "aio_double_tap_run:sprinting"
                     --pova.del_override(player_name, override_name)
@@ -68,9 +44,9 @@ function aio_double_tap_run.set_sprinting(player, sprint, extra_speed)
         end)
     else
         if monoids_is_installed then
-            sprint_monoid:del_change(player, "aio_double_tap_run:sprinting")
+            player_monoids.speed:del_change(player, mod_name .. ":sprinting")
         elseif pova_is_installed then
-            local override_name = "aio_double_tap_run:sprinting"
+            local override_name = mod_name .. ":sprinting"
             pova.del_override(player_name, override_name)
         else
             player:set_physics_override({ speed = 1 })
