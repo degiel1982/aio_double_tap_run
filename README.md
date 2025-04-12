@@ -36,7 +36,6 @@
   Default: `false`  
   **Issues**:  
   - Not compatible with `stamina` by Sofar.  
-  - Not compatible with `stamina` by Tenplus1.  
   **Solution**: Adjust this setting using the mod's configuration.
 
 #### **Enable Sprint Particle Effects**
@@ -44,15 +43,13 @@
   Type: `bool`  
   Default: `true`  
   **Issues**:  
-  - Not compatible with `stamina` by Sofar.  
-  - Not compatible with `stamina` by Tenplus1.  
+  - Not compatible with `stamina` by Sofar. 
   **Solution**: Adjust this setting using the mod's configuration.
 
 #### **Enable Sprint Swimming**
 - **aio_double_tap_run.enable_swim**: *Enable sprint swimming when submerged underwater*  
   Type: `bool`  
-  Default: `true`  
-  **Note**: Requires liquid cancellation check to function properly.
+  Default: `true`
 
 ---
 
