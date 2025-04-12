@@ -5,7 +5,7 @@ local monoids_is_installed = core.get_modpath("player_monoids") ~= nil
 
 local reset_timers = {}
 
-local function aio_double_tap_run.set_sprinting(player, sprint, extra_speed)
+function aio_double_tap_run.set_sprinting(player, sprint, extra_speed)
     local player_name = player:get_player_name()
     if not player_name then return end
 
