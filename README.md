@@ -11,7 +11,7 @@
 - **Controller & Touchscreen Optimization**: Freely move using the D-pad or touchscreen without interruptions—except when moving backward or standing still.  
 - **Stamina Integration**: Fully supports stamina mechanics with **stamina/hunger_ng** for an immersive gameplay experience.  
 - **Xcompat Sprint Particles**: Utilize sprint particle effects across more supported worlds with Xcompat compatibility.  
-- **Hang glider compatible**: Supports sprint gliding with a hang glider when hang glider mod is installed
+- **Hang glider compatible**: Supports sprint gliding with a hang glider when hang glider mod is installed (player_monoids/pova required)
 
 ### **Global Settings**
 
