@@ -18,6 +18,15 @@ aio_double_tap_run.enable_aux (Enable AUX1 sprint) bool false
 # SOLUTION: Use their settings to change this
 aio_double_tap_run.particles (Enable particles) bool true
 
+
+# When enabled draining/restoring is activated
+#NOTE: This only works if no stamina/hunger or hbhunger is installed
+aio_double_tap_run.enable_fatique (Show Fatique bar) bool true
+
+# You still have to stand still for 2 seconds to restore.
+#NOTE: This only works if no stamina/hunger or hbhunger is installed
+aio_double_tap_run.restore_treshold (Restores fatique when HP is above this treshold) int 6
+
 aio_double_tap_run.enable_swim (Enable sprint swimming when submerged under water) bool true
 
 [Sprint Cancellations]

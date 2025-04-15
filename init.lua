@@ -37,7 +37,7 @@ dofile(core.get_modpath(mod_name) .. "/core/keyboard.lua")
 dofile(core.get_modpath(mod_name) .. "/core/sprint_particles.lua")
 dofile(core.get_modpath(mod_name) .. "/core/cancelations.lua")
 dofile(core.get_modpath(mod_name) .. "/core/sprinting.lua")
---dofile(core.get_modpath(mod_name) .. "/core/ad_sprint.lua")
+
 
 --------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------
@@ -47,34 +47,29 @@ dofile(core.get_modpath(mod_name) .. "/core/sprinting.lua")
 --[[
     STAMINA
 ]]
+aio_double_tap_run.hbhunger = core.get_modpath("hbhunger") and core.global_exists("hbhunger") ~= nil
+aio_double_tap_run.hunger_ng = core.get_modpath("hunger_ng") and core.global_exists("hunger_ng") ~= nil
 aio_double_tap_run.stamina = core.get_modpath("stamina") and core.global_exists("stamina") ~= nil
 if aio_double_tap_run.stamina then
     dofile(core.get_modpath(mod_name) .. "/addons/stamina.lua")
-end
-
---[[
-    HUNGER-NG
-]]
-aio_double_tap_run.hunger_ng = core.get_modpath("hunger_ng") and core.global_exists("hunger_ng") ~= nil
-if aio_double_tap_run.hunger_ng then
+elseif aio_double_tap_run.hunger_ng then
     dofile(core.get_modpath(mod_name) .. "/addons/hunger_ng.lua")
+elseif aio_double_tap_run.hbhunger then
+    dofile(core.get_modpath(mod_name) .. "/addons/hbhunger.lua")
+else
+    local show_fatique = core.settings:get_bool(mod_name .. ".enable_fatique", true)
+    if show_fatique then
+        dofile(core.get_modpath(mod_name) .. "/core/ad_sprint.lua")
+    end
 end
 
---[[
-    CHARACTER ANIMATIONS BY LMD
-]]
 aio_double_tap_run.character_anim = core.get_modpath("character_anim") ~= nil
 if aio_double_tap_run.character_anim then
     dofile(core.get_modpath(mod_name) .. "/addons/character_anim.lua")
 end
 
---[[
-    HB_HUNGER BY WUZZY
-]]
-aio_double_tap_run.hbhunger = core.get_modpath("hbhunger") and core.global_exists("hbhunger") ~= nil
-if aio_double_tap_run.hbhunger then
-    dofile(core.get_modpath(mod_name) .. "/addons/hbhunger.lua")
-end
+
+
 
 if core.get_modpath("beds") and core.global_exists("beds") ~= nil then
     local bed_nodes = {
