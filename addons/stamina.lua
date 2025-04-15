@@ -54,10 +54,14 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
     if not aio_double_tap_run.is_player(player) then return nil end
     local player_name = player:get_player_name()
     local control = player:get_player_control()
+
     local current_saturation = stamina.get_saturation(player) or 0  -- Fallback if nil
-    
-    if current_saturation <= mod_settings.treshold then
+    if (current_saturation <= mod_settings.treshold) then
         data.cancel_sprint = true
+    end
+
+    if data.cancel_sprint then
+        stamina.set_sprinting(player, false)
         return data
     end
 
