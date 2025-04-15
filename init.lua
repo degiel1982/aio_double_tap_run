@@ -37,7 +37,7 @@ dofile(core.get_modpath(mod_name) .. "/core/keyboard.lua")
 dofile(core.get_modpath(mod_name) .. "/core/sprint_particles.lua")
 dofile(core.get_modpath(mod_name) .. "/core/cancelations.lua")
 dofile(core.get_modpath(mod_name) .. "/core/sprinting.lua")
-
+--dofile(core.get_modpath(mod_name) .. "/core/ad_sprint.lua")
 
 --------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------

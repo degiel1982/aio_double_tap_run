@@ -79,7 +79,7 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
         end
     end
     local control = player:get_player_control()
-    if control.down and mod_author == "sofar" then
+    if (control.down and aio_double_tap_run.settings.backward_check) and mod_author == "sofar" then
         stamina.set_sprinting(player, false)
     end
     return nil
