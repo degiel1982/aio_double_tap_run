@@ -9,10 +9,6 @@ end
 local function set_mybar_hud_id(player, hud_id)
     mybar_hud_ids[player:get_player_name()] = hud_id
 end
-local bar_y = -114
-if core.get_modpath("stamina") then
-    bar_y = -130
-end
 
 local function init_mybar(player)
     local max_value = 20
@@ -22,12 +18,12 @@ local function init_mybar(player)
         [minetest.features.hud_def_type_field and "type" or "hud_elem_type"] = "statbar",
         position = {x = 0.5, y = 1},
         size = {x = 24, y = 24},
-        text = "server_favorite.png",      -- your bar foreground image
+        text = "server_favorite.png", 
         number = value,
-        text2 = "blank.png",     -- your bar background image
+        text2 = "blank.png", 
         item = max_value,
         alignment = {x = -1, y = -1},
-        offset = {x = -266, y = bar_y}, -- y=-140 is above stamina's y=-110
+        offset = {x = -266, y = bar_y},
         max = 0,
     })
     set_mybar_hud_id(player, id)
