@@ -68,6 +68,14 @@ if aio_double_tap_run.character_anim then
     dofile(core.get_modpath(mod_name) .. "/addons/character_anim.lua")
 end
 
+--[[
+    HB_HUNGER BY WUZZY
+]]
+aio_double_tap_run.hbhunger = core.get_modpath("hbhunger") and core.global_exists("hbhunger") ~= nil
+if aio_double_tap_run.hbhunger then
+    dofile(core.get_modpath(mod_name) .. "/addons/hbhunger.lua")
+end
+
 if core.get_modpath("beds") and core.global_exists("beds") ~= nil then
     local bed_nodes = {
         "beds:bed",

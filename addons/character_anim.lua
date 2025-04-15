@@ -4,8 +4,6 @@ local SPRINT_FRAMESPEED = aio_double_tap_run.settings.sprint_speed
 local WALK_FRAMESPEED = aio_double_tap_run.settings.walk_speed
 
 aio_double_tap_run.register_callback(function(player, data, dtime)
-    if not aio_double_tap_run.is_player(player) then return nil end
-
     local player_name = player:get_player_name()
    
     if data.is_sprinting then
