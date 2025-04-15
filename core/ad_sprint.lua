@@ -1,4 +1,4 @@
--- Place this in your mod's init.lua
+
 
 local mybar_hud_ids = {}
 
