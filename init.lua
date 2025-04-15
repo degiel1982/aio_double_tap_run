@@ -84,10 +84,10 @@ if core.get_modpath("beds") and core.global_exists("beds") ~= nil then
                         original_on_right_click(pos, node, player, itemstack, pointed_thing)
                     end
                 else
-                    core.chat_send_player(player:get_player_name(), Release the sprint key first)
+                    core.chat_send_player(player:get_player_name(), "Release the sprint key first")
                 end
             end
         }
-        core.override_item(bed_node, updated_bed_definition
+        core.override_item(bed_node, updated_bed_definition)
     end
 end
