@@ -76,7 +76,7 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
             drain_mybar(player, 0.5 * dtime)
         end
 
-        if current_value <= 0 then
+        if current_value <= 0.5 then
             data.cancel_sprint = true
             return data
         end
