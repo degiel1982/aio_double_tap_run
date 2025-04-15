@@ -67,3 +67,27 @@ aio_double_tap_run.character_anim = core.get_modpath("character_anim") ~= nil
 if aio_double_tap_run.character_anim then
     dofile(core.get_modpath(mod_name) .. "/addons/character_anim.lua")
 end
+
+if core.get_modpath("beds") and core.global_exists("beds") ~= nil then
+    local bed_nodes = {
+        "beds:bed",
+        "beds:fancy_bed",
+    }
+
+    for _, bed_node in ipairs(bed_nodes) do
+        local original_on_right_click = core.registered_nodes[bed_node].on_rightclick
+        local updated_bed_definition = {
+            on_rightclick = function(pos, node, player, itemstack, pointed_thing)
+                local ctrl = player:get_player_control()
+                if not ctrl.aux1 then
+                    if original_on_right_click then
+                        original_on_right_click(pos, node, player, itemstack, pointed_thing)
+                    end
+                else
+                    core.chat_send_player(player:get_player_name(), Release the sprint key first)
+                end
+            end
+        }
+        core.override_item(bed_node, updated_bed_definition
+    end
+end
