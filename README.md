@@ -16,7 +16,7 @@
 ### **Global Settings**
 
 #### **Change the Player's Speed**
-- **aio_double_tap_run.extra_speed**: *Set extra speed*  
+- **aio_double_tap_run.extra_speed**:
   Type: `float`  
   Default: `0.8`  
   _Description_: Sets how much faster the player moves (e.g., `0.5` makes the player 50% faster).  
