@@ -2,7 +2,7 @@
 local mod_name = aio_double_tap_run.mod_name
 local functions = dofile(core.get_modpath(mod_name) .. "/core/functions.lua")
 local ENABLE_STARVE = core.settings:get_bool(mod_name..".hb_starve_check", true)
-local ENABLE_DRAIN = core.settings:get_bool(mod_name..".hb_enable_stamina_drain", true)
+local ENABLE_DRAIN = core.settings:get_bool(mod_name..".hb_enable_drain", true)
 local TRESHOLD = tonumber(core.settings:get(mod_name..".hb_treshold")) or 6
 local DRAIN_RATE = tonumber(core.settings:get(mod_name..".hb_drain_rate")) or 15.0
 DRAIN_RATE = DRAIN_RATE * 10
