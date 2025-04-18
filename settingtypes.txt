@@ -41,7 +41,7 @@ aio_double_tap_run.crouch_check (Crouching) bool false
 aio_double_tap_run.snow_check (Snowy nodes) bool true
 aio_double_tap_run.fly_check (Is flying) bool false
 aio_double_tap_run.health_check (Low health) bool true
-aio_double_tap_run.health_treshold (Health treshold) int 6 0 20
+aio_double_tap_run.health_threshold (Health treshold) int 6 0 20
 
 [Hunger_ng]
 
