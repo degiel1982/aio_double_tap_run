@@ -5,7 +5,7 @@ local settings = aio_double_tap_run.settings
 local function node_at_player_feet(player)
     local pos = player:get_pos()
     -- Slightly below the player's position to catch slabs/thin nodes
-    local check_pos = { x = pos.x, y = pos.y - 0.15, z = pos.z }
+    local check_pos = { x = pos.x, y = pos.y + 0.2, z = pos.z }
     local node = core.get_node_or_nil(check_pos)
     if node then
         local def = core.registered_nodes[node.name]
