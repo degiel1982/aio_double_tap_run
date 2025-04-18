@@ -2,7 +2,19 @@ local mod_name = aio_double_tap_run.mod_name
 
 local check = dofile(core.get_modpath(mod_name) .. "/core/functions.lua")
 local settings = aio_double_tap_run.settings
-
+local function node_at_player_feet(player)
+    local pos = player:get_pos()
+    -- Slightly below the player's position to catch slabs/thin nodes
+    local check_pos = { x = pos.x, y = pos.y - 0.15, z = pos.z }
+    local node = core.get_node_or_nil(check_pos)
+    if node then
+        local def = core.registered_nodes[node.name]
+        if def and def.groups and def.groups.snowy and def.groups.snowy > 0 then
+            return true
+        end
+    end
+    return false
+end
 local LIQUID_CHECK = settings.liquid_check
 local WALL_CHECK = settings.wall_check
 local CLIMBABLE_CHECK = settings.climbable_check
@@ -52,7 +64,7 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
     end
 
     if SNOW_CHECK then
-        if check.on_snowy_node(player) then
+        if check.node_at_player_feet(player) then
             data.cancel_sprint = true
             return data
         end
