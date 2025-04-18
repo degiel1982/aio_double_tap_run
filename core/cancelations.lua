@@ -64,7 +64,7 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
     end
 
     if SNOW_CHECK then
-        if check.node_at_player_feet(player) then
+        if node_at_player_feet(player) then
             data.cancel_sprint = true
             return data
         end
