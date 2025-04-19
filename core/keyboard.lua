@@ -87,7 +87,7 @@ core.register_globalstep(function(dtime)
                 end
 
             -- No key pressed
-            elseif player_control == 0 then
+            elseif player_control == 0 or player_control == 32 then
                 player_data.detected = false
                 player_data.is_holding = false
                 player_data.aux_pressed = false
