@@ -1,14 +1,14 @@
-
-
 local mod_name = aio_double_tap_run.mod_name
 local bar_id = "fatigue"
 local BAR_BGICON = "server_favorite.png"         -- Change to your background icon if needed
 local BAR = "[fill:2x16:0,0:#056608"
+local S = core.get_translator("aio_double_tap_run") -- Use your mod name here
+
 -- Register the fatigue HUD bar
 hb.register_hudbar(
     bar_id,
     0xFFFFFF, 
-    "Fatigue", -- Label
+    S("Fatigue"), -- Label
     { icon = BAR_BGICON, bgicon = nil, bar = BAR },
     20, -- default_start_value
     20, -- default_start_max
