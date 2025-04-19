@@ -5,7 +5,7 @@ local monoids_is_installed = core.get_modpath("player_monoids") ~= nil
 
 local reset_timers = {}
 
-local function set_sprinting(player, sprint, extra_speed)
+local function set_sprinting(player, sprint, extra_speed, extra_jump)
     if not aio_double_tap_run.is_player(player) then return nil end
     local player_name = player:get_player_name()
     if not player_name then return end
@@ -14,13 +14,14 @@ local function set_sprinting(player, sprint, extra_speed)
         -- Set sprint speed
         if monoids_is_installed then
             player_monoids.speed:add_change(player, (1 + extra_speed), mod_name .. ":sprinting")
+             player_monoids.jump:add_change(player, (1 + (extra_jump or 0)), mod_name .. ":sprinting")
         elseif pova_is_installed then
             local override_name = mod_name .. ":sprinting"
-            local override_table = { speed = (extra_speed), jump = nil, gravity = nil }
+            local override_table = { speed = (extra_speed), jump = extra_jump or nil, gravity = nil }
             pova.add_override(player_name, override_name, override_table)
             --pova.del_override(player_name, override_name)
         else
-            player:set_physics_override({ speed = (1 + extra_speed) })
+            player:set_physics_override({ speed = (1 + extra_speed), jump = (1+ (extra_jump or 0)) })
         end
         -- Cancel any existing reset timer by overwriting it
         if reset_timers[player_name] then
