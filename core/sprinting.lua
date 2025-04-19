@@ -1,12 +1,12 @@
 local mod_name = aio_double_tap_run.mod_name
 local aio = aio_double_tap_run.physics
 local EXTRA_SPEED = aio_double_tap_run.settings.extra_speed
-
+local EXTRA_JUMP = tonumber(core.settings:get("aio_double_tap_run.extra_jump")) or 0.1
 aio_double_tap_run.register_callback(function(player, data, dtime)
     if not aio_double_tap_run.is_player(player) then return nil end
     if not data.cancel_sprint then
         if data.detected then
-            aio.sprint(player, true, EXTRA_SPEED,1)
+            aio.sprint(player, true, EXTRA_SPEED, EXTRA_JUMP)
            if not data.is_sprinting then
                data.is_sprinting = true
            end

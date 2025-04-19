@@ -6,6 +6,11 @@
 # SOLUTION: Use their settings to change this
 aio_double_tap_run.extra_speed (Set extra speed) float 0.8 0.0 2.0
 
+# When set to 0.1 the player jumps 10% higher
+# ISSUE: Not working with stamina by sofar
+aio_double_tap_run.extra_jump (Set jump height when sprinting) float 0.1 0.0 2.0
+
+
 # Enable Double Tap Sprint
 aio_double_tap_run.enable_dt (Enable double tap sprint) bool true
 
