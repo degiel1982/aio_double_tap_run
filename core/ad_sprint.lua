@@ -1,5 +1,3 @@
--- Place this in your mod's init.lua
-
 local mybar_hud_ids = {}
 local storage = core.get_mod_storage()
 
