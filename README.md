@@ -1,7 +1,7 @@
 #  AIO - DOUBLE TAP RUN
 
 ### **Features List**  
-- **Own fatigue bar**: When no stamina/hunger_ng/hbhunger mod is installed it will show a fatqiue bar(Toggleable in the settings)
+- **Own fatigue bar**: When no stamina/hunger_ng/hbhunger mod is installed or not in creative mode it will show a fatqiue bar(Toggleable in the settings)
 - **Intuitive Double-Tap Sprinting**: Effortlessly activate sprinting by double-tapping the forward key, offering a natural and responsive way to boost your movement speed.  
 - **Comprehensive Sprinting Mod**: Built with double-tap sprinting as its flagship feature, providing a refined sprinting experience tailored to all types of players.  
 - **Optional AUX1 Sprinting**: Prefer an alternative or maybe both? Enable sprinting via the AUX1 key for more customization.  
@@ -12,4 +12,5 @@
 - **Stamina Integration**: Fully supports stamina mechanics with **stamina/hunger_ng/hbhunger** for an immersive gameplay experience.  
 - **Xcompat Sprint Particles**: Utilize sprint particle effects across more supported worlds with Xcompat compatibility.  
 - **Hang glider compatible**: Supports sprint gliding with a hang glider when hang glider mod is installed (player_monoids/pova required)
+- **Compatible with mymonths by Don and contributors**: When enabled in the settings snow_covers will slow you down.
 
