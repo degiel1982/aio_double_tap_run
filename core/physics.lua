@@ -14,7 +14,7 @@ local function set_sprinting(player, sprint, extra_speed, extra_jump)
         -- Set sprint speed
         if monoids_is_installed then
             player_monoids.speed:add_change(player, (1 + extra_speed), mod_name .. ":sprinting")
-             player_monoids.jump:add_change(player, (1 + (extra_jump or 0)), mod_name .. ":sprinting")
+             player_monoids.jump:add_change(player, (1 + (extra_jump or 0)), mod_name .. ":jumping")
         elseif pova_is_installed then
             local override_name = mod_name .. ":sprinting"
             local override_table = { speed = (extra_speed), jump = extra_jump or nil, gravity = nil }
@@ -34,9 +34,10 @@ local function set_sprinting(player, sprint, extra_speed, extra_jump)
             if player and player:is_player() then
                 if monoids_is_installed then
                     player_monoids.speed:del_change(player, mod_name .. ":sprinting")
+                    player_monoids.jump:del_change(player, mod_name .. ":jumping")
                 elseif pova_is_installed then
                 else
-                    player:set_physics_override({ speed = 1 })
+                    player:set_physics_override({ speed = 1, jump = 1 })
             
                 end
             end
@@ -45,11 +46,12 @@ local function set_sprinting(player, sprint, extra_speed, extra_jump)
     else
         if monoids_is_installed then
             player_monoids.speed:del_change(player, mod_name .. ":sprinting")
+             player_monoids.jump:del_change(player, mod_name .. ":jumping")
         elseif pova_is_installed then
             local override_name = mod_name .. ":sprinting"
             pova.del_override(player_name, override_name)
         else
-            player:set_physics_override({ speed = 1 })
+            player:set_physics_override({ speed = 1, jump = 1 })
     
         end
         reset_timers[player_name] = nil
