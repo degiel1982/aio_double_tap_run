@@ -12,4 +12,4 @@
 - **Stamina Integration**: Fully supports stamina mechanics with **stamina/hunger_ng/hbhunger** for an immersive gameplay experience.  
 - **Xcompat Sprint Particles**: Utilize sprint particle effects across more supported worlds with Xcompat compatibility.  
 - **Hang glider compatible**: Supports sprint gliding with a hang glider when hang glider mod is installed (player_monoids/pova required)
-
+= **Compatible with mymonths by Don and contributors**: When enabled in the settings snow_covers will slow you down.
