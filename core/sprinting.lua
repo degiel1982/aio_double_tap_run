@@ -6,13 +6,13 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
     if not aio_double_tap_run.is_player(player) then return nil end
     if not data.cancel_sprint then
         if data.detected then
-            aio.sprint(player, true, EXTRA_SPEED)
+            aio.sprint(player, true, EXTRA_SPEED,1)
            if not data.is_sprinting then
                data.is_sprinting = true
            end
         else
            if aio.pova_is_installed then
-                aio.sprint(player, false)
+                aio.sprint(player, false,0)
             end
             if data.is_sprinting then
                 data.is_sprinting = false
@@ -20,7 +20,7 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
         end
     else
         if aio.pova_is_installed then
-            aio.sprint(player, false)
+            aio.sprint(player, false,0)
         end
         if data.is_sprinting then
             data.is_sprinting = false
