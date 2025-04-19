@@ -50,6 +50,7 @@ dofile(core.get_modpath(mod_name) .. "/core/sprinting.lua")
 aio_double_tap_run.hbhunger = core.get_modpath("hbhunger") and core.global_exists("hbhunger") ~= nil
 aio_double_tap_run.hunger_ng = core.get_modpath("hunger_ng") and core.global_exists("hunger_ng") ~= nil
 aio_double_tap_run.stamina = core.get_modpath("stamina") and core.global_exists("stamina") ~= nil
+aio_double_tap_run.wuzzy = core.get_modpath("hudbars") and core.global_exists("hudbars") ~= nil
 if aio_double_tap_run.stamina then
     dofile(core.get_modpath(mod_name) .. "/addons/stamina.lua")
 elseif aio_double_tap_run.hunger_ng then
@@ -59,7 +60,11 @@ elseif aio_double_tap_run.hbhunger then
 else
     local show_fatique = core.settings:get_bool(mod_name .. ".enable_fatique", true)
     if show_fatique then
-        dofile(core.get_modpath(mod_name) .. "/core/ad_sprint.lua")
+        if aio_double_tap_run.wuzzy then
+            dofile(core.get_modpath(mod_name) .. "/addons/wuzzy_hudbar.lua")
+        else
+            dofile(core.get_modpath(mod_name) .. "/core/ad_sprint.lua")
+        end
     end
 end
 
