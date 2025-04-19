@@ -1,6 +1,6 @@
 local mod_name = aio_double_tap_run.mod_name
 
-local hunger_ng_treshold = tonumber(core.settings:get(mod_name..".hunger_treshold")) or 6
+local hunger_ng_threshold = tonumber(core.settings:get(mod_name..".hunger_threshold")) or 6
 local ENABLE_STARVE = core.settings:get_bool(mod_name..".starve_check", true)
 local ENABLE_DRAIN = core.settings:get_bool(mod_name..".enable_stamina_drain", true)
 local DRAIN_RATE = tonumber(core.settings:get(mod_name..".hunger_drain_rate")) or 0.5
@@ -11,7 +11,7 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
     local player_name = player:get_player_name()
     if ENABLE_STARVE then
         local info = hunger_ng.get_hunger_information(player_name)
-        if info.hunger.exact <= hunger_ng_treshold then
+        if info.hunger.exact <= hunger_ng_threshold then
             data.cancel_sprint = true
             return data
         end

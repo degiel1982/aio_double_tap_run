@@ -84,7 +84,7 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
 
     -- Get the player's health
     local player_health = player:get_hp()
-    local health_threshold = tonumber(core.settings:get(mod_name .. ".restore_treshold")) or 6
+    local health_threshold = tonumber(core.settings:get(mod_name .. ".restore_threshold")) or 6
     if current_value <= 1 then
         data.cancel_sprint = true
         return data

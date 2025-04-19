@@ -3,7 +3,7 @@ local mod_name = aio_double_tap_run.mod_name
 local functions = dofile(core.get_modpath(mod_name) .. "/core/functions.lua")
 local ENABLE_STARVE = core.settings:get_bool(mod_name..".hb_starve_check", true)
 local ENABLE_DRAIN = core.settings:get_bool(mod_name..".hb_enable_drain", true)
-local TRESHOLD = tonumber(core.settings:get(mod_name..".hb_treshold")) or 6
+local threshold = tonumber(core.settings:get(mod_name..".hb_threshold")) or 6
 local DRAIN_RATE = tonumber(core.settings:get(mod_name..".hb_drain_rate")) or 15.0
 DRAIN_RATE = DRAIN_RATE * 10
 aio_double_tap_run.register_callback(function(player, data, dtime)
@@ -11,7 +11,7 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
     local current_hunger = hbhunger.hunger[player_name] or hbhunger.SAT_INIT
 
     if ENABLE_STARVE then
-        if current_hunger < TRESHOLD then
+        if current_hunger < threshold then
             data.cancel_sprint = true
             return data
         end

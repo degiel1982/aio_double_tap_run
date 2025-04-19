@@ -21,11 +21,11 @@ aio_double_tap_run.particles (Enable particles) bool true
 
 # When enabled draining/restoring is activated
 #NOTE: This only works if no stamina/hunger or hbhunger is installed
-aio_double_tap_run.enable_fatique (Show Fatique bar) bool true
+aio_double_tap_run.enable_fatigue (Show fatigue bar) bool true
 
 # You still have to stand still for 2 seconds to restore.
 #NOTE: This only works if no stamina/hunger or hbhunger is installed
-aio_double_tap_run.restore_treshold (Restores fatique when HP is above this treshold) int 6
+aio_double_tap_run.restore_threshold (Restores fatigue when HP is above this threshold) int 6
 
 aio_double_tap_run.enable_swim (Enable sprint swimming when submerged under water) bool true
 
@@ -41,14 +41,14 @@ aio_double_tap_run.crouch_check (Crouching) bool false
 aio_double_tap_run.snow_check (Snowy nodes) bool true
 aio_double_tap_run.fly_check (Is flying) bool false
 aio_double_tap_run.health_check (Low health) bool true
-aio_double_tap_run.health_threshold (Health treshold) int 6 0 20
+aio_double_tap_run.health_threshold (Health threshold) int 6 0 20
 
 [Hunger_ng]
 
 aio_double_tap_run.starve_check (Cancel sprint when starving) bool true
 
-# When below treshold the player is hungry and will cancel sprint when enabled
-aio_double_tap_run.hunger_treshold (Starve treshold) int 6 0 20
+# When below threshold the player is hungry and will cancel sprint when enabled
+aio_double_tap_run.hunger_threshold (Starve threshold) int 6 0 20
 aio_double_tap_run.enable_stamina_drain (Enable Stamina drain) bool true
 aio_double_tap_run.hunger_drain_rate (Set draining rate) float 0.5 0.0 2.0
 
@@ -56,8 +56,8 @@ aio_double_tap_run.hunger_drain_rate (Set draining rate) float 0.5 0.0 2.0
 
 aio_double_tap_run.hb_starve_check (Cancel sprint when starving) bool true
 
-# When below treshold the player is hungry and will cancel sprint when enabled
-aio_double_tap_run.hb_treshold (Starve treshold) int 6
+# When below threshold the player is hungry and will cancel sprint when enabled
+aio_double_tap_run.hb_threshold (Starve threshold) int 6
 aio_double_tap_run.hb_enable_drain (Enable Stamina drain) bool true
 aio_double_tap_run.hb_drain_rate (Set draining rate) float 15 0.0 100
 

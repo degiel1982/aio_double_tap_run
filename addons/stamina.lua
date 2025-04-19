@@ -30,15 +30,15 @@ if stamina_is_installed then
         mod_settings.enable_drain = core.settings:get_bool("enable_stamina", true)
         mod_settings.sprint_exhaust = tonumber(core.settings:get("stamina_sprint_drain")) or 0.35
         mod_settings.sprint_exhaust = mod_settings.sprint_exhaust * 100
-        mod_settings.treshold = tonumber(core.settings:get("aio_double_tap_run.stamina_treshold")) or 6 
+        mod_settings.threshold = tonumber(core.settings:get("aio_double_tap_run.stamina_threshold")) or 6 
         stamina.enable_sprint = false
         stamina.enable_sprint_particles = false
     elseif mod_author == "sofar" then
         mod_settings.enable_drain = core.settings:get_bool("stamina.enabled", true)
         mod_settings.sprint_exhaust = tonumber(core.settings:get("stamina.exhaust_sprint")) or 28
         mod_settings.sprint_exhaust = mod_settings.sprint_exhaust * 2
-        mod_settings.treshold = tonumber(core.settings:get("stamina.starve_lvl")) or 3
-        mod_settings.treshold = mod_settings.treshold * 2
+        mod_settings.threshold = tonumber(core.settings:get("stamina.starve_lvl")) or 3
+        mod_settings.threshold = mod_settings.threshold * 2
         mod_settings.enable_sprint = core.settings:get_bool("stamina.sprint", true)
         aio_double_tap_run.settings.extra_speed = tonumber(core.settings:get("stamina.sprint_speed")) or 0.8
         aio_double_tap_run.settings.enable_aux = false
@@ -56,7 +56,7 @@ aio_double_tap_run.register_callback(function(player, data, dtime)
     local control = player:get_player_control()
 
     local current_saturation = stamina.get_saturation(player) or 0  -- Fallback if nil
-    if (current_saturation <= mod_settings.treshold) then
+    if (current_saturation <= mod_settings.threshold) then
         data.cancel_sprint = true
     end
 
