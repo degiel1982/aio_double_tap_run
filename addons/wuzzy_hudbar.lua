@@ -9,7 +9,7 @@ local BAR_ICON = "server_favorite.png" -- Change to your bar image (2x16) if nee
 hb.register_hudbar(
     bar_id,
     0xFFFFFF, -- White text
-    "fatigue", -- Label
+    "Fatigue", -- Label
     { icon = BAR_ICON, bgicon = nil, bar = nil },
     20, -- default_start_value
     20, -- default_start_max

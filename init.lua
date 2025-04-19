@@ -59,7 +59,7 @@ elseif aio_double_tap_run.hbhunger then
     dofile(core.get_modpath(mod_name) .. "/addons/hbhunger.lua")
 else
     local show_fatigue = core.settings:get_bool(mod_name .. ".enable_fatigue", true)
-    if show_fatigue then
+    if show_fatigue and not core.settings:get_bool("creative_mode", false) then
         if aio_double_tap_run.wuzzy then
             dofile(core.get_modpath(mod_name) .. "/addons/wuzzy_hudbar.lua")
         else
