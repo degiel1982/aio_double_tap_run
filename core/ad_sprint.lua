@@ -1,5 +1,7 @@
 -- Place this in your mod's init.lua
+
 local mybar_hud_ids = {}
+local storage = core.get_mod_storage()
 
 local function get_mybar_hud_id(player)
     return mybar_hud_ids[player:get_player_name()]
@@ -17,7 +19,9 @@ end
 -- Register and initialize the custom HUD bar for a player
 local function init_mybar(player)
     local max_value = 20
-    local value = max_value
+    local player_name = player:get_player_name()
+    local saved = tonumber(storage:get_string(player_name .. ":mybar"))
+    local value = saved or max_value
     local id = player:hud_add({
         name = "mybar",
         [minetest.features.hud_def_type_field and "type" or "hud_elem_type"] = "statbar",
@@ -39,6 +43,13 @@ local function init_mybar(player)
 end
 
 minetest.register_on_joinplayer(init_mybar)
+
+-- Save stamina when player leaves
+minetest.register_on_leaveplayer(function(player)
+    local meta = player:get_meta()
+    local value = meta:get_float("mybar:value") or 20
+    storage:set_string(player:get_player_name() .. ":mybar", tostring(value))
+end)
 
 -- Helper: Drain the bar for a player
 local function drain_mybar(player, amount)
